@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Symptoms — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 800px;">
+        <div style="margin-bottom: 1.5rem;">
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="symptoms">
+            Report Symptoms
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            Log your health symptoms for direct review by your Primary Health Centre doctor and ASHA worker.
+          </p>
+        </div>
+
+        <!-- Voice Quick Option Banner -->
+        <div class="card" style="background: var(--primary-blue-light); border-color: var(--primary-blue-muted); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 0.875rem;">
+            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i data-lucide="mic" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div>
+              <div style="font-weight: 800; color: var(--primary-blue); font-size: 1rem;" data-i18n="tellHowYouFeel">Prefer speaking?</div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">Describe your symptoms by voice in Hindi, Telugu, or English.</div>
+            </div>
+          </div>
+          <a href="voice.html" class="btn btn-primary" style="flex-shrink: 0;" data-i18n="speak">
+            <i data-lucide="mic" style="width: 14px; height: 14px;"></i>
+            <span>Use Voice Assistant</span>
+          </a>
+        </div>
+
+        <!-- Symptom Form -->
+        <div class="card" style="padding: 1.75rem;">
+          <form id="symptom-form">
+            <div class="form-group">
+              <label class="form-label" for="symptom-name">
+                What are you experiencing? <span class="required">*</span>
+              </label>
+              <input type="text" id="symptom-name" class="form-control" placeholder="e.g. Dizziness, palpitations, headache, shortness of breath" required>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="symptom-date">
+                  When did it start? <span class="required">*</span>
+                </label>
+                <input type="date" id="symptom-date" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  How severe is it? <span class="required">*</span>
+                </label>
+                <select id="symptom-severity" class="form-control" required>
+                  <option value="Mild">Mild (Noticeable but daily routine continues)</option>
+                  <option value="Moderate" selected>Moderate (Disrupts normal activity)</option>
+                  <option value="Severe">Severe (Unbearable / urgent discomfort)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="symptom-notes">
+                Additional Details & Observations (Optional)
+              </label>
+              <textarea id="symptom-notes" class="form-control" rows="3" placeholder="e.g. Occurs mostly in the morning, accompanied by mild blurred vision..."></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+              <a href="dashboard.html" class="btn btn-outline" data-i18n="cancel">Cancel</a>
+              <button type="submit" class="btn btn-primary btn-lg" data-i18n="save">
+                <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+                <span>Save Symptom Report</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, addSymptom } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { getSession } from '../js/core/auth.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('patient-symptoms');
+
+      const session = getSession();
+      const patientId = session.patientId || 'pat-1';
+
+      document.getElementById('symptom-date').value = new Date().toISOString().split('T')[0];
+
+      document.getElementById('symptom-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('symptom-name').value;
+        const date = document.getElementById('symptom-date').value;
+        const severity = document.getElementById('symptom-severity').value;
+        const notes = document.getElementById('symptom-notes').value;
+
+        await addSymptom({
+          patientId: patientId,
+          symptomName: name,
+          startedAt: date,
+          severity: severity,
+          notes: notes,
+          source: 'Patient Self-Entry',
+          status: 'Pending Doctor Review'
+        });
+
+        showToast('Symptom reported and queued for doctor review', 'success');
+        setTimeout(() => {
+          window.location.href = 'records.html';
+        }, 1200);
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

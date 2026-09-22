@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinical e-Prescription (Rx) — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #printable-rx-card, #printable-rx-card * { visibility: visible; }
+      #printable-rx-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">
+              Clinical e-Prescription (Rx) Studio
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Issue digital prescriptions with automatic drug-allergy safety validation and instant EHR sync.
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-outline" id="btn-print-rx">
+              <i data-lucide="printer" style="width: 16px; height: 16px;"></i>
+              <span>Print Official Rx Slip</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Issue Prescription Form -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="file-plus" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                <span>Generate Digital Prescription</span>
+              </span>
+              <span class="badge badge-info">PHC Kondapur</span>
+            </div>
+            <form id="rx-form">
+              <div class="form-group">
+                <label class="form-label">Select Registered Patient <span class="required">*</span></label>
+                <select id="rx-patient" class="form-control" required>
+                  <!-- Populated from DB -->
+                </select>
+              </div>
+
+              <!-- Patient Allergy Alert Banner (Dynamic) -->
+              <div id="allergy-warning-banner" style="display: none; background: var(--status-emergency-bg); border: 1px solid var(--status-emergency-border); color: var(--status-emergency); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem;">
+                <i data-lucide="alert-triangle" style="width: 16px; height: 16px; vertical-align: middle;"></i>
+                <span id="allergy-text" style="margin-left: 0.35rem;">Known Allergies Detected</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Clinical Diagnosis / ICD-10</label>
+                <input type="text" id="rx-diagnosis" class="form-control" value="Essential (Primary) Hypertension [I10], Type 2 Diabetes Mellitus [E11]" required>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <label class="form-label" style="margin-bottom: 0;">Prescribed Medications</label>
+                <button type="button" class="btn btn-outline btn-sm" id="btn-add-med">
+                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                  <span>Add Medicine</span>
+                </button>
+              </div>
+
+              <div id="medicine-items-container">
+                <div class="med-row" style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; border: 1px solid var(--border-subtle);">
+                  <div class="form-group">
+                    <label class="form-label">Medicine Name & Generic Formulation</label>
+                    <input type="text" class="form-control med-name" placeholder="e.g. Tab Metformin HCl" value="Tab Metformin HCl" required>
+                  </div>
+                  <div class="grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Dosage</label>
+                      <input type="text" class="form-control med-dose" placeholder="e.g. 500 mg" value="500 mg" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Frequency</label>
+                      <select class="form-control med-freq">
+                        <option value="Once daily (1-0-0)">Once daily (Morning)</option>
+                        <option value="Twice daily (1-0-1)" selected>Twice daily (1-0-1)</option>
+                        <option value="Thrice daily (1-1-1)">Thrice daily (1-1-1)</option>
+                        <option value="As needed (SOS)">As needed (SOS)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Duration</label>
+                      <input type="text" class="form-control med-duration" placeholder="e.g. 30 Days" value="30 Days" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Instructions / Food Timing</label>
+                      <input type="text" class="form-control med-instructions" placeholder="e.g. After meals" value="After meals with water">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Doctor Special Clinical Instructions & Diet</label>
+                <textarea id="rx-instructions" class="form-control" rows="2" placeholder="e.g. Low sodium diet, 30 min brisk walking daily. Immediate PHC visit if systolic BP > 160.">Low sodium diet, maintain adequate hydration. Avoid missed doses. Return in 30 days for routine review.</textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+                <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+                <span>Sign & Issue Electronic Prescription</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Printable Preview / Active Prescriptions -->
+          <div>
+            <div class="card" id="printable-rx-card" style="border: 2px solid var(--border-subtle); padding: 1.75rem; background: #FFFFFF;">
+              <!-- Official Header Letterhead -->
+              <div style="border-bottom: 2px solid var(--primary-blue); padding-bottom: 1rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="font-weight: 800; font-size: 1.25rem; color: var(--primary-blue);">GOVERNMENT OF TELANGANA</div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main); margin-top: 0.15rem;">PRIMARY HEALTH CENTRE (PHC) KONDAPUR</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">District: Ranga Reddy • National Health Mission POC</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight: 900; color: var(--primary-blue); line-height: 1;">℞</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.25rem;" id="preview-rx-id">RX-2026-9041</div>
+                </div>
+              </div>
+
+              <!-- Doctor Info & Date -->
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 1rem; background: var(--bg-main); padding: 0.75rem; border-radius: var(--radius-md);">
+                <div>
+                  <strong>Prescriber:</strong> Dr. Ananya Rao, MBBS<br>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">Reg: TSMC-7842</span>
+                </div>
+                <div style="text-align: right;">
+                  <strong>Date:</strong> <span id="preview-rx-date">2026-09-22</span><br>
+                  <span class="badge badge-verified" style="font-size: 0.65rem;">Digital Signature Verified</span>
+                </div>
+              </div>
+
+              <!-- Patient Demographics -->
+              <div style="margin-bottom: 1.25rem; font-size: 0.85rem; line-height: 1.6; border-bottom: 1px dashed var(--border-default); padding-bottom: 0.75rem;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span><strong>Patient Name:</strong> <span id="preview-patient-name">Lakshmi Devi</span></span>
+                  <span><strong>Age / Gender:</strong> <span id="preview-patient-demo">52 Y / F</span></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 0.25rem;">
+                  <span><strong>Health ID:</strong> <span id="preview-patient-hid" style="font-family: var(--font-mono);">LP-10234</span></span>
+                  <span><strong>ABHA:</strong> <span id="preview-patient-abha" style="font-family: var(--font-mono);">91-4820-9182-3841</span></span>
+                </div>
+                <div style="margin-top: 0.25rem;">
+                  <strong>Diagnosis:</strong> <span id="preview-patient-diag">Essential Hypertension, Type 2 DM</span>
+                </div>
+              </div>
+
+              <!-- Medicines List -->
+              <div style="margin-bottom: 1.5rem;">
+                <div style="font-weight: 800; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-main);">MEDICATION ORDERS:</div>
+                <div id="preview-meds-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <div style="padding: 0.5rem 0.75rem; background: var(--bg-main); border-radius: 6px; font-size: 0.85rem;">
+                    <strong>1. Tab Metformin HCl 500mg</strong> — Twice daily (1-0-1) for 30 Days (After meals)
+                  </div>
+                </div>
+              </div>
+
+              <!-- Instructions & Stamp -->
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+                <div style="font-size: 0.8rem; color: var(--text-secondary); max-width: 60%;">
+                  <strong>Doctor's Advice:</strong><br>
+                  <span id="preview-advice">Low sodium diet. Strict follow-up.</span>
+                </div>
+                <div style="text-align: center;">
+                  <div style="width: 80px; height: 40px; border-bottom: 1px solid #000; margin-bottom: 0.25rem; font-family: 'Brush Script MT', cursive; font-size: 1.25rem; color: var(--primary-blue);">Dr. A. Rao</div>
+                  <div style="font-size: 0.7rem; font-weight: 700;">Medical Officer Signature</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Existing Prescriptions History Card -->
+            <div class="card no-print" style="margin-top: 1.5rem;">
+              <div class="card-header">
+                <span class="card-title">
+                  <i data-lucide="history" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                  <span>Recent Prescriptions History</span>
+                </span>
+              </div>
+              <div id="existing-rx-mount">
+                <!-- Loaded from DB -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatients, getPatientById, addPrescription, getPrescriptionsByPatient, addMedicalRecord } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('doctor-rx');
+
+      const patients = await getPatients();
+      const patSelect = document.getElementById('rx-patient');
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectedId = urlParams.get('patientId') || 'pat-1';
+
+      patSelect.innerHTML = patients.map(p => `
+        <option value="${p.id}" ${p.id === preselectedId ? 'selected' : ''}>
+          ${p.name} (${p.healthId}) - ${p.village}
+        </option>
+      `).join('');
+
+      async function updatePatientBanner() {
+        const p = await getPatientById(patSelect.value);
+        if (!p) return;
+
+        document.getElementById('preview-patient-name').textContent = p.name;
+        document.getElementById('preview-patient-demo').textContent = `${p.age} Y / ${p.gender.charAt(0)}`;
+        document.getElementById('preview-patient-hid').textContent = p.healthId;
+        document.getElementById('preview-patient-abha').textContent = p.abhaNumber || '91-4820-9182-3841';
+
+        const banner = document.getElementById('allergy-warning-banner');
+        if (p.allergies && p.allergies.length > 0 && !p.allergies.includes('None known')) {
+          banner.style.display = 'block';
+          document.getElementById('allergy-text').textContent = `CRITICAL ALLERGY ALERT: Patient is allergic to ${p.allergies.join(', ')}. Avoid prescribing cross-reactive formulations!`;
+        } else {
+          banner.style.display = 'none';
+        }
+
+        await loadRxHistory(p.id);
+        renderIcons();
+      }
+
+      async function loadRxHistory(pId) {
+        const rxs = await getPrescriptionsByPatient(pId);
+        const mount = document.getElementById('existing-rx-mount');
+        if (rxs.length === 0) {
+          mount.innerHTML = '<div style="padding:1rem; color:var(--text-muted); font-size:0.85rem;">No previous prescriptions found for this patient.</div>';
+        } else {
+          mount.innerHTML = rxs.map(rx => `
+            <div style="padding:0.75rem; border-bottom:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong style="font-size:0.9rem;">${rx.medicines?.map(m => m.name).join(', ') || 'Medication'}</strong>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">Prescribed on ${rx.date} by ${rx.doctor} • Status: ${rx.status}</div>
+              </div>
+              <span class="badge badge-verified" style="font-size:0.7rem;">Active</span>
+            </div>
+          `).join('');
+        }
+      }
+
+      patSelect.addEventListener('change', updatePatientBanner);
+      await updatePatientBanner();
+
+      // Add medication item
+      document.getElementById('btn-add-med').addEventListener('click', () => {
+        const container = document.getElementById('medicine-items-container');
+        const div = document.createElement('div');
+        div.className = 'med-row';
+        div.style = 'background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; border: 1px solid var(--border-subtle); position:relative;';
+        div.innerHTML = `
+          <button type="button" class="btn btn-outline btn-sm remove-med-btn" style="position:absolute; top:0.5rem; right:0.5rem; height:24px; padding:0 0.4rem; color:var(--status-emergency);">✕</button>
+          <div class="form-group">
+            <label class="form-label">Medicine Name & Formulation</label>
+            <input type="text" class="form-control med-name" placeholder="e.g. Tab Amlodipine" required>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Dosage</label>
+              <input type="text" class="form-control med-dose" placeholder="e.g. 5 mg" value="5 mg" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Frequency</label>
+              <select class="form-control med-freq">
+                <option value="Once daily (1-0-0)">Once daily (Morning)</option>
+                <option value="Twice daily (1-0-1)">Twice daily (1-0-1)</option>
+                <option value="Nightly (0-0-1)">Nightly (0-0-1)</option>
+                <option value="As needed (SOS)">As needed (SOS)</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Duration</label>
+              <input type="text" class="form-control med-duration" placeholder="e.g. 15 Days" value="30 Days" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Instructions</label>
+              <input type="text" class="form-control med-instructions" placeholder="e.g. In the morning after food" value="Morning after food">
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+        div.querySelector('.remove-med-btn').addEventListener('click', () => div.remove());
+      });
+
+      // Handle form submit
+      document.getElementById('rx-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pId = patSelect.value;
+        const diag = document.getElementById('rx-diagnosis').value;
+        const advice = document.getElementById('rx-instructions').value;
+
+        const medRows = document.querySelectorAll('.med-row');
+        const medicines = [];
+        medRows.forEach(row => {
+          medicines.push({
+            name: row.querySelector('.med-name').value,
+            dosage: row.querySelector('.med-dose').value,
+            frequency: row.querySelector('.med-freq').value,
+            duration: row.querySelector('.med-duration').value,
+            instructions: row.querySelector('.med-instructions').value
+          });
+        });
+
+        const newRx = {
+          patientId: pId,
+          doctor: 'Dr. Ananya Rao',
+          facility: 'PHC Kondapur',
+          diagnosis: diag,
+          medicines: medicines,
+          instructions: advice,
+          date: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        };
+
+        await addPrescription(newRx);
+
+        // Also add to longitudinal medical records
+        await addMedicalRecord({
+          patientId: pId,
+          type: 'prescription',
+          title: `e-Prescription: ${medicines.map(m => m.name).join(', ')}`,
+          facility: 'PHC Kondapur',
+          doctor: 'Dr. Ananya Rao',
+          date: new Date().toISOString().split('T')[0],
+          summary: `Rx generated for ${diag}. Medicines: ${medicines.map(m => `${m.name} (${m.dosage}, ${m.frequency})`).join('; ')}`,
+          status: 'Clinically Verified',
+          createdBy: 'Dr. Ananya Rao'
+        });
+
+        showToast('Prescription signed and added to EHR', 'success');
+        await updatePatientBanner();
+      });
+
+      document.getElementById('btn-print-rx').addEventListener('click', () => {
+        window.print();
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

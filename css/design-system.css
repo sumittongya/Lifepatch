@@ -1,0 +1,464 @@
+/* ==========================================================================
+   LIFE PATCH - Healthcare Enterprise Design System
+   Tailored for Rural & Public Healthcare in India (SIH 2026)
+   WCAG 2.1 AA Compliant, High-Legibility, Modern Medical Aesthetic
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  /* Primary Clinical Palette */
+  --primary-blue: #0284C7;
+  --primary-blue-hover: #0369A1;
+  --primary-blue-light: #F0F9FF;
+  --primary-blue-muted: #BAE6FD;
+  --primary-blue-gradient: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+  
+  --primary-green: #0D9488;
+  --primary-green-hover: #0F766E;
+  --primary-green-light: #F0FDFA;
+  --primary-green-muted: #99F6E4;
+  --primary-green-gradient: linear-gradient(135deg, #0D9488 0%, #0F766E 100%);
+
+  --primary-indigo: #4F46E5;
+  --primary-indigo-hover: #4338CA;
+  --primary-indigo-light: #EEF2FF;
+  --primary-indigo-gradient: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+
+  /* Surfaces & Backgrounds */
+  --bg-main: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-sidebar: #0F172A;
+  --bg-sidebar-active: #1E293B;
+  --bg-sidebar-hover: #1E293B;
+
+  /* Text & Typography */
+  --text-main: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-inverse: #FFFFFF;
+  --text-sidebar: #94A3B8;
+  --text-sidebar-active: #38BDF8;
+
+  /* Borders & Dividers */
+  --border-subtle: #E2E8F0;
+  --border-default: #CBD5E1;
+  --border-focus: #0284C7;
+
+  /* Status & Semantics */
+  --status-emergency: #DC2626;
+  --status-emergency-bg: #FEF2F2;
+  --status-emergency-border: #FCA5A5;
+  
+  --status-high: #EA580C;
+  --status-high-bg: #FFF7ED;
+  --status-high-border: #FDBA74;
+
+  --status-medium: #D97706;
+  --status-medium-bg: #FFFBEB;
+  --status-medium-border: #FCD34D;
+
+  --status-routine: #16A34A;
+  --status-routine-bg: #F0FDF4;
+  --status-routine-border: #86EFAC;
+
+  --status-info: #0284C7;
+  --status-info-bg: #F0F9FF;
+  --status-info-border: #BAE6FD;
+
+  /* Layout & Spacing */
+  --sidebar-width: 260px;
+  --header-height: 64px;
+  --bottom-nav-height: 64px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows (Enterprise Multi-layer) */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-glow: 0 0 15px rgba(2, 132, 199, 0.25);
+
+  /* Typography Scale */
+  --font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Telugu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+
+  /* Touch Targets for Accessibility */
+  --touch-target-min: 44px;
+  --touch-target-large: 52px;
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+  --bg-main: #090D16;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1F2937;
+  --bg-card: #111827;
+  --bg-glass: rgba(17, 24, 39, 0.85);
+  --bg-sidebar: #050811;
+  --bg-sidebar-active: #1F2937;
+  --bg-sidebar-hover: #162032;
+
+  --text-main: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #090D16;
+  --text-sidebar: #94A3B8;
+  --text-sidebar-active: #38BDF8;
+
+  --border-subtle: #1F2937;
+  --border-default: #334155;
+  --border-focus: #38BDF8;
+
+  --primary-blue: #38BDF8;
+  --primary-blue-hover: #0284C7;
+  --primary-blue-light: #082F49;
+  --primary-blue-muted: #0369A1;
+
+  --primary-green: #2DD4BF;
+  --primary-green-hover: #0D9488;
+  --primary-green-light: #042F2E;
+
+  --primary-indigo: #818CF8;
+  --primary-indigo-hover: #6366F1;
+  --primary-indigo-light: #1E1B4B;
+
+  --status-emergency: #F87171;
+  --status-emergency-bg: #450A0A;
+  --status-emergency-border: #991B1B;
+
+  --status-high: #FB923C;
+  --status-high-bg: #431407;
+  --status-high-border: #9A3412;
+
+  --status-medium: #FBBF24;
+  --status-medium-bg: #451A03;
+  --status-medium-border: #92400E;
+
+  --status-routine: #4ADE80;
+  --status-routine-bg: #052E16;
+  --status-routine-border: #166534;
+
+  --status-info: #38BDF8;
+  --status-info-bg: #082F49;
+  --status-info-border: #0369A1;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Reset and Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--text-main);
+  background-color: var(--bg-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Layout Architecture */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.2s ease;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Top Header */
+.top-header {
+  height: var(--header-height);
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(8px);
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: var(--font-size-lg);
+  color: var(--text-main);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  background-color: var(--primary-blue-light);
+  color: var(--primary-blue);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--primary-blue-muted);
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+}
+
+.role-badge.doctor {
+  background-color: var(--primary-indigo-light);
+  color: var(--primary-indigo);
+  border-color: #C7D2FE;
+}
+
+.role-badge.worker {
+  background-color: var(--primary-green-light);
+  color: var(--primary-green);
+  border-color: var(--primary-green-muted);
+}
+
+.role-badge.patient {
+  background-color: var(--primary-blue-light);
+  color: var(--primary-blue);
+  border-color: var(--primary-blue-muted);
+}
+
+/* Sidebar Navigation */
+.app-sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--bg-sidebar);
+  color: var(--text-sidebar);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-weight: 800;
+  font-size: var(--font-size-lg);
+  color: #FFFFFF;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0.75rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #64748B;
+  padding: 0.75rem 0.75rem 0.25rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  color: var(--text-sidebar);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all 0.15s ease;
+}
+
+.nav-item:hover {
+  background-color: var(--bg-sidebar-hover);
+  color: #FFFFFF;
+}
+
+.nav-item.active {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: var(--font-size-xs);
+}
+
+.connection-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.connection-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-routine);
+  box-shadow: 0 0 8px var(--status-routine);
+}
+
+.connection-dot.offline {
+  background-color: var(--status-emergency);
+  box-shadow: 0 0 8px var(--status-emergency);
+}
+
+/* Mobile Controls */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-main);
+  padding: 0.25rem;
+}
+
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-nav-height);
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  z-index: 50;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.mobile-nav-item.active {
+  color: var(--primary-blue);
+}
+
+/* Lucide Icon Generic Styling */
+.lucide-icon, svg.lucide {
+  width: 1.15em;
+  height: 1.15em;
+  stroke-width: 2;
+  vertical-align: -0.15em;
+  display: inline-block;
+}

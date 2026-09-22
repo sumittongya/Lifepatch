@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teleconsultation Room — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+  <style>
+    .video-viewport {
+      background: linear-gradient(135deg, #0B1220 0%, #111C2E 100%);
+      border-radius: var(--radius-xl);
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .video-pip {
+      position: absolute;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      width: 150px;
+      height: 105px;
+      background: #1E293B;
+      border: 2px solid rgba(56, 189, 248, 0.5);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      z-index: 5;
+      box-shadow: var(--shadow-lg);
+    }
+    .call-controls {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.75rem;
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem 0.875rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .pulse-online {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 10px #10B981;
+      margin-right: 0.35rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <!-- Live Session Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div class="badge badge-verified" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
+              <span class="pulse-online"></span>
+              <span>Encrypted WebRTC Teleconsultation Live</span>
+            </div>
+            <span class="badge badge-info">Session ID: TC-8492</span>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="patient-record.html?id=pat-1" class="btn btn-outline btn-sm" target="_blank">
+              <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+              <span>Open EHR History</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items: flex-start;">
+          <!-- Video Call Viewport -->
+          <div>
+            <div class="video-viewport">
+              <!-- Main Remote Patient Feed (Simulated) -->
+              <div style="text-align: center; z-index: 2;">
+                <div style="width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); display: inline-flex; align-items: center; justify-content: center; font-size: 2.25rem; margin-bottom: 0.875rem; box-shadow: 0 4px 20px rgba(2, 132, 199, 0.4); border: 3px solid rgba(255, 255, 255, 0.2);">
+                  <i data-lucide="user" style="width: 48px; height: 48px; color: #FFF;"></i>
+                </div>
+                <div style="font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em;">Lakshmi Devi</div>
+                <div style="font-size: 0.85rem; color: #94A3B8; margin-top: 0.2rem;">
+                  Connected from Kondapur Sub-Centre (ASHA Assisted: Sunita Bai)
+                </div>
+                <div class="badge badge-routine" style="margin-top: 0.75rem; background: rgba(16, 185, 129, 0.2); color: #34D399; border-color: rgba(52, 211, 153, 0.3);">
+                  <i data-lucide="wifi" style="width: 12px; height: 12px;"></i>
+                  <span>Latency: 38ms • Audio/Video High-Def</span>
+                </div>
+              </div>
+
+              <!-- Picture-in-picture Doctor Feed -->
+              <div class="video-pip">
+                <i data-lucide="stethoscope" style="width: 24px; height: 24px; color: #38BDF8; margin-bottom: 0.25rem;"></i>
+                <span style="font-weight: 700; color: #F1F5F9;">Dr. Ananya Rao</span>
+                <span style="font-size: 0.65rem; color: #94A3B8;">PHC Medical Officer</span>
+              </div>
+
+              <!-- Call Controls -->
+              <div class="call-controls">
+                <button class="btn btn-outline btn-icon" id="mic-toggle-btn" style="background: rgba(255,255,255,0.15); color:#fff; border-color:transparent;" title="Mute/Unmute Mic">
+                  <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+                </button>
+                <button class="btn btn-outline btn-icon" id="cam-toggle-btn" style="background: rgba(255,255,255,0.15); color:#fff; border-color:transparent;" title="Camera On/Off">
+                  <i data-lucide="video" style="width: 18px; height: 18px;"></i>
+                </button>
+                <button class="btn btn-danger btn-icon" id="end-call-btn" title="End Consultation">
+                  <i data-lucide="phone-off" style="width: 18px; height: 18px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Patient Vitals Side Summary -->
+            <div class="card" style="margin-top: 1.25rem;">
+              <div class="card-header">
+                <span class="card-title" style="font-size: 1rem;">
+                  <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                  <span>Live Field Vitals (Lakshmi Devi)</span>
+                </span>
+                <span class="badge badge-info">Captured by ASHA Today</span>
+              </div>
+              <div class="patient-vital-pills">
+                <div class="vital-pill">
+                  <span class="vital-pill-label">Blood Pressure</span>
+                  <span class="vital-pill-value" style="color: var(--status-high);">148/92 mmHg</span>
+                </div>
+                <div class="vital-pill">
+                  <span class="vital-pill-label">Random Sugar</span>
+                  <span class="vital-pill-value" style="color: var(--status-high);">182 mg/dL</span>
+                </div>
+                <div class="vital-pill">
+                  <span class="vital-pill-label">Pulse & SpO2</span>
+                  <span class="vital-pill-value">78 bpm • 98%</span>
+                </div>
+                <div class="vital-pill">
+                  <span class="vital-pill-label">Allergies</span>
+                  <span class="vital-pill-value" style="color: var(--status-emergency);">Penicillin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Consultation Notes & Action Panel -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="clipboard" style="width: 18px; height: 18px; color: var(--primary-indigo);"></i>
+                <span>Clinical Notes & SOAP Documentation</span>
+              </span>
+              <button type="button" id="btn-generate-soap" class="btn btn-secondary btn-sm" title="Generate Grounded SOAP notes from vitals & symptoms">
+                <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                <span>Auto SOAP</span>
+              </button>
+            </div>
+
+            <form id="consult-notes-form">
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <label class="form-label" style="margin-bottom: 0;">Clinical Notes / SOAP Findings</label>
+                  <button type="button" id="btn-dictate-notes" class="btn btn-outline btn-sm" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem;">
+                    <i data-lucide="mic" style="width: 12px; height: 12px;"></i>
+                    <span id="dictate-btn-text">Voice Dictate</span>
+                  </button>
+                </div>
+                <textarea id="consult-notes" class="form-control" rows="8" placeholder="Document patient verbal answers, symptom duration, and clinical advice..." required>S (Subjective): Patient reports episodic lightheadedness and mild palpitations on morning awakening. Denies chest pain or syncope.
+O (Objective): BP elevated at 148/92 mmHg, RBS 182 mg/dL. Pulse regular.
+A (Assessment): Uncontrolled Essential Hypertension with secondary glycemic elevation.
+P (Plan): Continue Metformin 500mg BD. Add Amlodipine 5mg OD. Advised strict low-sodium diet. District referral initiated for cardiology checkup.</textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Follow-up & Patient Recommendation</label>
+                <input type="text" id="consult-fu" class="form-control" value="Repeat BP check at Sub-Centre with ASHA worker in 7 days">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Quick Actions</label>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="prescriptions.html?patientId=pat-1" class="btn btn-outline btn-sm" target="_blank">
+                    <i data-lucide="pill" style="width: 14px; height: 14px;"></i>
+                    <span>Issue Rx</span>
+                  </a>
+                  <a href="referrals.html?patientId=pat-1" class="btn btn-outline btn-sm" target="_blank">
+                    <i data-lucide="git-pull-request" style="width: 14px; height: 14px;"></i>
+                    <span>Create Referral</span>
+                  </a>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.5rem;">
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                  <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+                  <span>Save Consultation & Complete Session</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, addMedicalRecord, getPatientById, getVitalsByPatient, getSymptomsByPatient } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+    import { VoiceSystem } from '../js/modules/voice.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('doctor-consult');
+
+      let isMicMuted = false;
+      let isCamOff = false;
+
+      document.getElementById('mic-toggle-btn').addEventListener('click', (e) => {
+        isMicMuted = !isMicMuted;
+        showToast(isMicMuted ? 'Doctor microphone muted' : 'Doctor microphone unmuted', 'info');
+      });
+
+      document.getElementById('cam-toggle-btn').addEventListener('click', (e) => {
+        isCamOff = !isCamOff;
+        showToast(isCamOff ? 'Doctor video camera turned off' : 'Doctor video camera active', 'info');
+      });
+
+      document.getElementById('end-call-btn').addEventListener('click', () => {
+        showToast('Consultation session ended', 'info');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 800);
+      });
+
+      // Voice dictation for clinical notes
+      let voiceDictator = null;
+      let isDictating = false;
+      const dictateBtn = document.getElementById('btn-dictate-notes');
+      const dictateText = document.getElementById('dictate-btn-text');
+
+      if (dictateBtn) {
+        voiceDictator = new VoiceSystem({
+          onResult: (text, isFinal) => {
+            if (isFinal) {
+              const textarea = document.getElementById('consult-notes');
+              textarea.value += ' ' + text;
+            }
+          },
+          onStatusChange: (status) => {
+            if (status === 'listening') {
+              dictateText.textContent = 'Listening...';
+              dictateBtn.style.background = '#FEE2E2';
+              dictateBtn.style.color = '#B91C1C';
+            } else {
+              dictateText.textContent = 'Voice Dictate';
+              dictateBtn.style.background = '';
+              dictateBtn.style.color = '';
+            }
+          }
+        });
+
+        dictateBtn.addEventListener('click', () => {
+          if (!isDictating) {
+            voiceDictator.start();
+            isDictating = true;
+          } else {
+            voiceDictator.stop();
+            isDictating = false;
+          }
+        });
+      }
+
+      // Auto SOAP generator button
+      document.getElementById('btn-generate-soap')?.addEventListener('click', async () => {
+        const p = await getPatientById('pat-1');
+        const v = await getVitalsByPatient('pat-1');
+        const s = await getSymptomsByPatient('pat-1');
+
+        const latestV = v[0] || {};
+        const soapText = `S (Subjective): Patient ${p.name} (${p.age}y) presents with ${s.map(x => x.symptomName).join(', ') || 'routine follow-up'}.
+O (Objective): BP: ${latestV.bpSystolic || 140}/${latestV.bpDiastolic || 90} mmHg, RBS: ${latestV.bloodSugarRandom || 140} mg/dL, SpO2: ${latestV.spo2 || 98}%, Pulse: ${latestV.pulse || 76} bpm.
+A (Assessment): Chronic conditions (${p.chronicConditions.join(', ')}) under active surveillance. Triage status: Elevated BP.
+P (Plan): Continue daily anti-hypertensive regimen, dietary salt restriction, and schedule PHC clinic re-evaluation.`;
+
+        document.getElementById('consult-notes').value = soapText;
+        showToast('Grounded SOAP clinical summary populated', 'success');
+      });
+
+      document.getElementById('consult-notes-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const notes = document.getElementById('consult-notes').value;
+        const fu = document.getElementById('consult-fu').value;
+
+        await addMedicalRecord({
+          patientId: 'pat-1',
+          type: 'visit',
+          title: 'Teleconsultation Summary Note',
+          facility: 'PHC Kondapur (Virtual OPD)',
+          doctor: 'Dr. Ananya Rao',
+          date: new Date().toISOString().split('T')[0],
+          summary: `${notes} | Recommendation: ${fu}`,
+          status: 'Clinically Verified',
+          createdBy: 'Dr. Ananya Rao (Teleconsult)'
+        });
+
+        showToast('Consultation record saved to patient longitudinal timeline', 'success');
+        setTimeout(() => {
+          window.location.href = 'patient-record.html?id=pat-1';
+        }, 1200);
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASHA Workspace — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <!-- ASHA Header Strip -->
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">
+              <span data-i18n="timeGreeting">Good morning</span>, Sunita Bai (ASHA)
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Kondapur Sub-Centre Sector 3 • Offline Field Health & Assisted Citizen Care
+            </p>
+          </div>
+          <div style="display:flex; gap:0.625rem; flex-wrap: wrap;">
+            <a href="field-visit.html" class="btn btn-success">
+              <i data-lucide="clipboard-check" style="width: 16px; height: 16px;"></i>
+              <span>Record Field Visit</span>
+            </a>
+            <a href="sync.html" class="btn btn-outline">
+              <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i>
+              <span>Sync Queue (<span id="btn-sync-count">0</span>)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Live Stats -->
+        <div class="grid-4" style="margin-bottom: 1.75rem;">
+          <div class="stat-box" style="border-left: 4px solid var(--primary-green);">
+            <div class="stat-icon" style="background:var(--primary-green-light); color:var(--primary-green);">
+              <i data-lucide="home" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value">42</div>
+              <div class="stat-label">Assigned Households</div>
+            </div>
+          </div>
+
+          <div class="stat-box" style="border-left: 4px solid var(--primary-blue);">
+            <div class="stat-icon" style="background:var(--primary-blue-light); color:var(--primary-blue);">
+              <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value" id="stat-worker-patients">4</div>
+              <div class="stat-label">Registered Citizens</div>
+            </div>
+          </div>
+
+          <div class="stat-box" style="border-left: 4px solid var(--status-high);">
+            <div class="stat-icon" style="background:var(--status-high-bg); color:var(--status-high);">
+              <i data-lucide="alert-triangle" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value">2</div>
+              <div class="stat-label">High-Risk Follow-ups</div>
+            </div>
+          </div>
+
+          <div class="stat-box" style="border-left: 4px solid var(--primary-indigo);">
+            <div class="stat-icon" style="background:var(--primary-indigo-light); color:var(--primary-indigo);">
+              <i data-lucide="wifi" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value" id="stat-offline-pending">0</div>
+              <div class="stat-label">Offline Queued Records</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Big Action Touch Cards for ASHA Field Work -->
+        <div class="grid-3" style="margin-bottom: 2rem;">
+          <a href="assisted-access.html" class="action-card">
+            <div class="action-card-icon green">
+              <i data-lucide="heart-handshake" style="width: 26px; height: 26px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 data-i18n="assistedAccess">Assisted Citizen Access</h3>
+              <p>Help elderly or illiterate citizens view records with verbal consent</p>
+            </div>
+          </a>
+
+          <a href="field-visit.html" class="action-card">
+            <div class="action-card-icon">
+              <i data-lucide="activity" style="width: 26px; height: 26px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 data-i18n="fieldVisit">Record Field Vitals</h3>
+              <p>Capture BP, Blood Sugar, SpO2 & symptoms at patient household</p>
+            </div>
+          </a>
+
+          <a href="voice.html" class="action-card">
+            <div class="action-card-icon indigo">
+              <i data-lucide="mic" style="width: 26px; height: 26px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 data-i18n="voiceEntry">ASHA Voice Note</h3>
+              <p>Record quick audio visit observations in Hindi or Telugu</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Village Priority Care List -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="list-checks" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+              <span>Priority Village Households for Today</span>
+            </span>
+            <span class="badge badge-info">Sector 3 Roster</span>
+          </div>
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Citizen Name</th>
+                  <th>Health ID & ABHA</th>
+                  <th>Village / Sector</th>
+                  <th>Risk Category</th>
+                  <th>Last Vital Check</th>
+                  <th>Field Actions</th>
+                </tr>
+              </thead>
+              <tbody id="worker-pat-tbody">
+                <!-- Injected from DB -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatients, getOfflineQueue } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('worker-dashboard');
+
+      const patients = await getPatients();
+      const offline = await getOfflineQueue();
+
+      document.getElementById('stat-worker-patients').textContent = patients.length;
+      document.getElementById('stat-offline-pending').textContent = offline.length;
+      document.getElementById('btn-sync-count').textContent = offline.length;
+
+      const tbody = document.getElementById('worker-pat-tbody');
+      tbody.innerHTML = patients.map(p => `
+        <tr>
+          <td>
+            <div style="font-weight:700; color:var(--text-main); font-size:0.95rem;">${p.name}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">${p.age} yrs, ${p.gender}</div>
+          </td>
+          <td>
+            <div style="font-family:var(--font-mono); font-weight:700; color:var(--primary-blue); font-size:0.85rem;">${p.healthId}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${p.abhaNumber || '91-4820-9182-3841'}</div>
+          </td>
+          <td>${p.village}</td>
+          <td>
+            <span class="badge ${p.riskLevel === 'High' ? 'badge-emergency' : p.riskLevel === 'Medium' ? 'badge-high' : 'badge-routine'}">
+              ${p.riskLevel || 'Routine'}
+            </span>
+          </td>
+          <td>
+            <div style="font-size:0.85rem; font-weight:600;">${p.id === 'pat-1' ? '18 Sep 2026' : '15 Sep 2026'}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">${p.id === 'pat-1' ? 'BP 148/92 • Sugar 182' : 'BP 120/80 • Sugar 110'}</div>
+          </td>
+          <td>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <a href="field-visit.html?id=${p.id}" class="btn btn-success btn-sm">
+                <i data-lucide="plus" style="width:12px; height:12px;"></i> Vitals
+              </a>
+              <a href="assisted-access.html?id=${p.id}" class="btn btn-outline btn-sm">
+                <i data-lucide="log-in" style="width:12px; height:12px;"></i> Login
+              </a>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

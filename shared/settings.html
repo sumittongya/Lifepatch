@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings & Data Management — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 860px;">
+        <div style="margin-bottom: 1.5rem;">
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="settings">
+            Application Settings & Data Engine
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            Configure system language, appearance themes, and backup or restore your client-side IndexedDB database.
+          </p>
+        </div>
+
+        <!-- Preferences Card -->
+        <div class="card" style="margin-bottom: 1.5rem; padding: 1.75rem;">
+          <div class="card-header" style="margin-top: -0.5rem;">
+            <span class="card-title">
+              <i data-lucide="sliders" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span>User & Language Preferences</span>
+            </span>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Display & Speech Language</label>
+              <select id="pref-lang" class="form-control">
+                <option value="en">English (Official Clinical Default)</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Theme Mode</label>
+              <select id="pref-theme" class="form-control">
+                <option value="light">Light Mode (Medical Standard)</option>
+                <option value="dark">Dark Mode (Deep Clinical Navy)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Management Card (JSON Export / Import / Reset) -->
+        <div class="card" style="margin-bottom: 1.5rem; padding: 1.75rem;">
+          <div class="card-header" style="margin-top: -0.5rem;">
+            <span class="card-title">
+              <i data-lucide="database" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+              <span>Local IndexedDB Database Backup & Portability</span>
+            </span>
+            <span class="badge badge-verified">17 Stores Active</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Because LIFE PATCH operates as a 100% zero-server offline-capable system, all clinical transactions (patients, vitals, prescriptions, triage queue, AI summaries) reside in your browser's local IndexedDB. You can export complete snapshots to JSON or restore existing records.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <button class="btn btn-primary" id="btn-export-data">
+              <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+              <span data-i18n="exportData">Export Database Backup (JSON)</span>
+            </button>
+
+            <button class="btn btn-outline" onclick="document.getElementById('import-file-input').click()">
+              <i data-lucide="upload" style="width: 16px; height: 16px;"></i>
+              <span data-i18n="importData">Restore Backup (JSON)</span>
+            </button>
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+          </div>
+
+          <!-- Danger Zone: Reset Demo Data -->
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; margin-top: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <div style="font-weight: 800; color: var(--status-emergency); font-size: 0.95rem;">
+                  Re-seed Demo Database
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">
+                  Resets all IndexedDB stores to the original SIH synthetic demonstration dataset.
+                </div>
+              </div>
+              <button class="btn btn-outline" id="btn-reset-data" style="color: var(--status-emergency); border-color: var(--status-emergency-border);">
+                <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+                <span>Reset to Clean Seed</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, exportDatabaseJSON, importDatabaseJSON, resetDatabase } from '../js/db/api.js';
+    import { initI18n, getLanguage, setLanguage } from '../js/core/i18n.js';
+    import { initTheme, getTheme, setTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('shared-settings');
+
+      // Initialize dropdowns
+      const langSelect = document.getElementById('pref-lang');
+      langSelect.value = getLanguage();
+      langSelect.addEventListener('change', async (e) => {
+        await setLanguage(e.target.value);
+        showToast('Language updated', 'success');
+        renderLayout('shared-settings');
+      });
+
+      const themeSelect = document.getElementById('pref-theme');
+      themeSelect.value = getTheme();
+      themeSelect.addEventListener('change', async (e) => {
+        await setTheme(e.target.value);
+        showToast('Theme updated', 'success');
+      });
+
+      // Export JSON
+      document.getElementById('btn-export-data').addEventListener('click', async () => {
+        const jsonString = await exportDatabaseJSON();
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `lifepatch-db-backup-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Database exported successfully', 'success');
+      });
+
+      // Import JSON
+      document.getElementById('import-file-input').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          try {
+            await importDatabaseJSON(event.target.result);
+            showToast('Database restored successfully! Reloading...', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+          } catch (err) {
+            showToast('Failed to import database: ' + err.message, 'error');
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      // Reset
+      document.getElementById('btn-reset-data').addEventListener('click', async () => {
+        if (confirm('Are you sure you want to re-seed the local demo database? All newly recorded symptoms and Rx will be restored to initial state.')) {
+          await resetDatabase();
+          showToast('Database reset to clean state. Reloading...', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        }
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

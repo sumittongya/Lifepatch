@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Assistant — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script src="../js/vendor/lucide.js"></script>
+  <style>
+    .voice-recorder-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+    .mic-button {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--primary-blue-gradient);
+      color: #FFFFFF;
+      border: none;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .mic-button:hover {
+      transform: scale(1.05);
+    }
+    .mic-button.recording {
+      background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+      animation: pulse-mic 1.4s infinite;
+      box-shadow: 0 0 30px rgba(220, 38, 38, 0.6);
+    }
+    @keyframes pulse-mic {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+      50% { transform: scale(1.08); box-shadow: 0 0 35px rgba(220, 38, 38, 0.8); }
+      100% { transform: scale(1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+    }
+    .sample-prompt-chip {
+      background: var(--bg-main);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 0.45rem 0.95rem;
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .sample-prompt-chip:hover {
+      background: var(--primary-blue-light);
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+    }
+    .voice-wave-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 48px;
+      margin: 1.25rem 0;
+    }
+    .voice-bar {
+      width: 6px;
+      height: 12px;
+      border-radius: 4px;
+      background: var(--primary-blue);
+      animation: wave 1.2s ease-in-out infinite alternate;
+    }
+    .voice-bar:nth-child(2) { animation-delay: 0.2s; height: 28px; }
+    .voice-bar:nth-child(3) { animation-delay: 0.4s; height: 42px; background: var(--primary-indigo); }
+    .voice-bar:nth-child(4) { animation-delay: 0.6s; height: 26px; }
+    .voice-bar:nth-child(5) { animation-delay: 0.8s; height: 16px; }
+    @keyframes wave {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 760px;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="display: inline-flex; align-items: center; gap: 0.4rem; background: var(--primary-blue-light); color: var(--primary-blue); padding: 0.35rem 0.85rem; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem;">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+            <span>Multilingual Speech-to-Health Engine</span>
+          </div>
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="voiceAssistant">
+            Voice Symptom Assistant
+          </h1>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 540px; margin: 0.5rem auto 0 auto;" data-i18n="voiceInstruction">
+            Tap the microphone and describe your symptoms in Hindi, Telugu, or English.
+          </p>
+        </div>
+
+        <!-- Voice Recorder Box -->
+        <div class="voice-recorder-box">
+          <!-- Voice Language Selector Indicator -->
+          <div style="margin-bottom: 1.75rem; display: flex; justify-content: center; align-items: center; gap: 0.6rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Select Spoken Language:</span>
+            <select id="voice-lang-select" class="form-control" style="width: auto; height: 40px; padding: 0.25rem 0.875rem; font-weight: 700;">
+              <option value="en-IN">English (India)</option>
+              <option value="hi-IN">हिन्दी (Hindi)</option>
+              <option value="te-IN">తెలుగు (Telugu)</option>
+            </select>
+          </div>
+
+          <!-- Large Pulsing Microphone Button -->
+          <button id="mic-btn" class="mic-button" aria-label="Toggle speech recording">
+            <i data-lucide="mic" id="mic-icon" style="width: 44px; height: 44px;"></i>
+          </button>
+
+          <!-- Status Text -->
+          <div id="recording-status" style="font-size: 1.2rem; font-weight: 800; margin-top: 1.25rem; color: var(--text-main);">
+            Tap Microphone to Speak
+          </div>
+          <div id="recording-subtext" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+            Press once to start speaking, press again to finish
+          </div>
+
+          <!-- Audio Waveform Graphic -->
+          <div class="voice-wave-container" id="waveform-container" style="display: none;">
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+            <div class="voice-bar"></div>
+          </div>
+
+          <!-- 1-Click Demo Sample Prompts -->
+          <div style="margin-top: 1.75rem; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem;">
+              Or click a sample phrase to test instant voice capture:
+            </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;">
+              <button class="sample-prompt-chip" data-sample="I have had persistent dizziness and mild morning palpitations for the past 3 days.">
+                <i data-lucide="volume-2" style="width: 14px; height: 14px; color: var(--primary-blue);"></i>
+                <span>"Dizziness & morning palpitations" (EN)</span>
+              </button>
+              <button class="sample-prompt-chip" data-sample="मुझे 2 दिनों से तेज़ सिरदर्द, चक्कर और सीने में भारीपन महसूस हो रहा है।">
+                <i data-lucide="volume-2" style="width: 14px; height: 14px; color: var(--primary-green);"></i>
+                <span>"तेज़ सिरदर्द और चक्कर" (HI)</span>
+              </button>
+              <button class="sample-prompt-chip" data-sample="నాకు ఉదయం నుండి రక్తపోటు ఎక్కువగా ఉండి తల తిరుగుతుంది, కాస్త ఆయాసంగా ఉంది.">
+                <i data-lucide="volume-2" style="width: 14px; height: 14px; color: var(--primary-indigo);"></i>
+                <span>"తల తిరుగుతుంది & రక్తపోటు" (TE)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Browser Permission / Notice Message -->
+          <div id="unsupported-msg" style="display: none; background: #FEF3C7; color: #92400E; padding: 0.875rem; border-radius: var(--radius-md); font-size: 0.85rem; margin-top: 1.25rem; text-align: left;">
+            <div style="font-weight: 700; display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.25rem;">
+              <i data-lucide="alert-triangle" style="width: 16px; height: 16px;"></i>
+              <span>Microphone Access Notice</span>
+            </div>
+            <span id="unsupported-msg-text">
+              Please click "Allow" when the browser requests microphone access, or choose one of the sample phrases above. You can also type directly in the box below.
+            </span>
+          </div>
+        </div>
+
+        <!-- Transcription Result Card -->
+        <div class="card" id="transcript-card" style="margin-top: 1.5rem; display: none;">
+          <div class="card-header">
+            <span class="card-title" style="font-size: 1.05rem;">
+              <i data-lucide="file-text" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span id="transcript-header-title">Captured Symptom Description:</span>
+            </span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline btn-sm" id="read-aloud-btn" type="button">
+                <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                <span data-i18n="readAloud">Read Aloud</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <textarea id="transcript-text" class="form-control" rows="4" placeholder="Speak into your microphone or type here..." style="font-size: 1.05rem; line-height: 1.6; font-weight: 600;"></textarea>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
+              Real-time speech transcription. You can edit or append any medical terms before saving.
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label">Symptom Severity Level</label>
+              <select id="sym-severity" class="form-control">
+                <option value="Moderate" selected>Moderate (Noticeable discomfort)</option>
+                <option value="Severe">Severe (Urgent doctor attention required)</option>
+                <option value="Mild">Mild (Low intensity)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Duration of Symptoms</label>
+              <select id="sym-duration" class="form-control">
+                <option value="Today">Started Today</option>
+                <option value="2-3 days" selected>2 to 3 days</option>
+                <option value="More than a week">Over 1 week</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem;">
+            <button class="btn btn-outline" id="try-again-btn" type="button">
+              <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+              <span>Clear & Record Again</span>
+            </button>
+            <button class="btn btn-primary btn-lg" id="save-voice-btn" type="button" data-i18n="confirmAndSave">
+              <i data-lucide="save" style="width: 16px; height: 16px;"></i>
+              <span>Save to Longitudinal EHR</span>
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, addSymptom } from '../js/db/api.js';
+    import { initI18n, getLanguage, t } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { getSession } from '../js/core/auth.js';
+    import { renderIcons } from '../js/core/icons.js';
+    import { VoiceSystem } from '../js/modules/voice.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('patient-voice');
+
+      const session = getSession();
+      const patientId = session.patientId || 'pat-1';
+
+      const appLang = getLanguage();
+      const voiceLangSelect = document.getElementById('voice-lang-select');
+      if (appLang === 'hi') voiceLangSelect.value = 'hi-IN';
+      else if (appLang === 'te') voiceLangSelect.value = 'te-IN';
+      else voiceLangSelect.value = 'en-IN';
+
+      const micBtn = document.getElementById('mic-btn');
+      const statusText = document.getElementById('recording-status');
+      const subText = document.getElementById('recording-subtext');
+      const waveform = document.getElementById('waveform-container');
+      const transcriptCard = document.getElementById('transcript-card');
+      const transcriptText = document.getElementById('transcript-text');
+      const unsupportedMsg = document.getElementById('unsupported-msg');
+      const msgText = document.getElementById('unsupported-msg-text');
+
+      const voice = new VoiceSystem({
+        lang: voiceLangSelect.value,
+        onResult: (text, isFinal) => {
+          transcriptText.value = text;
+          transcriptCard.style.display = 'block';
+          statusText.textContent = 'Speech Detected';
+          subText.textContent = 'Listening continuously... Tap microphone when finished.';
+        },
+        onStatusChange: (status) => {
+          if (status === 'listening') {
+            micBtn.classList.add('recording');
+            waveform.style.display = 'flex';
+            statusText.textContent = 'Listening... Speak Now';
+            statusText.style.color = 'var(--status-emergency)';
+            subText.textContent = `Active Language: ${voiceLangSelect.options[voiceLangSelect.selectedIndex].text}`;
+            transcriptCard.style.display = 'block';
+            if (!transcriptText.value.trim()) {
+              transcriptText.placeholder = 'Listening... Start speaking in your selected language.';
+            }
+          } else {
+            micBtn.classList.remove('recording');
+            waveform.style.display = 'none';
+            statusText.textContent = 'Tap Microphone to Speak';
+            statusText.style.color = 'var(--text-main)';
+            subText.textContent = 'Press once to start speaking, press again to finish';
+          }
+        },
+        onError: (err) => {
+          console.warn('Voice error handler:', err);
+          unsupportedMsg.style.display = 'block';
+          transcriptCard.style.display = 'block';
+
+          if (err === 'not-allowed') {
+            msgText.textContent = 'Microphone permission was denied. Please allow microphone access in your browser settings, or select a sample phrase below.';
+            showToast('Microphone permission blocked. Please allow mic access.', 'error');
+          } else if (err === 'network') {
+            msgText.textContent = 'Speech recognition service network timeout. You can type your symptoms or use the demo sample phrases.';
+            showToast('Speech network notice — you can type or use sample phrases.', 'info');
+          } else if (err === 'speech-not-supported') {
+            msgText.textContent = 'Speech recognition is not natively supported in this browser. Please use Chrome/Edge/Safari, or use the sample phrases below.';
+          } else {
+            msgText.textContent = `Notice (${err}). You can speak or type your symptoms directly in the text box.`;
+          }
+        }
+      });
+
+      // Language Select Change
+      voiceLangSelect.addEventListener('change', (e) => {
+        voice.setLanguage(e.target.value);
+        showToast(`Voice recognition set to ${voiceLangSelect.options[voiceLangSelect.selectedIndex].text}`, 'info');
+      });
+
+      // Mic Button Click
+      micBtn.addEventListener('click', () => {
+        if (voice.isListening) {
+          voice.stop();
+          showToast('Voice recording stopped. Review your text and save.', 'success');
+        } else {
+          unsupportedMsg.style.display = 'none';
+          const started = voice.start(voiceLangSelect.value);
+          if (started) {
+            showToast(`Listening in ${voiceLangSelect.options[voiceLangSelect.selectedIndex].text}...`, 'info');
+          }
+        }
+      });
+
+      // Sample phrase chips
+      document.querySelectorAll('.sample-prompt-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const sample = chip.getAttribute('data-sample');
+          transcriptText.value = sample;
+          transcriptCard.style.display = 'block';
+          unsupportedMsg.style.display = 'none';
+          showToast('Sample symptom inserted into record', 'success');
+          renderIcons();
+        });
+      });
+
+      // Clear & Try Again
+      document.getElementById('try-again-btn').addEventListener('click', () => {
+        transcriptText.value = '';
+        voice.stop();
+        transcriptCard.style.display = 'none';
+        showToast('Cleared. Tap mic to record again.', 'info');
+      });
+
+      // Read Aloud
+      document.getElementById('read-aloud-btn').addEventListener('click', () => {
+        const text = transcriptText.value.trim();
+        if (text) {
+          voice.speak(text, voiceLangSelect.value);
+          showToast('Reading symptom aloud...', 'info');
+        } else {
+          showToast('No text to read aloud', 'info');
+        }
+      });
+
+      // Save Symptom
+      document.getElementById('save-voice-btn').addEventListener('click', async () => {
+        const text = transcriptText.value.trim();
+        if (!text) {
+          showToast('Please speak or type a symptom before saving', 'error');
+          return;
+        }
+
+        const sev = document.getElementById('sym-severity').value;
+        const dur = document.getElementById('sym-duration').value;
+
+        await addSymptom({
+          patientId: patientId,
+          symptomName: text,
+          severity: sev,
+          duration: dur,
+          startedAt: new Date().toISOString().split('T')[0],
+          source: `Patient Voice (${voiceLangSelect.options[voiceLangSelect.selectedIndex].text})`,
+          status: 'Pending Doctor Review'
+        });
+
+        showToast('Symptom saved and added to your longitudinal EHR', 'success');
+        setTimeout(() => {
+          window.location.href = 'records.html';
+        }, 1200);
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

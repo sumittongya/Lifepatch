@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+  <script src="../js/vendor/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <!-- Doctor Header Strip -->
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">
+              <span data-i18n="timeGreeting">Good morning</span>, Dr. Ananya Rao
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Primary Health Centre (PHC) Kondapur • Active OPD Clinic Session
+            </p>
+          </div>
+          <div style="display:flex; gap:0.625rem;">
+            <a href="queue.html" class="btn btn-primary">
+              <i data-lucide="list-ordered" style="width: 16px; height: 16px;"></i>
+              <span>Priority Queue</span>
+            </a>
+            <a href="prescriptions.html" class="btn btn-outline">
+              <i data-lucide="pill" style="width: 16px; height: 16px;"></i>
+              <span>Write Prescription</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Live Calculated Statistics -->
+        <div class="grid-4" style="margin-bottom: 1.75rem;">
+          <div class="stat-box" style="border-left: 4px solid var(--primary-blue);">
+            <div class="stat-icon" style="background: var(--primary-blue-light); color: var(--primary-blue);">
+              <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value" id="stat-total-patients">4</div>
+              <div class="stat-label">Registered Patients</div>
+            </div>
+          </div>
+
+          <div class="stat-box" style="border-left: 4px solid var(--status-high);">
+            <div class="stat-icon" style="background: var(--status-high-bg); color: var(--status-high);">
+              <i data-lucide="clock" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value" id="stat-waiting-queue">4</div>
+              <div class="stat-label">Patients in Queue</div>
+            </div>
+          </div>
+
+          <div class="stat-box" style="border-left: 4px solid var(--status-emergency);">
+            <div class="stat-icon" style="background: var(--status-emergency-bg); color: var(--status-emergency);">
+              <i data-lucide="alert-octagon" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value" id="stat-high-priority">2</div>
+              <div class="stat-label">Urgent / High Priority</div>
+            </div>
+          </div>
+
+          <div class="stat-box" style="border-left: 4px solid var(--primary-green);">
+            <div class="stat-icon" style="background: var(--primary-green-light); color: var(--primary-green);">
+              <i data-lucide="git-pull-request" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div class="stat-value" id="stat-total-referrals">1</div>
+              <div class="stat-label">Active Referrals</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Overview & Queue Charts -->
+        <div class="grid-2" style="margin-bottom: 1.75rem;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="pie-chart" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                <span>Queue Triage Distribution</span>
+              </span>
+              <span class="badge badge-info">Real-Time</span>
+            </div>
+            <div style="height: 220px; position: relative;">
+              <canvas id="queueDistributionChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="trending-up" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+                <span>Weekly PHC Consultation Load</span>
+              </span>
+              <span class="badge badge-verified">Sync Active</span>
+            </div>
+            <div style="height: 220px; position: relative;">
+              <canvas id="opdTrendsChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Priority Queue Quick Table -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span>Live OPD Priority Queue (Doctor Controlled)</span>
+            </span>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="text" id="queue-search" class="form-control" placeholder="Search patient..." style="height: 32px; width: 160px; font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+              <a href="queue.html" class="btn btn-outline btn-sm">
+                <span>Full Queue</span>
+                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </a>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Patient Name</th>
+                  <th>Age / Gender</th>
+                  <th>Chief Complaint</th>
+                  <th>Priority Level</th>
+                  <th>Wait Time</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="quick-queue-tbody">
+                <!-- Injected from DB -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Unreviewed Patient Symptoms Alert Box -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="alert-triangle" style="width: 18px; height: 18px; color: var(--status-high);"></i>
+              <span>Patient-Reported Symptoms Awaiting Clinical Review</span>
+            </span>
+            <span class="badge badge-high">Action Required</span>
+          </div>
+          <div id="unreviewed-symptoms-mount">
+            <!-- Injected from DB -->
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatients, getQueue, updateQueuePriority, getSymptomsByPatient, updateSymptomStatus, getAllReferrals } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    let distChart = null;
+    let trendsChart = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('doctor-dashboard');
+
+      async function refreshDashboard() {
+        const patients = await getPatients();
+        const queue = await getQueue();
+        const referrals = await getAllReferrals();
+
+        // Calculate stats
+        document.getElementById('stat-total-patients').textContent = patients.length;
+        document.getElementById('stat-waiting-queue').textContent = queue.length;
+        
+        const urgentCount = queue.filter(q => q.priority === 'Emergency' || q.priority === 'High').length;
+        document.getElementById('stat-high-priority').textContent = urgentCount;
+        document.getElementById('stat-total-referrals').textContent = referrals.length;
+
+        // Render queue charts
+        renderDashboardCharts(queue);
+
+        // Render queue table
+        renderQueueTable(queue);
+
+        // Render unreviewed symptoms
+        await renderUnreviewedSymptoms();
+        renderIcons();
+      }
+
+      function renderQueueTable(queueList) {
+        const tbody = document.getElementById('quick-queue-tbody');
+        const searchTerm = document.getElementById('queue-search')?.value.toLowerCase() || '';
+        const filtered = queueList.filter(q => q.patientName.toLowerCase().includes(searchTerm) || q.chiefComplaint.toLowerCase().includes(searchTerm));
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No matching patients in queue.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(q => `
+          <tr>
+            <td><strong>#${q.queueNumber}</strong></td>
+            <td>
+              <div style="font-weight:700; color:var(--text-main);">${q.patientName}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${q.healthId || 'LP-10234'}</div>
+            </td>
+            <td>${q.ageGender}</td>
+            <td>${q.chiefComplaint}</td>
+            <td>
+              <select class="form-control queue-pri-select" data-qid="${q.id}" style="height:32px; padding:0.15rem 0.5rem; font-size:0.75rem; width:auto; font-weight:700; ${q.priority === 'High' ? 'color:#C2410C; background:#FFEDD5;' : q.priority === 'Emergency' ? 'color:#B91C1C; background:#FEE2E2;' : ''}">
+                <option value="Emergency" ${q.priority === 'Emergency' ? 'selected' : ''}>🚨 Emergency</option>
+                <option value="High" ${q.priority === 'High' ? 'selected' : ''}>⚠️ High</option>
+                <option value="Medium" ${q.priority === 'Medium' ? 'selected' : ''}>⚡ Medium</option>
+                <option value="Routine" ${q.priority === 'Routine' ? 'selected' : ''}>✓ Routine</option>
+              </select>
+            </td>
+            <td>
+              <span style="display:inline-flex; align-items:center; gap:0.25rem;">
+                <i data-lucide="clock" style="width:12px; height:12px; color:var(--text-muted);"></i>
+                ${q.waitTime}
+              </span>
+            </td>
+            <td>
+              <div style="display:flex; gap:0.35rem;">
+                <a href="patient-record.html?id=${q.patientId}" class="btn btn-primary btn-sm" title="Open Patient Record">
+                  <i data-lucide="folder" style="width:12px; height:12px;"></i> Chart
+                </a>
+                <a href="consultation.html?id=${q.patientId}" class="btn btn-indigo btn-sm" title="Start Consultation">
+                  <i data-lucide="stethoscope" style="width:12px; height:12px;"></i> Consult
+                </a>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        tbody.querySelectorAll('.queue-pri-select').forEach(sel => {
+          sel.addEventListener('change', async (e) => {
+            const qId = e.target.getAttribute('data-qid');
+            const newPri = e.target.value;
+            await updateQueuePriority(qId, newPri, 'Dr. Ananya Rao');
+            showToast(`Queue priority updated to ${newPri}`, 'success');
+            await refreshDashboard();
+          });
+        });
+
+        renderIcons(tbody);
+      }
+
+      function renderDashboardCharts(queueList) {
+        if (!window.Chart) return;
+
+        const emerCount = queueList.filter(q => q.priority === 'Emergency').length;
+        const highCount = queueList.filter(q => q.priority === 'High').length;
+        const medCount = queueList.filter(q => q.priority === 'Medium').length;
+        const routineCount = queueList.filter(q => q.priority === 'Routine').length;
+
+        const ctx1 = document.getElementById('queueDistributionChart');
+        if (ctx1) {
+          if (distChart) distChart.destroy();
+          distChart = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+              labels: ['Emergency', 'High', 'Medium', 'Routine'],
+              datasets: [{
+                data: [emerCount || 1, highCount || 2, medCount || 1, routineCount || 2],
+                backgroundColor: ['#DC2626', '#EA580C', '#D97706', '#16A34A'],
+                borderWidth: 2,
+                borderColor: '#FFFFFF'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'right' }
+              }
+            }
+          });
+        }
+
+        const ctx2 = document.getElementById('opdTrendsChart');
+        if (ctx2) {
+          if (trendsChart) trendsChart.destroy();
+          trendsChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Today'],
+              datasets: [{
+                label: 'Consultations',
+                data: [28, 34, 42, 38, 45, 19],
+                backgroundColor: '#0284C7',
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: '#E2E8F0' } },
+                x: { grid: { display: false } }
+              }
+            }
+          });
+        }
+      }
+
+      async function renderUnreviewedSymptoms() {
+        const syms = await getSymptomsByPatient('pat-1');
+        const pendingSyms = syms.filter(s => s.status.includes('Pending') || s.status.includes('Unreviewed'));
+        const symMount = document.getElementById('unreviewed-symptoms-mount');
+        if (pendingSyms.length === 0) {
+          symMount.innerHTML = '<div style="padding:1rem; color:var(--text-muted); font-size:0.85rem;">All patient symptoms have been clinically reviewed.</div>';
+        } else {
+          symMount.innerHTML = pendingSyms.map(s => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:0.875rem; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
+              <div>
+                <span class="badge ${s.severity === 'Severe' ? 'badge-emergency' : 'badge-high'}">${s.severity}</span>
+                <span style="font-weight:700; margin-left:0.5rem;">Lakshmi Devi (LP-10234):</span>
+                <span style="margin-left:0.25rem;">"${s.symptomName}"</span>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Reported on ${s.startedAt} • Source: ${s.source}</div>
+              </div>
+              <div style="display:flex; gap:0.5rem;">
+                <button class="btn btn-success btn-sm" data-sym-rev="${s.id}">
+                  <i data-lucide="check" style="width:12px; height:12px;"></i> Mark Reviewed
+                </button>
+                <a href="patient-record.html?id=pat-1" class="btn btn-outline btn-sm">View Patient</a>
+              </div>
+            </div>
+          `).join('');
+
+          symMount.querySelectorAll('[data-sym-rev]').forEach(b => {
+            b.addEventListener('click', async (e) => {
+              const sid = e.target.closest('[data-sym-rev]').getAttribute('data-sym-rev');
+              await updateSymptomStatus(sid, 'Clinically Reviewed');
+              showToast('Symptom status marked as Reviewed', 'success');
+              await refreshDashboard();
+            });
+          });
+        }
+      }
+
+      document.getElementById('queue-search')?.addEventListener('input', async () => {
+        const queue = await getQueue();
+        renderQueueTable(queue);
+      });
+
+      await refreshDashboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+  <script src="../js/vendor/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <!-- Patient Greeting Header Strip -->
+        <div class="patient-header-strip">
+          <div class="patient-info-main">
+            <div class="patient-avatar" id="pat-avatar">LD</div>
+            <div class="patient-name-block">
+              <h2><span data-i18n="timeGreeting">Good morning</span>, <span id="pat-name">Lakshmi Devi</span></h2>
+              <div class="patient-meta-tags">
+                <span id="pat-id" style="font-family: var(--font-mono); font-weight: 700; color: var(--primary-blue);">LP-10234</span> • 
+                <span id="pat-age-gender">52 yrs, Female</span> • 
+                <span id="pat-village">Kondapur Village</span>
+              </div>
+            </div>
+          </div>
+          <div class="patient-vital-pills">
+            <div class="vital-pill">
+              <span class="vital-pill-label">Blood Pressure</span>
+              <span class="vital-pill-value" id="pill-bp" style="color: var(--status-high);">148/92 mmHg</span>
+            </div>
+            <div class="vital-pill">
+              <span class="vital-pill-label">Random Sugar</span>
+              <span class="vital-pill-value" id="pill-sugar" style="color: var(--status-high);">182 mg/dL</span>
+            </div>
+            <div class="vital-pill">
+              <span class="vital-pill-label">Blood Group</span>
+              <span class="vital-pill-value" id="pill-bg">B+</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Status Cards (Calculated from DB) -->
+        <div class="grid-3" style="margin-bottom: 1.75rem;">
+          <div class="card" style="border-left: 4px solid var(--primary-blue);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div class="card-subtitle" data-i18n="nextAppointment">Next Appointment</div>
+              <i data-lucide="calendar" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+            </div>
+            <div style="font-size: 1.25rem; font-weight: 800; margin: 0.35rem 0; color: var(--text-main);" id="stat-next-apt">
+              Loading...
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);" id="stat-next-apt-facility">PHC Kondapur • Dr. Ananya Rao</div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--primary-green);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div class="card-subtitle" data-i18n="medicinesActive">Active Prescriptions</div>
+              <i data-lucide="pill" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+            </div>
+            <div style="font-size: 1.25rem; font-weight: 800; margin: 0.35rem 0; color: var(--text-main);" id="stat-active-meds">
+              2 Medicines
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Metformin (BD), Amlodipine (OD)</div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--status-high);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div class="card-subtitle">Hospital Referrals</div>
+              <i data-lucide="git-pull-request" style="width: 18px; height: 18px; color: var(--status-high);"></i>
+            </div>
+            <div style="font-size: 1.25rem; font-weight: 800; margin: 0.35rem 0; color: var(--text-main);" id="stat-referrals">
+              1 Active
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">District Hospital (Cardiology)</div>
+          </div>
+        </div>
+
+        <!-- ABHA Health Card & Vitals Trend -->
+        <div class="grid-2" style="margin-bottom: 2rem;">
+          <!-- ABHA Card -->
+          <div class="abha-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.875rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i data-lucide="shield-check" style="width: 20px; height: 20px; color: #38BDF8;"></i>
+                <strong style="font-size: 0.95rem; letter-spacing: 0.05em; color: #FFFFFF;">AYUSHMAN BHARAT DIGITAL MISSION</strong>
+              </div>
+              <span class="badge badge-verified" style="background: rgba(16, 185, 129, 0.25); color: #34D399; border-color: rgba(52, 211, 153, 0.4); font-size: 0.7rem;">ABHA LINKED</span>
+            </div>
+            <div class="abha-card-chip"></div>
+            <div style="font-size: 0.75rem; color: #CBD5E1; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">ABHA Number</div>
+            <div class="abha-card-number" id="abha-display-number">91-4820-9182-3841</div>
+            <div class="abha-card-footer">
+              <div>
+                <div style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">LAKSHMI DEVI</div>
+                <div style="font-size: 0.8rem; color: #E2E8F0; margin-top: 0.15rem;">DOB: 1974 • Female • Health ID: LP-10234</div>
+              </div>
+              <button class="btn btn-outline btn-sm" id="btn-copy-abha" style="background: rgba(255,255,255,0.15); color: #FFFFFF; border-color: rgba(255,255,255,0.3); font-size: 0.75rem;">
+                <i data-lucide="copy" style="width: 12px; height: 12px;"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Vitals Chart -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                <span>My Vitals History</span>
+              </span>
+              <span class="badge badge-info">ASHA Sync</span>
+            </div>
+            <div style="height: 180px; position: relative;">
+              <canvas id="patientVitalsChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Big Action Cards (Rural/Accessibility First) -->
+        <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
+          Quick Healthcare Services
+        </h3>
+        <div class="grid-2" style="margin-bottom: 2rem;">
+          <a href="voice.html" class="action-card">
+            <div class="action-card-icon">
+              <i data-lucide="mic" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 data-i18n="tellHowYouFeel">Voice Symptom Assistant</h3>
+              <p>Speak in Hindi, Telugu, or English to record your health symptoms</p>
+            </div>
+          </a>
+
+          <a href="records.html" class="action-card">
+            <div class="action-card-icon green">
+              <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 data-i18n="medicalRecords">My Medical Records & Rx</h3>
+              <p>View your complete health timeline, prescription slips & doctor notes</p>
+            </div>
+          </a>
+
+          <a href="appointments.html" class="action-card">
+            <div class="action-card-icon">
+              <i data-lucide="calendar" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 data-i18n="bookVisit">Book PHC Doctor Visit</h3>
+              <p>Schedule a clinic visit and reserve your instant OPD token</p>
+            </div>
+          </a>
+
+          <a href="emergency.html" class="action-card" style="border-color: rgba(220, 38, 38, 0.3);">
+            <div class="action-card-icon red">
+              <i data-lucide="alert-octagon" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div class="action-card-content">
+              <h3 style="color: var(--status-emergency);" data-i18n="emergencySOS">Emergency 108 SOS</h3>
+              <p>One-tap emergency ambulance dispatch with live GPS location share</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Longitudinal Records Preview Strip -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="clock" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span>Recent Health Events</span>
+            </span>
+            <a href="records.html" class="btn btn-outline btn-sm">
+              <span>View All Records</span>
+              <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+            </a>
+          </div>
+          <div id="recent-events-mount">
+            <!-- Dynamically Loaded -->
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatientById, getVitalsByPatient, getAppointments, getPrescriptionsByPatient, getAllReferrals, getMedicalRecords } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    let patientVitalsChart = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('patient-home');
+
+      async function loadPatientData() {
+        const patient = await getPatientById('pat-1');
+        if (!patient) return;
+
+        document.getElementById('pat-name').textContent = patient.name;
+        document.getElementById('pat-id').textContent = `Health ID: ${patient.healthId}`;
+        document.getElementById('pat-age-gender').textContent = `${patient.age} yrs, ${patient.gender}`;
+        document.getElementById('pat-village').textContent = patient.village;
+        document.getElementById('pat-avatar').textContent = patient.avatarText || 'LD';
+        if (patient.bloodGroup) {
+          document.getElementById('pill-bg').textContent = patient.bloodGroup;
+        }
+
+        // Vitals
+        const vitals = await getVitalsByPatient('pat-1');
+        if (vitals.length > 0) {
+          document.getElementById('pill-bp').textContent = `${vitals[0].bpSystolic}/${vitals[0].bpDiastolic} mmHg`;
+          document.getElementById('pill-sugar').textContent = `${vitals[0].bloodSugarRandom || '--'} mg/dL`;
+          renderVitalsChart(vitals);
+        }
+
+        // Appointments
+        const apts = await getAppointments('pat-1');
+        if (apts.length > 0) {
+          document.getElementById('stat-next-apt').textContent = `${apts[0].date} (${apts[0].time || '10:00 AM'})`;
+          document.getElementById('stat-next-apt-facility').textContent = `${apts[0].facility} • ${apts[0].doctor}`;
+        } else {
+          document.getElementById('stat-next-apt').textContent = 'No upcoming visits';
+        }
+
+        // Prescriptions
+        const rxs = await getPrescriptionsByPatient('pat-1');
+        document.getElementById('stat-active-meds').textContent = `${rxs.length} Prescriptions`;
+
+        // Referrals
+        const referrals = await getAllReferrals();
+        const myRefs = referrals.filter(r => r.patientId === 'pat-1');
+        document.getElementById('stat-referrals').textContent = `${myRefs.length} Active`;
+
+        // Recent events
+        const records = await getMedicalRecords('pat-1');
+        const mount = document.getElementById('recent-events-mount');
+        if (records.length === 0) {
+          mount.innerHTML = '<div style="padding:1rem; color:var(--text-muted);">No recent medical records found.</div>';
+        } else {
+          mount.innerHTML = records.slice(0, 3).map(r => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:0.875rem; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
+              <div>
+                <span class="badge badge-info" style="font-size:0.7rem;">${r.type}</span>
+                <span style="font-weight:700; margin-left:0.5rem;">${r.title}</span>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">${r.date} • ${r.facility || 'PHC Kondapur'}</div>
+              </div>
+              <a href="records.html" class="btn btn-outline btn-sm">View Details</a>
+            </div>
+          `).join('');
+        }
+
+        renderIcons();
+      }
+
+      function renderVitalsChart(vitalsList) {
+        if (!window.Chart) return;
+        const ctx = document.getElementById('patientVitalsChart');
+        if (!ctx) return;
+
+        if (patientVitalsChart) patientVitalsChart.destroy();
+
+        patientVitalsChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Latest'],
+            datasets: [
+              {
+                label: 'Systolic BP (mmHg)',
+                data: [136, 142, 140, 144, vitalsList[0]?.bpSystolic || 148],
+                borderColor: '#EA580C',
+                backgroundColor: 'rgba(234, 88, 12, 0.1)',
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: 4
+              },
+              {
+                label: 'Sugar (mg/dL)',
+                data: [160, 165, 170, 175, vitalsList[0]?.bloodSugarRandom || 182],
+                borderColor: '#0284C7',
+                backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: 4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } }
+            },
+            scales: {
+              y: { beginAtZero: false, grid: { color: '#E2E8F0' } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      document.getElementById('btn-copy-abha')?.addEventListener('click', () => {
+        navigator.clipboard.writeText('91-4820-9182-3841');
+        showToast('ABHA Number copied to clipboard', 'success');
+      });
+
+      await loadPatientData();
+    });
+  </script>
+</body>
+</html>

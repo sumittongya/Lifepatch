@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency 108 SOS — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+  <style>
+    .simulated-map {
+      background: #F1F5F9;
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      height: 280px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .map-marker {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 2;
+    }
+    .ambulance-marker {
+      position: absolute;
+      top: 40%;
+      left: 30%;
+      transition: all 1s ease-in-out;
+      z-index: 3;
+    }
+    .sos-pulse-btn {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+      color: #FFFFFF;
+      border: none;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 35px rgba(220, 38, 38, 0.6);
+      animation: pulse-sos 1.5s infinite;
+      transition: transform 0.2s ease;
+    }
+    .sos-pulse-btn:hover {
+      transform: scale(1.05);
+    }
+    @keyframes pulse-sos {
+      0% { transform: scale(1); box-shadow: 0 0 25px rgba(220, 38, 38, 0.5); }
+      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(220, 38, 38, 0.8); }
+      100% { transform: scale(1); box-shadow: 0 0 25px rgba(220, 38, 38, 0.5); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 800px;">
+        <!-- Demo Mode Notice -->
+        <div class="card" style="background: var(--status-emergency-bg); border-color: var(--status-emergency-border); margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: flex-start; gap: 0.875rem;">
+            <i data-lucide="alert-triangle" style="width: 24px; height: 24px; color: var(--status-emergency); flex-shrink: 0; margin-top: 0.15rem;"></i>
+            <div>
+              <div style="font-weight: 800; color: var(--status-emergency); font-size: 0.95rem;">
+                EMERGENCY TRIAGE SIMULATOR (108 Integration)
+              </div>
+              <p style="font-size: 0.85rem; color: #7F1D1D; margin-top: 0.25rem; line-height: 1.5;">
+                Simulates real-time automated emergency dispatch, PHC notification, and medical profile broadcasting for critical rural incidents.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOS Trigger Card -->
+        <div class="card" style="text-align: center; padding: 3rem 1.5rem; margin-bottom: 2rem;" id="sos-trigger-box">
+          <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;" data-i18n="emergencyPrompt">
+            Critical Emergency Assistance
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 520px; margin: 0 auto 2rem auto;">
+            Press the SOS button below to transmit your instant GPS coordinates, Health ID, and critical allergy profile to 108 Emergency Ambulance Dispatch.
+          </p>
+
+          <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+            <button id="sos-btn" class="sos-pulse-btn" aria-label="Trigger SOS emergency dispatch">
+              <i data-lucide="alert-octagon" style="width: 44px; height: 44px; margin-bottom: 0.25rem;"></i>
+              <span style="font-weight: 900; font-size: 1rem; letter-spacing: 0.05em;">SOS 108</span>
+            </button>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+            <span><i data-lucide="map-pin" style="width: 14px; height: 14px; vertical-align: middle;"></i> Kondapur (17.47° N, 78.35° E)</span>
+            <span><i data-lucide="shield-check" style="width: 14px; height: 14px; vertical-align: middle;"></i> ABHA Profile Auto-Attached</span>
+          </div>
+        </div>
+
+        <!-- Dispatched Active Tracking Panel (Hidden Initially) -->
+        <div class="card" id="sos-active-panel" style="display: none; border: 2px solid var(--status-emergency); margin-bottom: 2rem;">
+          <div class="card-header" style="background: var(--status-emergency-bg); margin: -1.5rem -1.5rem 1.5rem -1.5rem; padding: 1.25rem 1.5rem; border-top-left-radius: calc(var(--radius-lg) - 2px); border-top-right-radius: calc(var(--radius-lg) - 2px);">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span class="pulse-dot" style="color: var(--status-emergency);"></span>
+              <span style="font-weight: 800; color: var(--status-emergency); font-size: 1.1rem;">AMBULANCE 108 EN ROUTE</span>
+            </div>
+            <span class="badge badge-emergency">Priority 1 Active</span>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 1.5rem;">
+            <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Estimated Arrival</div>
+              <div style="font-size: 1.75rem; font-weight: 900; color: var(--status-emergency); margin-top: 0.25rem;" id="eta-timer">8 Mins</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Vehicle: TS-07-EM-1082 (PHC Kondapur)</div>
+            </div>
+
+            <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Emergency Contacts Notified</div>
+              <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;">Ravi (Son) • +91 98480 54321</div>
+              <div style="font-size: 0.8rem; color: var(--primary-green); font-weight: 600; margin-top: 0.25rem;">
+                <i data-lucide="check" style="width: 12px; height: 12px;"></i> SMS Alert Sent with Live Map Link
+              </div>
+            </div>
+          </div>
+
+          <!-- Simulated Live GPS Map -->
+          <div class="simulated-map" style="margin-bottom: 1.5rem;">
+            <div class="map-grid-bg"></div>
+            <div class="map-marker" style="top: 50%; left: 65%;">
+              <div style="background: var(--primary-blue); color: #fff; padding: 0.25rem 0.6rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md);">
+                <i data-lucide="home" style="width: 14px; height: 14px;"></i> You (Lakshmi Devi)
+              </div>
+            </div>
+            <div class="ambulance-marker" id="ambulance-icon">
+              <div style="background: var(--status-emergency); color: #fff; padding: 0.35rem 0.75rem; border-radius: var(--radius-md); box-shadow: 0 0 15px rgba(220, 38, 38, 0.6); display: flex; align-items: center; gap: 0.35rem;">
+                <i data-lucide="ambulance" style="width: 16px; height: 16px;"></i> 108 Ambulance
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <button class="btn btn-outline" id="btn-cancel-sos" style="color: var(--text-muted);">
+              Cancel Emergency Request (False Alarm)
+            </button>
+            <a href="tel:108" class="btn btn-danger">
+              <i data-lucide="phone-call" style="width: 16px; height: 16px;"></i>
+              <span>Direct Call 108 Dispatch</span>
+            </a>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, addMedicalRecord } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('patient-emergency');
+
+      const sosBtn = document.getElementById('sos-btn');
+      const triggerBox = document.getElementById('sos-trigger-box');
+      const activePanel = document.getElementById('sos-active-panel');
+      const cancelBtn = document.getElementById('btn-cancel-sos');
+
+      sosBtn.addEventListener('click', async () => {
+        triggerBox.style.display = 'none';
+        activePanel.style.display = 'block';
+
+        showToast('Emergency SOS signal dispatched! 108 ambulance notified.', 'error', 5000);
+
+        await addMedicalRecord({
+          patientId: 'pat-1',
+          type: 'visit',
+          title: '🚨 Emergency SOS Triggered (108 Dispatch)',
+          facility: 'PHC Kondapur Ambulance Unit',
+          doctor: 'Emergency Response Medical Officer',
+          date: new Date().toISOString().split('T')[0],
+          summary: 'Emergency SOS activated by patient. GPS coordinates transmitted (17.47 N, 78.35 E). Critical allergy (Penicillin) broadcasted to triage.',
+          status: 'Active Incident',
+          createdBy: 'Patient SOS Trigger'
+        });
+
+        renderIcons();
+
+        // Animate ambulance moving closer on map
+        let ambStep = 30;
+        const amb = document.getElementById('ambulance-icon');
+        const interval = setInterval(() => {
+          ambStep += 6;
+          if (ambStep >= 55) {
+            clearInterval(interval);
+            document.getElementById('eta-timer').textContent = '2 Mins';
+          } else {
+            amb.style.left = ambStep + '%';
+          }
+        }, 1200);
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        activePanel.style.display = 'none';
+        triggerBox.style.display = 'block';
+        showToast('Emergency request cancelled.', 'info');
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

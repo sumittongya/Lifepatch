@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Queue & Sync — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 860px;">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="sync">
+              Offline Data Synchronization
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Manage records collected in zero-connectivity rural zones and sync them seamlessly to the central PHC server.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-outline" id="btn-add-dummy-offline">
+              <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+              <span>Queue Sample Visit</span>
+            </button>
+            <button class="btn btn-primary" id="btn-sync-all">
+              <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i>
+              <span data-i18n="syncNow">Sync All Records Now</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Offline Queue Status Box -->
+        <div class="card" style="padding: 1.75rem; margin-bottom: 1.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
+                <span id="queue-count-badge" style="color: var(--primary-blue);">0</span> Records Waiting to Sync
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                All offline data is preserved safely in your device’s client-side IndexedDB engine.
+              </p>
+            </div>
+            <span class="badge badge-verified" id="network-badge" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
+              <span class="pulse-dot" style="color: var(--primary-green);"></span>
+              <span>Online (PHC Gateway Reachable)</span>
+            </span>
+          </div>
+
+          <!-- Animated Progress Bar (Hidden during idle) -->
+          <div id="sync-progress-box" style="display: none; margin-top: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">
+              <span>Encrypting & Transmitting Payload...</span>
+              <span id="sync-progress-pct">0%</span>
+            </div>
+            <div style="background: var(--bg-main); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div id="sync-progress-bar" style="width: 0%; height: 100%; background: var(--primary-blue-gradient); transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Items List -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="layers" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span>Pending Local Field Records</span>
+            </span>
+            <span class="badge badge-info" id="pending-items-badge">0 Queued</span>
+          </div>
+          <div id="offline-items-mount">
+            <!-- Dynamically populated from DB -->
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getOfflineQueue, syncOfflineQueue, addOfflineItem } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('worker-sync');
+
+      async function loadOfflineQueue() {
+        const queue = await getOfflineQueue();
+        document.getElementById('queue-count-badge').textContent = queue.length;
+        document.getElementById('pending-items-badge').textContent = `${queue.length} Queued`;
+
+        const mount = document.getElementById('offline-items-mount');
+        if (queue.length === 0) {
+          mount.innerHTML = `
+            <div style="text-align:center; padding:2.5rem; color:var(--text-muted);">
+              <i data-lucide="check-circle-2" style="width:40px; height:40px; color:var(--primary-green); margin-bottom:0.5rem;"></i>
+              <div style="font-weight:700; color:var(--text-main); font-size:1rem;">All field records are fully synchronized!</div>
+              <p style="font-size:0.85rem; margin-top:0.25rem;">Any records saved without internet connectivity will appear here.</p>
+            </div>
+          `;
+          renderIcons(mount);
+          return;
+        }
+
+        mount.innerHTML = queue.map(item => `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:1rem; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
+            <div>
+              <span class="badge badge-high" style="font-size:0.7rem;">${item.entityType.toUpperCase()}</span>
+              <strong style="font-size:0.95rem; margin-left:0.5rem; color:var(--text-main);">${item.data?.patientName || 'Lakshmi Devi'}</strong>
+              <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.2rem;">
+                ${item.entityType === 'vitals' ? `Field Vitals: BP ${item.data?.bpSystolic}/${item.data?.bpDiastolic} mmHg • Sugar ${item.data?.bloodSugarRandom} mg/dL` : item.data?.notes || 'Household Health Observation'}
+              </div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">Captured locally: ${item.createdAt ? item.createdAt.split('T')[0] : '2026-09-22'}</div>
+            </div>
+            <div>
+              <span class="badge badge-unverified">Offline Pending</span>
+            </div>
+          </div>
+        `).join('');
+
+        renderIcons(mount);
+      }
+
+      document.getElementById('btn-add-dummy-offline').addEventListener('click', async () => {
+        await addOfflineItem('vitals', {
+          patientId: 'pat-1',
+          patientName: 'Lakshmi Devi',
+          bpSystolic: 142,
+          bpDiastolic: 88,
+          bloodSugarRandom: 168,
+          spo2: 98,
+          heartRate: 78,
+          notes: 'Routine evening field checkup by Sunita Bai (Offline record)'
+        });
+        showToast('Sample field observation queued offline in IndexedDB', 'info');
+        await loadOfflineQueue();
+      });
+
+      document.getElementById('btn-sync-all').addEventListener('click', async () => {
+        const queue = await getOfflineQueue();
+        if (queue.length === 0) {
+          showToast('No pending records to sync', 'info');
+          return;
+        }
+
+        const progressBox = document.getElementById('sync-progress-box');
+        const progressBar = document.getElementById('sync-progress-bar');
+        const progressPct = document.getElementById('sync-progress-pct');
+
+        progressBox.style.display = 'block';
+        progressBar.style.width = '30%';
+        progressPct.textContent = '30%';
+
+        setTimeout(() => {
+          progressBar.style.width = '70%';
+          progressPct.textContent = '70%';
+        }, 300);
+
+        setTimeout(async () => {
+          progressBar.style.width = '100%';
+          progressPct.textContent = '100%';
+
+          await syncOfflineQueue();
+          showToast(`Successfully synchronized ${queue.length} records to central PHC registry!`, 'success');
+          
+          setTimeout(() => {
+            progressBox.style.display = 'none';
+            progressBar.style.width = '0%';
+          }, 600);
+
+          await loadOfflineQueue();
+        }, 700);
+      });
+
+      await loadOfflineQueue();
+    });
+  </script>
+</body>
+</html>

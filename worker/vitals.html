@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitals Tracking — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+  <script src="../js/vendor/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="vitals">
+              Community Vitals Tracking
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Monitor blood pressure, blood glucose, and temperature patterns across village households.
+            </p>
+          </div>
+          <a href="field-visit.html" class="btn btn-success">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            <span>Record Field Checkup</span>
+          </a>
+        </div>
+
+        <!-- Clinical Threshold Reference Strip -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem; background: var(--bg-main);">
+          <div style="display:flex; flex-wrap:wrap; gap:1.5rem; font-size:0.85rem;">
+            <div><strong>Blood Pressure:</strong> Normal (&lt; 120/80) • Elevated (120-139 / 80-89) • <span style="color:var(--status-emergency); font-weight:700;">Stage 2 / Urgent (≥ 140/90)</span></div>
+            <div><strong>Random Sugar:</strong> Normal (&lt; 140 mg/dL) • <span style="color:var(--status-high); font-weight:700;">High (&gt; 160 mg/dL)</span></div>
+            <div><strong>SpO2:</strong> Normal (≥ 95%) • <span style="color:var(--status-emergency); font-weight:700;">Hypoxia (&lt; 92%)</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+              <span>Recent Field Checkups (Lakshmi Devi - LP-10234)</span>
+            </span>
+            <a href="field-visit.html?id=pat-1" class="btn btn-outline btn-sm">+ New Vitals Check</a>
+          </div>
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>BP (mmHg)</th>
+                  <th>Random Sugar</th>
+                  <th>SpO2</th>
+                  <th>Pulse</th>
+                  <th>Recorded By</th>
+                  <th>Clinical Status Alert</th>
+                </tr>
+              </thead>
+              <tbody id="vitals-table-body">
+                <!-- Injected from DB -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getVitalsByPatient } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('worker-vitals');
+
+      const vitals = await getVitalsByPatient('pat-1');
+      const tbody = document.getElementById('vitals-table-body');
+
+      if (vitals.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No vitals records logged.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = vitals.map(v => {
+        const isHighBP = v.bpSystolic >= 140 || v.bpDiastolic >= 90;
+        const isHighSugar = v.bloodSugarRandom && v.bloodSugarRandom > 160;
+
+        return `
+          <tr>
+            <td><strong style="font-family:var(--font-mono);">${v.recordedAt ? v.recordedAt.replace('T', ' ').substring(0, 16) : '2026-09-22 09:30'}</strong></td>
+            <td style="font-weight:700; ${isHighBP ? 'color:var(--status-emergency);' : ''}">${v.bpSystolic}/${v.bpDiastolic} mmHg</td>
+            <td style="font-weight:700; ${isHighSugar ? 'color:var(--status-high);' : ''}">${v.bloodSugarRandom || '--'} mg/dL</td>
+            <td>${v.spo2 || 98}%</td>
+            <td>${v.heartRate || 76} bpm</td>
+            <td>${v.recordedBy || 'Sunita Bai (ASHA)'}</td>
+            <td>
+              ${isHighBP ? '<span class="badge badge-emergency">Elevated BP</span>' : isHighSugar ? '<span class="badge badge-high">High Sugar</span>' : '<span class="badge badge-routine">Normal</span>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

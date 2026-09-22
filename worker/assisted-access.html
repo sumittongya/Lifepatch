@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assisted Citizen Access — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 720px;">
+        <div style="margin-bottom: 1.5rem;">
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="assistedAccess">
+            Assisted Citizen Access Portal
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            Assisting rural, non-literate, or elderly citizens to navigate their health records with explicit verbal consent.
+          </p>
+        </div>
+
+        <div class="card" style="padding: 2rem; border-top: 4px solid var(--primary-green);">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div style="width: 60px; height: 60px; border-radius: var(--radius-md); background: var(--primary-green-light); color: var(--primary-green); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem;">
+              <i data-lucide="heart-handshake" style="width: 32px; height: 32px;"></i>
+            </div>
+            <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--text-main);">
+              Initiate Assisted Field Session
+            </h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
+              ASHA Community Worker: <strong>Sunita Bai (HW-9021)</strong>
+            </p>
+          </div>
+
+          <form id="assisted-form">
+            <div class="form-group">
+              <label class="form-label">Select Citizen / Patient <span class="required">*</span></label>
+              <select id="assisted-patient" class="form-control" required>
+                <!-- Populated from DB -->
+              </select>
+            </div>
+
+            <!-- Consent Confirmation Box -->
+            <div style="background: var(--bg-main); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem; margin: 1.5rem 0;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--primary-green);">
+                <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
+                <span>Citizen Verbal Consent & Audit Protocol</span>
+              </div>
+              <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-main); cursor: pointer;">
+                <input type="checkbox" id="consent-check" required style="margin-top: 0.25rem; width: 18px; height: 18px; accent-color: var(--primary-green);">
+                <span>
+                  I confirm that I have explained the purpose in the citizen's local language (Hindi/Telugu), and they have granted explicit verbal consent to view and update their longitudinal records during this household visit.
+                </span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block btn-lg">
+              <span>Launch Assisted Patient Workspace</span>
+              <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+            </button>
+          </form>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatients, logAudit } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { setSession } from '../js/core/auth.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('worker-assisted');
+
+      const patients = await getPatients();
+      const patSelect = document.getElementById('assisted-patient');
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectedId = urlParams.get('id') || 'pat-1';
+
+      patSelect.innerHTML = patients.map(p => `
+        <option value="${p.id}" ${p.id === preselectedId ? 'selected' : ''}>
+          ${p.name} (${p.healthId}) - ${p.village}
+        </option>
+      `).join('');
+
+      document.getElementById('assisted-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pId = patSelect.value;
+        const selectedPat = patients.find(p => p.id === pId) || patients[0];
+
+        await logAudit('usr-hw-1', 'ASSISTED_LOGIN', `ASHA Worker assisted login for ${selectedPat.name} (${selectedPat.healthId}) with verbal consent`);
+
+        setSession('patient', selectedPat.id, selectedPat.id, `${selectedPat.name} (ASHA Assisted)`, selectedPat.healthId);
+        showToast(`Assisted session launched for ${selectedPat.name}`, 'success');
+
+        setTimeout(() => {
+          window.location.href = '../patient/dashboard.html';
+        }, 800);
+      });
+
+      renderIcons();
+    });
+  </script>
+</body>
+</html>

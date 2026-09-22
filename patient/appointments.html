@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments & Tokens — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 900px;">
+        <div style="margin-bottom: 1.5rem;">
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="appointments">
+            PHC & Hospital Appointments
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            Schedule outpatient visits, reserve queue slots, and receive instant digital OPD tokens.
+          </p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 2rem;">
+          <!-- Book Appointment Card -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="calendar-plus" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                <span>Book a New Visit</span>
+              </span>
+              <span class="badge badge-info">Instant Token</span>
+            </div>
+            <form id="apt-form">
+              <div class="form-group">
+                <label class="form-label">Healthcare Facility</label>
+                <select id="apt-facility" class="form-control" required>
+                  <option value="PHC Kondapur" selected>Primary Health Centre (PHC) Kondapur (1.4 km)</option>
+                  <option value="Area Hospital Shankarpally">Area Hospital Shankarpally (8.2 km)</option>
+                  <option value="District Referral Hospital Chevella">District Referral Hospital Chevella (16 km)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Clinical Department</label>
+                <select id="apt-dept" class="form-control" required>
+                  <option value="General Outpatient (OPD)">General Outpatient (OPD)</option>
+                  <option value="NCD & Chronic Care (Diabetes/BP)" selected>NCD & Chronic Care (Diabetes/BP)</option>
+                  <option value="Maternal & Child Health (MCH)">Maternal & Child Health (MCH)</option>
+                  <option value="Physiotherapy & Ortho">Physiotherapy & Ortho</option>
+                </select>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label">Date</label>
+                  <input type="date" id="apt-date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Preferred Time Slot</label>
+                  <select id="apt-time" class="form-control" required>
+                    <option value="09:30 AM">09:30 AM</option>
+                    <option value="10:30 AM" selected>10:30 AM</option>
+                    <option value="11:30 AM">11:30 AM</option>
+                    <option value="02:30 PM">02:30 PM</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 0.5rem;" data-i18n="bookVisit">
+                <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+                <span>Confirm & Generate Token</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Active Upcoming Token Display -->
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">
+                  <i data-lucide="ticket" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+                  <span>Your Active Tokens</span>
+                </span>
+                <span class="badge badge-verified" id="token-count-badge">Active</span>
+              </div>
+              <div id="appointments-list">
+                <!-- Loaded from DB -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getAppointments, addAppointment, addToQueue } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { getSession } from '../js/core/auth.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('patient-appointments');
+
+      const session = getSession();
+      const patientId = session.patientId || 'pat-1';
+
+      // Set default tomorrow date
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('apt-date').value = tomorrow.toISOString().split('T')[0];
+
+      async function loadAppointments() {
+        const apts = await getAppointments(patientId);
+        const mount = document.getElementById('appointments-list');
+        document.getElementById('token-count-badge').textContent = `${apts.length} Tokens`;
+
+        if (apts.length === 0) {
+          mount.innerHTML = '<div style="padding:1.5rem; text-align:center; color:var(--text-muted);">No upcoming appointments scheduled.</div>';
+          return;
+        }
+
+        mount.innerHTML = apts.map(a => `
+          <div style="background:var(--bg-main); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1rem; margin-bottom:0.75rem; border-left:4px solid var(--primary-blue);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.35rem;">
+              <span class="badge badge-info">${a.status || 'Confirmed'}</span>
+              <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${a.date}</span>
+            </div>
+            <div style="font-weight:700; font-size:1rem; color:var(--text-main);">${a.facility}</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.25rem;">Doctor: ${a.doctor} • Time: <strong>${a.time || '10:00 AM'}</strong></div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Dept: ${a.title || 'Outpatient Consultation'}</div>
+            <div style="margin-top:0.75rem; padding-top:0.5rem; border-top:1px dashed var(--border-default); display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.75rem; color:var(--primary-green); font-weight:700;">✓ Queue Token #7 Reserved</span>
+              <button class="btn btn-outline btn-sm" onclick="window.print()" style="height:28px; font-size:0.75rem;">Print Pass</button>
+            </div>
+          </div>
+        `).join('');
+
+        renderIcons(mount);
+      }
+
+      document.getElementById('apt-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fac = document.getElementById('apt-facility').value;
+        const dept = document.getElementById('apt-dept').value;
+        const dt = document.getElementById('apt-date').value;
+        const tm = document.getElementById('apt-time').value;
+
+        await addAppointment({
+          patientId: patientId,
+          doctor: 'Dr. Ananya Rao',
+          facility: fac,
+          date: dt,
+          time: tm,
+          title: dept,
+          status: 'Confirmed'
+        });
+
+        // Also add to queue for doctor visibility
+        await addToQueue({
+          patientId: patientId,
+          patientName: 'Lakshmi Devi',
+          ageGender: '52 / F',
+          healthId: 'LP-10234',
+          chiefComplaint: `Appointment for ${dept}`,
+          priority: 'Routine',
+          arrivalTime: tm,
+          waitTime: '10 mins',
+          status: 'Booked',
+          queueNumber: 7
+        });
+
+        showToast('Appointment booked and Token #7 reserved!', 'success');
+        await loadAppointments();
+      });
+
+      await loadAppointments();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consent & Privacy — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content" style="max-width: 860px;">
+        <div style="margin-bottom: 1.5rem;">
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="consentPrivacy">
+            Consent & Record Privacy Manager
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            ABDM-aligned patient data sovereign control. You decide which doctors, ASHA workers, and hospitals can view your health records.
+          </p>
+        </div>
+
+        <!-- Privacy Assurance Banner -->
+        <div class="card" style="background: var(--primary-green-light); border-color: var(--primary-green-muted); margin-bottom: 1.5rem;">
+          <div style="display:flex; align-items:flex-start; gap:0.875rem;">
+            <i data-lucide="shield-check" style="width: 24px; height: 24px; color: var(--primary-green); flex-shrink: 0; margin-top: 0.15rem;"></i>
+            <div>
+              <div style="font-weight: 800; color: var(--primary-green); font-size: 0.95rem;">
+                Encrypted & Sovereign Patient Record Storage
+              </div>
+              <p style="font-size: 0.85rem; color: #134E4A; margin-top: 0.25rem; line-height: 1.5;">
+                In this demonstration POC, all records are encrypted and stored locally in your browser’s IndexedDB. No medical records can be shared with external providers without explicit cryptographic or verbal consent tokens.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Consents List -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <div class="card-header">
+            <span class="card-title">
+              <i data-lucide="lock" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span>Active Provider Access Permissions</span>
+            </span>
+            <span class="badge badge-verified" id="consent-count-badge">Active</span>
+          </div>
+          <div id="active-consents-mount">
+            <!-- Dynamically Loaded from DB -->
+          </div>
+        </div>
+
+        <!-- Request New Access Permission Simulation -->
+        <div class="card" style="padding: 1.75rem;">
+          <div class="card-header" style="margin-top: -0.5rem;">
+            <span class="card-title">
+              <i data-lucide="user-check" style="width: 18px; height: 18px; color: var(--primary-indigo);"></i>
+              <span>Grant Access to a New Healthcare Provider</span>
+            </span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+            Authorize another doctor, specialist clinic, or referral hospital to view your longitudinal history for a specified time window.
+          </p>
+          <form id="new-consent-form">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Doctor / Healthcare Facility <span class="required">*</span></label>
+                <input type="text" id="con-doctor" class="form-control" placeholder="e.g. Dr. K. Sharma (District Hospital Chevella)" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Access Duration</label>
+                <select id="con-duration" class="form-control">
+                  <option value="1 Month">1 Month (Consultation window)</option>
+                  <option value="6 Months">6 Months (Temporary Follow-up)</option>
+                  <option value="1 Year" selected>1 Year (Continuous Chronic Care)</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
+              <span>Authorize Provider Access</span>
+            </button>
+          </form>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getConsentRequests, addConsentRequest, updateConsentStatus } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { getSession } from '../js/core/auth.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('patient-consent');
+
+      const session = getSession();
+      const patientId = session.patientId || 'pat-1';
+
+      async function loadConsents() {
+        const consents = await getConsentRequests(patientId);
+        const mount = document.getElementById('active-consents-mount');
+        document.getElementById('consent-count-badge').textContent = `${consents.length} Grants`;
+
+        if (consents.length === 0) {
+          mount.innerHTML = '<div style="padding:1.5rem; text-align:center; color:var(--text-muted);">No active consent grants found.</div>';
+          return;
+        }
+
+        mount.innerHTML = consents.map(c => `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:1rem; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.75rem;">
+            <div>
+              <div style="font-weight:700; font-size:1rem; color:var(--text-main);">${c.requesterName}</div>
+              <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.2rem;">Scope: <strong>${c.purpose || 'Complete Longitudinal Medical History'}</strong></div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">Duration: ${c.duration || '1 Year'} • Granted: ${c.createdAt ? c.createdAt.split('T')[0] : '2026-01-10'}</div>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <span class="badge badge-verified">${c.status || 'Active'}</span>
+              <button class="btn btn-outline btn-sm btn-revoke" data-cid="${c.id}" style="color:var(--status-emergency); border-color:var(--status-emergency-border);">
+                Revoke Access
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        mount.querySelectorAll('.btn-revoke').forEach(b => {
+          b.addEventListener('click', async (e) => {
+            const cid = e.target.getAttribute('data-cid');
+            await updateConsentStatus(cid, 'Revoked');
+            showToast('Access permission revoked for provider', 'info');
+            await loadConsents();
+          });
+        });
+
+        renderIcons(mount);
+      }
+
+      document.getElementById('new-consent-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const doc = document.getElementById('con-doctor').value;
+        const dur = document.getElementById('con-duration').value;
+
+        await addConsentRequest({
+          patientId: patientId,
+          requesterId: 'usr-ext',
+          requesterName: doc,
+          purpose: 'Full Diagnostic Review & Prescription Management',
+          duration: dur,
+          status: 'Active',
+          createdAt: new Date().toISOString()
+        });
+
+        document.getElementById('con-doctor').value = '';
+        showToast(`Consent granted to ${doc}`, 'success');
+        await loadConsents();
+      });
+
+      await loadConsents();
+    });
+  </script>
+</body>
+</html>

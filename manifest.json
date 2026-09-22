@@ -1,0 +1,21 @@
+{
+  "name": "LIFE PATCH - Rural & Public Health Platform",
+  "short_name": "LIFE PATCH",
+  "description": "Continuous longitudinal health record for patients, ASHA workers, and public health facilities",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F5F9FC",
+  "theme_color": "#0B5CAB",
+  "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

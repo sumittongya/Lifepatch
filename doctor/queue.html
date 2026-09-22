@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Priority Queue — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="priorityQueue">
+              OPD Clinical Priority Queue
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Human-led triage protocol. Doctor controls patient prioritization and examination sequence.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap: wrap;" id="queue-filter-buttons">
+            <button class="btn btn-primary btn-sm q-filter-btn active" data-filter="All">All Patients</button>
+            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="Emergency">🚨 Emergency</button>
+            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="High">⚠️ High Priority</button>
+            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="Routine">✓ Routine</button>
+            <button class="btn btn-secondary btn-sm" id="btn-add-to-queue">
+              <i data-lucide="user-plus" style="width: 14px; height: 14px;"></i>
+              <span>Add Token</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Token #</th>
+                  <th>Patient Name & ABHA</th>
+                  <th>Demographics</th>
+                  <th>Chief Complaint & Triage Signs</th>
+                  <th>Priority Level (Doctor Override)</th>
+                  <th>Arrival Time</th>
+                  <th>Est. Wait</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="full-queue-tbody">
+                <!-- Dynamically Populated from DB -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getQueue, updateQueuePriority, addToQueue, getPatients } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    let currentFilter = 'All';
+    let queueData = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('doctor-queue');
+
+      async function loadQueue() {
+        queueData = await getQueue();
+        renderQueueTable();
+      }
+
+      function renderQueueTable() {
+        const tbody = document.getElementById('full-queue-tbody');
+        const filtered = currentFilter === 'All' ? queueData : queueData.filter(q => q.priority === currentFilter);
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">No patients matching filter "${currentFilter}".</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(q => `
+          <tr>
+            <td><strong style="font-size:1.1rem; color:var(--primary-blue);">#${q.queueNumber}</strong></td>
+            <td>
+              <div style="font-weight:700; color:var(--text-main);">${q.patientName}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${q.healthId || 'LP-10234'}</div>
+            </td>
+            <td>${q.ageGender}</td>
+            <td>
+              <div style="font-weight:600;">${q.chiefComplaint}</div>
+              <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.15rem;">Vitals: BP 148/92 • SpO2 98%</div>
+            </td>
+            <td>
+              <select class="form-control queue-pri-sel" data-qid="${q.id}" style="height:32px; padding:0.15rem 0.5rem; font-size:0.75rem; width:auto; font-weight:700; ${q.priority === 'High' ? 'color:#C2410C; background:#FFEDD5;' : q.priority === 'Emergency' ? 'color:#B91C1C; background:#FEE2E2;' : ''}">
+                <option value="Emergency" ${q.priority === 'Emergency' ? 'selected' : ''}>🚨 Emergency</option>
+                <option value="High" ${q.priority === 'High' ? 'selected' : ''}>⚠️ High</option>
+                <option value="Medium" ${q.priority === 'Medium' ? 'selected' : ''}>⚡ Medium</option>
+                <option value="Routine" ${q.priority === 'Routine' ? 'selected' : ''}>✓ Routine</option>
+              </select>
+            </td>
+            <td>${q.arrivalTime || '09:15 AM'}</td>
+            <td>
+              <span style="display:inline-flex; align-items:center; gap:0.25rem;">
+                <i data-lucide="clock" style="width:12px; height:12px; color:var(--text-muted);"></i>
+                ${q.waitTime}
+              </span>
+            </td>
+            <td>
+              <div style="display:flex; gap:0.35rem;">
+                <a href="patient-record.html?id=${q.patientId}" class="btn btn-primary btn-sm">
+                  <i data-lucide="file-text" style="width:12px; height:12px;"></i> Chart
+                </a>
+                <a href="consultation.html?id=${q.patientId}" class="btn btn-indigo btn-sm">
+                  <i data-lucide="stethoscope" style="width:12px; height:12px;"></i> Consult
+                </a>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        tbody.querySelectorAll('.queue-pri-sel').forEach(sel => {
+          sel.addEventListener('change', async (e) => {
+            const qid = e.target.getAttribute('data-qid');
+            const newPri = e.target.value;
+            await updateQueuePriority(qid, newPri, 'Dr. Ananya Rao');
+            showToast(`Priority updated to ${newPri}`, 'success');
+            await loadQueue();
+          });
+        });
+
+        renderIcons(tbody);
+      }
+
+      // Filter button listeners
+      document.querySelectorAll('.q-filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.q-filter-btn').forEach(b => {
+            b.classList.remove('btn-primary', 'active');
+            b.classList.add('btn-outline');
+          });
+          e.target.classList.remove('btn-outline');
+          e.target.classList.add('btn-primary', 'active');
+          currentFilter = e.target.getAttribute('data-filter');
+          renderQueueTable();
+        });
+      });
+
+      // Add to Queue button
+      document.getElementById('btn-add-to-queue')?.addEventListener('click', async () => {
+        const patients = await getPatients();
+        const p = patients[0] || { id: 'pat-1', name: 'Lakshmi Devi', age: 52, gender: 'Female' };
+        const newQNumber = queueData.length + 1;
+        await addToQueue({
+          patientId: p.id,
+          patientName: p.name,
+          ageGender: `${p.age} / ${p.gender.charAt(0)}`,
+          healthId: p.healthId || 'LP-10234',
+          chiefComplaint: 'Acute Headache & Blurred Vision',
+          priority: 'High',
+          arrivalTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          waitTime: '5 mins',
+          status: 'Waiting',
+          queueNumber: newQNumber
+        });
+        showToast(`Token #${newQNumber} added to OPD Queue`, 'success');
+        await loadQueue();
+      });
+
+      await loadQueue();
+    });
+  </script>
+</body>
+</html>

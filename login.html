@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — LIFE PATCH Healthcare</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <script src="js/vendor/lucide.js"></script>
+</head>
+<body style="background-color: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
+  <div style="max-width: 480px; width: 100%;">
+    <!-- Brand Header -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a href="index.html" class="header-brand" style="justify-content: center; font-size: 1.75rem; margin-bottom: 0.5rem; text-decoration: none;">
+        <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary-blue-gradient); display: flex; align-items: center; justify-content: center; color: white;">
+          <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+        </div>
+        <span data-i18n="appName">LIFE PATCH</span>
+      </a>
+      <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.25rem;" data-i18n="appTagline">
+        Rural & Public Healthcare Continuity Platform
+      </p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="card" style="padding: 2.25rem; box-shadow: var(--shadow-xl);">
+      <div style="text-align: center; margin-bottom: 1.75rem;">
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em;" data-i18n="signInPersona">
+          Select Demo Persona
+        </h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+          Instant 1-click access to full simulated workflows
+        </p>
+      </div>
+
+      <!-- 1-Click Quick Select Buttons -->
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.75rem;">
+        <!-- Patient -->
+        <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 1rem 1.125rem; border-color: var(--border-default); text-align: left;" id="quick-pat">
+          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
+            <i data-lucide="user" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
+              <span>Lakshmi Devi</span>
+              <span class="badge badge-info" style="font-size: 0.65rem;" data-i18n="patient">Patient</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+              ABHA: 91-4829-1023-4412 • Age 52 • Kondapur
+            </div>
+          </div>
+        </button>
+
+        <!-- Doctor -->
+        <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 1rem 1.125rem; border-color: var(--border-default); text-align: left;" id="quick-doc">
+          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-indigo-light); color: var(--primary-indigo); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
+            <i data-lucide="stethoscope" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
+              <span>Dr. Ananya Rao</span>
+              <span class="badge" style="background-color: var(--primary-indigo-light); color: var(--primary-indigo); font-size: 0.65rem;" data-i18n="doctor">Doctor</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+              Medical Officer (MBBS) • PHC Kondapur
+            </div>
+          </div>
+        </button>
+
+        <!-- ASHA Worker -->
+        <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 1rem 1.125rem; border-color: var(--border-default); text-align: left;" id="quick-hw">
+          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-green-light); color: var(--primary-green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
+            <i data-lucide="heart-handshake" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
+              <span>Sunita Bai</span>
+              <span class="badge" style="background-color: var(--primary-green-light); color: var(--primary-green); font-size: 0.65rem;" data-i18n="worker">ASHA Worker</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+              Community Health Worker • Kondapur Sector 3
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div style="text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+        <a href="index.html" class="btn btn-outline btn-sm" style="font-size: 0.85rem;">
+          <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+          <span>Return to Overview</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase } from './js/db/api.js';
+    import { initI18n } from './js/core/i18n.js';
+    import { initTheme } from './js/core/theme.js';
+    import { loginAs } from './js/core/auth.js';
+    import { renderIcons } from './js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderIcons();
+
+      document.getElementById('quick-pat').addEventListener('click', () => loginAs('patient'));
+      document.getElementById('quick-doc').addEventListener('click', () => loginAs('doctor'));
+      document.getElementById('quick-hw').addEventListener('click', () => loginAs('worker'));
+    });
+  </script>
+</body>
+</html>

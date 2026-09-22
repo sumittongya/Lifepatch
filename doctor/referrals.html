@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Referrals — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <div style="margin-bottom: 1.5rem;">
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="referrals">
+            Secondary & Tertiary Hospital Referrals
+          </h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            Transfer clinical responsibility and request specialized diagnostics with encrypted longitudinal EHR sharing.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Create Referral Card -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">
+                <i data-lucide="git-pull-request" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+                <span>Initiate Clinical Referral</span>
+              </span>
+              <span class="badge badge-info">PHC Kondapur</span>
+            </div>
+            <form id="ref-form">
+              <div class="form-group">
+                <label class="form-label">Select Registered Patient <span class="required">*</span></label>
+                <select id="ref-patient" class="form-control" required>
+                  <!-- Populated from DB -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Destination Facility & Department</label>
+                <select id="ref-facility" class="form-control" required>
+                  <option value="District Hospital Chevella (Cardiology)">District Hospital Chevella (Cardiology Dept)</option>
+                  <option value="Osmania General Hospital, Hyderabad">Osmania General Hospital (Tertiary Nephrology / Endocrinology)</option>
+                  <option value="Area Hospital Shankarpally">Area Hospital Shankarpally (General Surgery / Orthopaedics)</option>
+                </select>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label">Clinical Specialty</label>
+                  <input type="text" id="ref-specialty" class="form-control" value="Cardiology" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Priority Level</label>
+                  <select id="ref-priority" class="form-control">
+                    <option value="High" selected>⚠️ High Priority (48-72 hrs)</option>
+                    <option value="Routine">✓ Routine Elective</option>
+                    <option value="Emergency">🚨 Emergency Transfer</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Clinical Reason & Case Summary for Specialist</label>
+                <textarea id="ref-reason" class="form-control" rows="3" placeholder="e.g. Episodic dizziness, palpitations, and persistent borderline hypertension in diabetic patient." required>Episodic dizziness, palpitations, and persistent borderline hypertension (148/92 mmHg) in diabetic patient. Recommend 2D-Echocardiogram and Holter monitor.</textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+                <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                <span>Transmit Digital Referral Record</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Active Referrals List -->
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">
+                  <i data-lucide="layers" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
+                  <span>Active Outgoing Referrals</span>
+                </span>
+                <span class="badge badge-verified" id="ref-count-badge">Active</span>
+              </div>
+              <div id="referrals-list-mount">
+                <!-- Loaded from DB -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatients, getAllReferrals, addReferral, addMedicalRecord } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout, showToast } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('doctor-referrals');
+
+      const patients = await getPatients();
+      const patSelect = document.getElementById('ref-patient');
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectedId = urlParams.get('patientId') || 'pat-1';
+
+      patSelect.innerHTML = patients.map(p => `
+        <option value="${p.id}" ${p.id === preselectedId ? 'selected' : ''}>
+          ${p.name} (${p.healthId}) - ${p.village}
+        </option>
+      `).join('');
+
+      async function loadReferrals() {
+        const referrals = await getAllReferrals();
+        const mount = document.getElementById('referrals-list-mount');
+        document.getElementById('ref-count-badge').textContent = `${referrals.length} Outgoing`;
+
+        if (referrals.length === 0) {
+          mount.innerHTML = '<div style="padding:1.5rem; text-align:center; color:var(--text-muted);">No active hospital referrals found.</div>';
+          return;
+        }
+
+        mount.innerHTML = referrals.map(r => `
+          <div style="background:var(--bg-main); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1rem; margin-bottom:0.75rem;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.35rem;">
+              <span class="badge ${r.priority === 'High' ? 'badge-high' : r.priority === 'Emergency' ? 'badge-emergency' : 'badge-routine'}">${r.priority}</span>
+              <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${r.createdAt ? r.createdAt.split('T')[0] : '2026-09-22'}</span>
+            </div>
+            <div style="font-weight:700; color:var(--text-main); font-size:1rem;">To: ${r.targetFacility}</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.25rem;"><strong>Specialty:</strong> ${r.specialty}</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.25rem; line-height:1.5;"><strong>Reason:</strong> ${r.reason}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; padding-top:0.5rem; border-top:1px dashed var(--border-default); font-size:0.75rem; color:var(--text-muted);">
+              <span>Status: <strong style="color:var(--primary-blue);">${r.status || 'Pending Intake'}</strong></span>
+              <a href="patient-record.html?id=${r.patientId}" class="btn btn-outline btn-sm" style="height:28px; font-size:0.75rem; padding:0 0.5rem;">View Patient</a>
+            </div>
+          </div>
+        `).join('');
+
+        renderIcons(mount);
+      }
+
+      document.getElementById('ref-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pId = patSelect.value;
+        const target = document.getElementById('ref-facility').value;
+        const spec = document.getElementById('ref-specialty').value;
+        const pri = document.getElementById('ref-priority').value;
+        const reason = document.getElementById('ref-reason').value;
+
+        const newRef = {
+          patientId: pId,
+          referredBy: 'Dr. Ananya Rao (PHC Kondapur)',
+          targetFacility: target,
+          specialty: spec,
+          priority: pri,
+          reason: reason,
+          status: 'Pending Intake',
+          createdAt: new Date().toISOString()
+        };
+
+        await addReferral(newRef);
+
+        await addMedicalRecord({
+          patientId: pId,
+          type: 'referral',
+          title: `Referral to ${target}`,
+          facility: 'PHC Kondapur',
+          doctor: 'Dr. Ananya Rao',
+          date: new Date().toISOString().split('T')[0],
+          summary: `Referred to ${target} (${spec}) for: ${reason}`,
+          status: 'Clinically Verified',
+          createdBy: 'Dr. Ananya Rao'
+        });
+
+        showToast('Referral created & transmitted to District Hospital', 'success');
+        await loadReferrals();
+      });
+
+      await loadReferrals();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* ==========================================================================
+   LIFE PATCH - Accessibility Settings & Styles
+   Designed for Rural Health Workers, Low-Literacy Patients & Elderly Users
+   ========================================================================== */
+
+/* Text Size Scaler */
+html[data-text-size="large"] {
+  font-size: 18px;
+}
+
+html[data-text-size="large"] .btn {
+  font-size: 1rem;
+}
+
+html[data-text-size="xlarge"] {
+  font-size: 20px;
+}
+
+html[data-text-size="xlarge"] .btn {
+  font-size: 1.125rem;
+}
+
+/* High Contrast Mode */
+html[data-contrast="high"] {
+  --bg-main: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --text-main: #000000;
+  --text-secondary: #000000;
+  --text-muted: #222222;
+  --border-subtle: #000000;
+  --border-default: #000000;
+  --primary-blue: #003B73;
+  --primary-green: #005A32;
+  --status-emergency: #A70000;
+}
+
+html[data-contrast="high"][data-theme="dark"] {
+  --bg-main: #000000;
+  --bg-surface: #000000;
+  --bg-card: #000000;
+  --text-main: #FFFFFF;
+  --text-secondary: #FFFFFF;
+  --text-muted: #E2E8F0;
+  --border-subtle: #FFFFFF;
+  --border-default: #FFFFFF;
+  --primary-blue: #60A5FA;
+  --primary-green: #34D399;
+}
+
+html[data-contrast="high"] .card,
+html[data-contrast="high"] .action-card,
+html[data-contrast="high"] .btn {
+  border-width: 2px !important;
+}
+
+/* Reduced Motion Mode */
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Focus Visible Enhancement */
+:focus-visible {
+  outline: 3px solid #0284C7 !important;
+  outline-offset: 2px !important;
+}
+
+/* Print Friendly Styles for Prescriptions & Referrals */
+@media print {
+  .top-header,
+  .app-sidebar,
+  .mobile-bottom-nav,
+  .btn,
+  .toast-container {
+    display: none !important;
+  }
+
+  .main-wrapper, .main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+}

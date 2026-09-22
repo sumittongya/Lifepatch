@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patients Directory — LIFE PATCH</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/accessibility.css">
+  <script src="../js/vendor/lucide.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div id="sidebar-mount"></div>
+    <div class="main-wrapper">
+      <div id="header-mount"></div>
+
+      <main class="main-content">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="patients">
+              Registered Patient Directory
+            </h1>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+              Search and view longitudinal EHRs across assigned rural catchment sub-centres.
+            </p>
+          </div>
+          <div style="width: 320px; position: relative;">
+            <input type="text" id="patient-search" class="form-control" placeholder="Search name, ABHA, village..." style="height: 40px; padding-left: 2.25rem;">
+            <i data-lucide="search" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-muted);"></i>
+          </div>
+        </div>
+
+        <div class="grid-2" id="patient-cards-mount">
+          <!-- Dynamically Injected from DB -->
+        </div>
+      </main>
+
+      <div id="mobile-nav-mount"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initDatabase, getPatients } from '../js/db/api.js';
+    import { initI18n } from '../js/core/i18n.js';
+    import { initTheme } from '../js/core/theme.js';
+    import { renderLayout } from '../js/core/layout.js';
+    import { renderIcons } from '../js/core/icons.js';
+
+    let patientList = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      await initI18n();
+      await initTheme();
+      renderLayout('doctor-patients');
+
+      async function loadPatients() {
+        patientList = await getPatients();
+        renderList();
+      }
+
+      function renderList() {
+        const query = document.getElementById('patient-search').value.toLowerCase();
+        const filtered = patientList.filter(p => {
+          return !query || 
+            p.name.toLowerCase().includes(query) ||
+            p.healthId.toLowerCase().includes(query) ||
+            p.village.toLowerCase().includes(query) ||
+            (p.abhaNumber && p.abhaNumber.toLowerCase().includes(query)) ||
+            (p.phone && p.phone.includes(query));
+        });
+
+        const mount = document.getElementById('patient-cards-mount');
+        if (filtered.length === 0) {
+          mount.innerHTML = '<div class="card" style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted);"><p>No matching patient records found.</p></div>';
+          return;
+        }
+
+        mount.innerHTML = filtered.map(p => `
+          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; border-left: 4px solid ${p.riskLevel === 'High' ? 'var(--status-emergency)' : p.riskLevel === 'Medium' ? 'var(--status-high)' : 'var(--primary-blue)'};">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.75rem;">
+                <div style="display:flex; align-items:center; gap:0.875rem;">
+                  <div class="patient-avatar" style="width:48px; height:48px; font-size:1.1rem;">${p.avatarText || 'PT'}</div>
+                  <div>
+                    <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main); margin-bottom:0.15rem;">${p.name}</h3>
+                    <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${p.healthId} • ABHA: ${p.abhaNumber || '91-4820-9182-3841'}</div>
+                  </div>
+                </div>
+                <span class="badge ${p.riskLevel === 'High' ? 'badge-emergency' : p.riskLevel === 'Medium' ? 'badge-high' : 'badge-routine'}">${p.riskLevel || 'Routine'}</span>
+              </div>
+
+              <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6; margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border-subtle);">
+                <div><strong>Demographics:</strong> ${p.age} yrs, ${p.gender} • Blood: ${p.bloodGroup || 'O+'}</div>
+                <div><strong>Village:</strong> ${p.village}</div>
+                <div><strong>Chronic Conditions:</strong> ${p.chronicConditions ? p.chronicConditions.join(', ') : 'None'}</div>
+                <div><strong>Allergies:</strong> <span style="color:var(--status-emergency); font-weight:700;">${p.allergies ? p.allergies.join(', ') : 'None known'}</span></div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <div style="font-size:0.75rem; color:var(--text-muted);">
+                <i data-lucide="phone" style="width:12px; height:12px; vertical-align:middle;"></i> ${p.phone || 'No phone recorded'}
+              </div>
+              <div style="display:flex; gap:0.4rem;">
+                <a href="patient-record.html?id=${p.id}" class="btn btn-primary btn-sm">
+                  <i data-lucide="file-text" style="width:12px; height:12px;"></i> Chart
+                </a>
+                <a href="consultation.html?id=${p.id}" class="btn btn-indigo btn-sm">
+                  <i data-lucide="stethoscope" style="width:12px; height:12px;"></i> Consult
+                </a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        renderIcons(mount);
+      }
+
+      document.getElementById('patient-search').addEventListener('input', renderList);
+
+      await loadPatients();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "lifepatch-healthcare",
+  "version": "1.0.0",
+  "description": "LifePatch — Continuous Healthcare Platform for Rural & Underserved Communities (SIH 2026)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "healthcare",
+    "telemedicine",
+    "offline-first",
+    "asha-worker",
+    "abha",
+    "fhir",
+    "sih2026",
+    "indexeddb"
+  ],
+  "author": "LifePatch Engineering Team",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.4.14"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.8",
+    "lucide": "^0.475.0"
+  }
+}
