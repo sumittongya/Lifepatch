@@ -58,6 +58,27 @@
     padding: 0 1rem;
   }
 
+  /* Declutter header on mobile: profile dropdown already covers role/signout */
+  .top-header .header-right a[href$="login.html"],
+  .top-header .header-right > button#logout-btn {
+    display: none !important;
+  }
+
+  .top-header .header-right {
+    gap: 0.4rem;
+  }
+
+  /* Compact the user name pill on small screens */
+  .top-header #user-profile-btn span:nth-child(2) {
+    max-width: 72px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .top-header #user-profile-btn span:nth-child(3) {
+    display: none;
+  }
+
   .patient-header-strip {
     flex-direction: column;
     align-items: flex-start;

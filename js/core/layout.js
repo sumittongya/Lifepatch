@@ -4,10 +4,11 @@
  * Integrated with crisp Lucide vector icons & User Profile Controls
  */
 
-import { getSession, setSession, logout, getBasePath } from './auth.js';
+import { getSession, setSession, logout, getBasePath, getDashboardUrl } from './auth.js';
 import { t, setLanguage, getLanguage } from './i18n.js';
 import { toggleTheme, getTheme, applyTheme } from './theme.js';
 import { renderIcons, icon } from './icons.js';
+import { getPageHelp } from './page-help.js';
 
 export function renderLayout(activePageKey = '') {
   let session = getSession();
@@ -31,6 +32,9 @@ export function renderLayout(activePageKey = '') {
           <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
             ${icon('menu')}
           </button>
+          <a href="${getDashboardUrl(session.role)}" class="btn btn-outline btn-icon" id="back-to-dashboard-btn" title="${t('backToDashboard')}" aria-label="${t('backToDashboard')}" style="height:34px; width:34px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            ${icon('arrow-left', '', 16)}
+          </a>
           <a href="${basePath}index.html" class="header-brand">
             <span style="color:var(--primary-blue); display:flex; align-items:center;">${icon('activity', '', 22)}</span>
             <span>LIFE PATCH</span>
@@ -81,6 +85,11 @@ export function renderLayout(activePageKey = '') {
               <option value="te" ${currentLang === 'te' ? 'selected' : ''}>తెలుగు</option>
             </select>
           </div>
+
+          <!-- Contextual Page Help -->
+          <button class="btn btn-outline btn-icon" id="page-help-btn" title="${t('pageHelp')}" aria-label="${t('pageHelp')}" style="height:34px; width:34px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
+            ${icon('help-circle', '', 16)}
+          </button>
 
           <!-- Theme Toggle -->
           <button class="btn btn-outline btn-icon theme-toggle-btn" title="Toggle Theme" style="height:34px; width:34px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
@@ -302,6 +311,14 @@ export function renderLayout(activePageKey = '') {
     });
   });
 
+  // Contextual Page Help Button & Modal
+  const pageHelpBtn = document.getElementById('page-help-btn');
+  if (pageHelpBtn) {
+    pageHelpBtn.addEventListener('click', () => {
+      openPageHelpModal(activePageKey);
+    });
+  }
+
   // User Profile Dropdown Toggle
   const userProfileBtn = document.getElementById('user-profile-btn');
   const userProfileDropdown = document.getElementById('user-profile-dropdown');
@@ -352,6 +369,51 @@ export function renderLayout(activePageKey = '') {
 
   // Render vector icons
   renderIcons();
+}
+
+function openPageHelpModal(activePageKey) {
+  const existing = document.getElementById('page-help-overlay');
+  if (existing) existing.remove();
+
+  const help = getPageHelp(activePageKey);
+  const overlay = document.createElement('div');
+  overlay.id = 'page-help-overlay';
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal-content" role="dialog" aria-modal="true" aria-label="${help.title}">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <span style="width:38px; height:38px; border-radius:var(--radius-md); background:var(--primary-blue-light); color:var(--primary-blue); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;">
+            ${icon('help-circle', '', 20)}
+          </span>
+          <div>
+            <div style="font-weight:800; font-size:1.05rem; color:var(--text-main);">${help.title}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">${t('pageHelpSubtitle')}</div>
+          </div>
+        </div>
+        <button id="page-help-close" class="btn btn-outline btn-icon" aria-label="Close" style="height:32px; width:32px; border-radius:50%; padding:0; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;">
+          ${icon('x', '', 15)}
+        </button>
+      </div>
+      <ul style="margin:0 0 1.25rem 1.15rem; padding:0; font-size:0.9rem; color:var(--text-secondary); line-height:1.75;">
+        ${help.points.map(p => `<li style="margin-bottom:0.4rem;">${p}</li>`).join('')}
+      </ul>
+      <div style="display:flex; justify-content:flex-end; gap:0.6rem; border-top:1px solid var(--border-subtle); padding-top:1rem;">
+        <a href="${getBasePath()}shared/help.html" class="btn btn-outline btn-sm">${icon('book-open', '', 14)} <span>${t('fullGuide')}</span></a>
+        <button id="page-help-done" class="btn btn-primary btn-sm">${t('gotIt')}</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  renderIcons(overlay);
+
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  overlay.querySelector('#page-help-close').addEventListener('click', close);
+  overlay.querySelector('#page-help-done').addEventListener('click', close);
+  document.addEventListener('keydown', function esc(e) {
+    if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+  });
 }
 
 function updateNetworkStatus() {

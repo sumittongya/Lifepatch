@@ -154,6 +154,11 @@ export const TRANSLATIONS = {
     accessibility: 'Accessibility',
     help: 'Help & Guide',
     logout: 'Switch Role / Logout',
+    backToDashboard: 'Back to Dashboard',
+    pageHelp: 'What can I do on this page?',
+    pageHelpSubtitle: 'Quick guide for this screen',
+    fullGuide: 'Full User Guide',
+    gotIt: 'Got It',
 
     // Common Actions
     save: 'Save',
@@ -361,6 +366,11 @@ export const TRANSLATIONS = {
     accessibility: 'पहुंच क्षमता (Accessibility)',
     help: 'मदद और गाइड',
     logout: 'लॉगआउट / भूमिका बदलें',
+    backToDashboard: 'डैशबोर्ड पर वापस जाएं',
+    pageHelp: 'इस पेज पर क्या कर सकते हैं?',
+    pageHelpSubtitle: 'इस स्क्रीन की त्वरित गाइड',
+    fullGuide: 'पूरी मदद गाइड',
+    gotIt: 'समझ गया',
 
     // Common Actions
     save: 'सुरक्षित करें (Save)',
@@ -568,6 +578,11 @@ export const TRANSLATIONS = {
     accessibility: 'యాక్సెసిబిలిటీ (సౌలభ్యం)',
     help: 'సహాయం & గైడ్',
     logout: 'లాగౌట్ / పాత్ర మార్చండి',
+    backToDashboard: 'డ్యాష్‌బోర్డ్‌కు తిరిగి వెళ్ళండి',
+    pageHelp: 'ఈ పేజీలో ఏమి చేయవచ్చు?',
+    pageHelpSubtitle: 'ఈ స్క్రీన్ కోసం త్వరిత గైడ్',
+    fullGuide: 'పూర్తి యూజర్ గైడ్',
+    gotIt: 'అర్థమైంది',
 
     // Common Actions
     save: 'భద్రపరచు (Save)',

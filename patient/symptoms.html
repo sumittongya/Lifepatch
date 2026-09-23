@@ -9,6 +9,20 @@
   <link rel="stylesheet" href="../css/responsive.css">
   <link rel="stylesheet" href="../css/accessibility.css">
   <script src="../js/vendor/lucide.js"></script>
+  <style>
+    .dictate-btn.recording {
+      background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%) !important;
+      border-color: #DC2626 !important;
+      color: #fff !important;
+      animation: dictatePulse 1.4s infinite;
+    }
+    .dictate-btn.recording i, .dictate-btn.recording svg { color: #fff !important; }
+    @keyframes dictatePulse {
+      0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5); }
+      50% { box-shadow: 0 0 0 8px rgba(220,38,38,0.15); }
+      100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+    }
+  </style>
 </head>
 <body>
   <div class="app-container">
@@ -27,20 +41,26 @@
         </div>
 
         <!-- Voice Quick Option Banner -->
-        <div class="card" style="background: var(--primary-blue-light); border-color: var(--primary-blue-muted); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 0.875rem;">
-            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <i data-lucide="mic" style="width: 22px; height: 22px;"></i>
+        <div class="card" style="background: var(--primary-blue-light); border-color: var(--primary-blue-muted); margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.875rem;">
+              <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i data-lucide="mic" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div style="font-weight: 800; color: var(--primary-blue); font-size: 1rem;" data-i18n="tellHowYouFeel">Prefer speaking?</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">Tap the mic icons below to dictate directly, or use the full Voice Assistant.</div>
+              </div>
             </div>
-            <div>
-              <div style="font-weight: 800; color: var(--primary-blue); font-size: 1rem;" data-i18n="tellHowYouFeel">Prefer speaking?</div>
-              <div style="font-size: 0.85rem; color: var(--text-secondary);">Describe your symptoms by voice in Hindi, Telugu, or English.</div>
-            </div>
+            <a href="voice.html" class="btn btn-outline" style="flex-shrink: 0;" data-i18n="speak">
+              <i data-lucide="mic" style="width: 14px; height: 14px;"></i>
+              <span>Open Voice Assistant</span>
+            </a>
           </div>
-          <a href="voice.html" class="btn btn-primary" style="flex-shrink: 0;" data-i18n="speak">
-            <i data-lucide="mic" style="width: 14px; height: 14px;"></i>
-            <span>Use Voice Assistant</span>
-          </a>
+          <div id="inline-voice-status" style="display:none; margin-top:0.875rem; padding:0.6rem 0.875rem; background:var(--bg-surface); border:1px solid var(--primary-blue-muted); border-radius:var(--radius-md); font-size:0.85rem; font-weight:700; color:var(--primary-blue); align-items:center; gap:0.5rem;">
+            <i data-lucide="radio" style="width:15px; height:15px;"></i>
+            <span id="inline-voice-status-text">Listening… speak now</span>
+          </div>
         </div>
 
         <!-- Symptom Form -->
@@ -50,7 +70,12 @@
               <label class="form-label" for="symptom-name">
                 What are you experiencing? <span class="required">*</span>
               </label>
-              <input type="text" id="symptom-name" class="form-control" placeholder="e.g. Dizziness, palpitations, headache, shortness of breath" required>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <input type="text" id="symptom-name" class="form-control" placeholder="e.g. Dizziness, palpitations, headache, shortness of breath" required style="flex:1;">
+                <button type="button" class="btn btn-outline btn-icon dictate-btn" data-target="symptom-name" title="Dictate symptom" aria-label="Dictate symptom" style="height:44px; width:44px; flex-shrink:0; border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center;">
+                  <i data-lucide="mic" style="width:18px; height:18px;"></i>
+                </button>
+              </div>
             </div>
 
             <div class="grid-2">
@@ -77,7 +102,12 @@
               <label class="form-label" for="symptom-notes">
                 Additional Details & Observations (Optional)
               </label>
-              <textarea id="symptom-notes" class="form-control" rows="3" placeholder="e.g. Occurs mostly in the morning, accompanied by mild blurred vision..."></textarea>
+              <div style="display:flex; gap:0.5rem; align-items:flex-start;">
+                <textarea id="symptom-notes" class="form-control" rows="3" placeholder="e.g. Occurs mostly in the morning, accompanied by mild blurred vision..." style="flex:1;"></textarea>
+                <button type="button" class="btn btn-outline btn-icon dictate-btn" data-target="symptom-notes" title="Dictate details" aria-label="Dictate details" style="height:44px; width:44px; flex-shrink:0; border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center;">
+                  <i data-lucide="mic" style="width:18px; height:18px;"></i>
+                </button>
+              </div>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
@@ -102,6 +132,7 @@
     import { renderLayout, showToast } from '../js/core/layout.js';
     import { getSession } from '../js/core/auth.js';
     import { renderIcons } from '../js/core/icons.js';
+    import { VoiceSystem } from '../js/modules/voice.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
       await initDatabase();
@@ -113,6 +144,60 @@
       const patientId = session.patientId || 'pat-1';
 
       document.getElementById('symptom-date').value = new Date().toISOString().split('T')[0];
+
+      // Inline voice dictation — dictates directly into the focused form field
+      const voiceStatus = document.getElementById('inline-voice-status');
+      const voiceStatusText = document.getElementById('inline-voice-status-text');
+      let activeTarget = null;
+
+      const voice = new VoiceSystem({
+        onResult: (text) => {
+          if (activeTarget && text.trim()) {
+            activeTarget.value = text;
+          }
+        },
+        onStatusChange: (status) => {
+          if (status === 'listening') {
+            voiceStatus.style.display = 'flex';
+            voiceStatusText.textContent = 'Listening… speak now';
+            document.querySelectorAll('.dictate-btn').forEach(b => b.classList.add('recording'));
+          } else {
+            voiceStatus.style.display = 'none';
+            document.querySelectorAll('.dictate-btn').forEach(b => b.classList.remove('recording'));
+          }
+        },
+        onError: (err) => {
+          voiceStatus.style.display = 'flex';
+          voiceStatusText.textContent = err === 'not-allowed'
+            ? 'Microphone blocked — please allow mic access in browser settings.'
+            : err === 'speech-not-supported'
+              ? 'Voice input not supported in this browser — please type instead.'
+              : `Voice notice (${err}) — you can still type in the fields.`;
+          voiceStatus.style.color = 'var(--status-emergency)';
+          voiceStatus.style.borderColor = 'var(--status-emergency-border)';
+          setTimeout(() => {
+            voiceStatus.style.display = 'none';
+            voiceStatus.style.color = 'var(--primary-blue)';
+            voiceStatus.style.borderColor = 'var(--primary-blue-muted)';
+          }, 4000);
+        }
+      });
+
+      document.querySelectorAll('.dictate-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (voice.isListening) {
+            voice.stop();
+            showToast('Dictation stopped', 'info');
+            return;
+          }
+          activeTarget = document.getElementById(btn.getAttribute('data-target'));
+          if (activeTarget) {
+            activeTarget.focus();
+            const started = voice.start();
+            if (started) showToast('Listening — speak your symptom', 'info');
+          }
+        });
+      });
 
       document.getElementById('symptom-form').addEventListener('submit', async (e) => {
         e.preventDefault();

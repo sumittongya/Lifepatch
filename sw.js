@@ -4,7 +4,7 @@
  * seamlessly falls back to offline cache when disconnected.
  */
 
-const CACHE_NAME = 'lifepatch-v3-network-first';
+const CACHE_NAME = 'lifepatch-v4-network-first';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -23,6 +23,7 @@ const ASSETS_TO_CACHE = [
   './js/core/theme.js',
   './js/core/auth.js',
   './js/core/layout.js',
+  './js/core/page-help.js',
   './js/db/database.js',
   './js/db/seed-data.js',
   './js/db/api.js',

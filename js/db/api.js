@@ -150,6 +150,11 @@ export async function addVital(vitalData) {
   return newVital;
 }
 
+// Plural alias used by field-visit workflow
+export async function addVitals(vitalData) {
+  return addVital(vitalData);
+}
+
 // Medical Records API
 export async function getMedicalRecords(patientId) {
   const all = await db.getAll('medicalRecords');
@@ -240,6 +245,20 @@ export async function addAppointment(aptData) {
 }
 
 // Queue API
+export async function addToQueue(queueData) {
+  const id = 'que-' + Date.now();
+  const newEntry = {
+    ...queueData,
+    id,
+    status: queueData.status || 'Waiting',
+    priority: queueData.priority || 'Routine',
+    createdAt: new Date().toISOString()
+  };
+  await db.put('queue', newEntry);
+  await logAudit(queueData.addedBy || 'System', 'ADD_TO_QUEUE', `Added ${newEntry.patientName || 'patient'} to OPD queue`);
+  return newEntry;
+}
+
 export async function getQueue() {
   const all = await db.getAll('queue');
   const priorityOrder = { 'Emergency': 1, 'High': 2, 'Medium': 3, 'Routine': 4 };
@@ -257,6 +276,19 @@ export async function updateQueuePriority(queueId, newPriority, doctorName) {
 }
 
 // Consent API
+export async function addConsentRequest(consentData) {
+  const id = 'con-' + Date.now();
+  const newConsent = {
+    ...consentData,
+    id,
+    status: consentData.status || 'Active',
+    createdAt: consentData.createdAt || new Date().toISOString()
+  };
+  await db.put('consentRequests', newConsent);
+  await logAudit('Patient', 'GRANT_CONSENT', `Granted record access to ${newConsent.requesterName}`);
+  return newConsent;
+}
+
 export async function getConsentRequests(patientId) {
   const all = await db.getAll('consentRequests');
   return all.filter(c => c.patientId === patientId);
@@ -303,6 +335,12 @@ export async function syncOfflineQueue() {
   await db.clearStore('offlineQueue');
   await logAudit('Health Worker', 'SYNC_OFFLINE_RECORDS', `Synced ${count} offline records to central PHC database`);
   return count;
+}
+
+// Full database reset back to clean seed state
+export async function resetDatabase() {
+  await initDatabase(true);
+  await logAudit('System', 'RESET_DATABASE', 'Local IndexedDB reset to initial demo dataset.');
 }
 
 // Export / Import API

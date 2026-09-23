@@ -288,6 +288,14 @@ body {
   border-color: var(--primary-blue-muted);
 }
 
+/* User profile dropdown items */
+.dropdown-item:hover {
+  background-color: var(--bg-main) !important;
+}
+#menu-signout-btn:hover {
+  background-color: var(--status-emergency-bg) !important;
+}
+
 /* Sidebar Navigation */
 .app-sidebar {
   width: var(--sidebar-width);
