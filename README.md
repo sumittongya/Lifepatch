@@ -157,7 +157,8 @@ lifepatch-healthcare/
 │   │   └── chart.js            # Interactive clinical analytics & vitals charts
 │   ├── core/
 │   │   ├── auth.js             # Session state & demo role switcher
-│   │   ├── i18n.js             # Multilingual translations (EN, HI, TE)
+│   │   ├── i18n.js             # Language engine — init, lookup, apply (EN, HI, TE)
+│   │   ├── labels.js           # Single source-of-truth label table — one row per key, {en, hi, te}
 │   │   ├── theme.js            # Light/Dark mode state management
 │   │   ├── icons.js            # Lucide icon renderer helper
 │   │   ├── page-help.js        # Per-page contextual help content (EN/HI/TE)

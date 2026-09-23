@@ -15,7 +15,16 @@
 
 ---
 
-## ⏱️ 2. The 5-Minute Click-by-Click Live Demonstration Script
+## 🖥️ 2. Pre-Demo Setup Checklist (2 minutes before presenting)
+
+1. **Browser**: Use **Safari** (preferred) or **Microsoft Edge**. Hindi/Telugu speech recognition runs on each browser's own speech service — Chrome may return a `network` error for Indic languages on restricted networks, so do **not** demo voice in Chrome.
+2. **Server**: `cd sih && npm run dev` (or `python3 -m http.server 3000`) → open `http://localhost:5173` (or `:3000`).
+3. **Mic permission**: Tap the mic once before presenting and accept the prompt.
+4. **Safety net**: If voice fails on the jury's network, the sample-phrase chips on the Symptoms page and ASHA Voice page let you continue the flow uninterrupted.
+
+---
+
+## ⏱️ 3. The 5-Minute Click-by-Click Live Demonstration Script
 
 Follow this sequential walkthrough during the presentation to showcase the cross-role feedback loop:
 
@@ -28,7 +37,7 @@ Follow this sequential walkthrough during the presentation to showcase the cross
 ### 🎬 ACT 1: The Rural Citizen at Home (Voice-First Reporting)
 * **Goal**: Show how a non-literate rural patient logs symptoms in their mother tongue without typing.
 * **Steps**:
-  1. Open **[http://localhost:4173](http://localhost:4173)** and click **"Access Platform (Sign In / Register)"**.
+  1. Open **[http://localhost:5173](http://localhost:5173)** and click **"Access Platform (Sign In / Register)"**.
   2. Click **"Lakshmi Devi (Patient)"** to log in as a citizen.
   3. **Highlight the ABHA Card**: Point out the official **Ayushman Bharat 14-digit ABHA Card** (`91-4820-9182-3841`), golden chip, and 1-click copy button.
   4. **Show the built-in guidance**: Tap the **"?"** help button in the top bar — a translated card explains exactly what the screen does in the patient's own language. Then tap **"←"** to return to the dashboard.
@@ -125,7 +134,7 @@ Follow this sequential walkthrough during the presentation to showcase the cross
 
 ---
 
-## 💎 3. Key Differentiators & Competitive Advantage Matrix
+## 💎 4. Key Differentiators & Competitive Advantage Matrix
 
 | Feature | Conventional Hospital EHRs | Basic Telemedicine Apps | **LIFE PATCH (Our Solution)** |
 | :--- | :---: | :---: | :---: |
@@ -138,7 +147,7 @@ Follow this sequential walkthrough during the presentation to showcase the cross
 
 ---
 
-## 🛡️ 4. Tough Jury Q&A — Defensive Architecture Arguments
+## 🛡️ 5. Tough Jury Q&A — Defensive Architecture Arguments
 
 ### Q1: *"How does this work in remote tribal areas with zero internet or electricity?"*
 > **Answer**: *"LIFE PATCH uses a Progressive Web Application (PWA) architecture with client-side **IndexedDB containing 17 isolated data stores**. All HTML, CSS, JavaScript, icons, and charts are cached offline via Service Worker (`sw.js`). ASHA workers can record vitals and voice notes completely offline in the field. When they return to network coverage at the Sub-Centre, a single tap reconciles and pushes the background queue."*
@@ -154,9 +163,10 @@ Follow this sequential walkthrough during the presentation to showcase the cross
 
 ---
 
-## 📊 5. Summary Checklist for Jury Presentation
+## 📊 6. Summary Checklist for Jury Presentation
 
-- [x] **Local Server Running**: `http://localhost:4173`
+- [x] **Local Server Running**: `http://localhost:5173` in **Safari or Edge** (not Chrome — Indic voice can fail there)
+- [x] **Voice Checked**: Mic permission granted; EN/HI/TE all transcribe live; sample-phrase chips work as fallback
 - [x] **Light/Dark Mode Checked**: Dynamic icon-only switcher in top-right
 - [x] **Multilingual Translation Checked**: Instant reactive switching between EN, HI, and TE
 - [x] **Per-Page Help Checked**: "?" button in top bar opens a translated guide for every screen
