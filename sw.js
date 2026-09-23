@@ -1,4 +1,10 @@
-const CACHE_NAME = 'lifepatch-v2';
+/**
+ * LIFE PATCH - Progressive Web App Service Worker
+ * Network-First Strategy: Always serves fresh files when connected,
+ * seamlessly falls back to offline cache when disconnected.
+ */
+
+const CACHE_NAME = 'lifepatch-v3-network-first';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -52,12 +58,12 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE).catch(err => console.warn('PWA Cache install skipped some assets:', err));
+      return cache.addAll(ASSETS_TO_CACHE).catch(err => console.warn('PWA Pre-cache skipped some assets:', err));
     })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -66,23 +72,40 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log('Purging legacy cache:', key);
             return caches.delete(key);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
+// Network-First: Fetch from network first, update cache, fall back to cache only when offline
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request).catch(() => {
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
         }
-      });
-    })
+        return networkResponse;
+      })
+      .catch(() => {
+        // Network failed -> Serve from offline cache
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
+      })
   );
 });
