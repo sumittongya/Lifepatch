@@ -3,106 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In — LIFE PATCH Healthcare</title>
+  <title>Sign In & Registration — LIFE PATCH Healthcare</title>
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/accessibility.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script src="js/vendor/lucide.js"></script>
+  <style>
+    .auth-tab-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .auth-tab-btn.active {
+      color: var(--primary-blue);
+      border-bottom-color: var(--primary-blue);
+      background: rgba(2, 132, 199, 0.04);
+    }
+    .role-select-chip {
+      flex: 1;
+      padding: 0.75rem 0.5rem;
+      border: 1px solid var(--border-default);
+      background: var(--bg-main);
+      border-radius: var(--radius-md);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .role-select-chip.active {
+      border-color: var(--primary-blue);
+      background: var(--primary-blue-light);
+      color: var(--primary-blue);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2);
+    }
+  </style>
 </head>
-<body style="background-color: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
-  <div style="max-width: 480px; width: 100%;">
+<body style="background-color: var(--bg-main); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem;">
+  <!-- Top Quick Header Controls -->
+  <div style="position: absolute; top: 1.25rem; right: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+    <!-- Language Selector -->
+    <div style="display: flex; align-items: center; gap: 0.35rem; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-full); padding: 0.2rem 0.65rem; box-shadow: var(--shadow-xs);">
+      <i data-lucide="globe" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+      <select class="lang-select" style="border: none; background: transparent; color: var(--text-main); padding: 0.1rem 0.2rem; height: 26px; font-size: 0.8rem; font-weight: 700; cursor: pointer; outline: none;" aria-label="Select Language">
+        <option value="en">EN</option>
+        <option value="hi">हिन्दी</option>
+        <option value="te">తెలుగు</option>
+      </select>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="btn btn-outline btn-icon theme-toggle-btn" title="Toggle Theme" style="height: 34px; width: 34px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
+      <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
+    </button>
+  </div>
+
+  <div style="max-width: 520px; width: 100%; margin: auto 0;">
     <!-- Brand Header -->
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <a href="index.html" class="header-brand" style="justify-content: center; font-size: 1.75rem; margin-bottom: 0.5rem; text-decoration: none;">
-        <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary-blue-gradient); display: flex; align-items: center; justify-content: center; color: white;">
-          <i data-lucide="activity" style="width: 24px; height: 24px;"></i>
+    <div style="text-align: center; margin-bottom: 1.75rem;">
+      <a href="index.html" class="header-brand" style="justify-content: center; font-size: 1.85rem; margin-bottom: 0.35rem; text-decoration: none;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--primary-blue-gradient); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);">
+          <i data-lucide="activity" style="width: 26px; height: 26px;"></i>
         </div>
         <span data-i18n="appName">LIFE PATCH</span>
       </a>
-      <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.25rem;" data-i18n="appTagline">
-        Rural & Public Healthcare Continuity Platform
+      <p style="font-size: 0.9rem; color: var(--text-secondary);" data-i18n="appTagline">
+        Continuous Health Record for Rural & Public Healthcare
       </p>
     </div>
 
-    <!-- Login Card -->
-    <div class="card" style="padding: 2.25rem; box-shadow: var(--shadow-xl);">
-      <div style="text-align: center; margin-bottom: 1.75rem;">
-        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em;" data-i18n="signInPersona">
-          Select Demo Persona
-        </h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
-          Instant 1-click access to full simulated workflows
-        </p>
-      </div>
-
-      <!-- 1-Click Quick Select Buttons -->
-      <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.75rem;">
-        <!-- Patient -->
-        <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 1rem 1.125rem; border-color: var(--border-default); text-align: left;" id="quick-pat">
-          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
-            <i data-lucide="user" style="width: 22px; height: 22px;"></i>
-          </div>
-          <div style="flex: 1;">
-            <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
-              <span>Lakshmi Devi</span>
-              <span class="badge badge-info" style="font-size: 0.65rem;" data-i18n="patient">Patient</span>
-            </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
-              ABHA: 91-4829-1023-4412 • Age 52 • Kondapur
-            </div>
-          </div>
+    <!-- Auth Card -->
+    <div class="card" style="padding: 0; box-shadow: var(--shadow-xl); overflow: hidden; border-radius: var(--radius-xl);">
+      <!-- Auth Mode Tabs -->
+      <div style="display: flex; border-bottom: 1px solid var(--border-subtle); background: var(--bg-surface);">
+        <button class="auth-tab-btn active" id="tab-btn-signin" type="button">
+          <i data-lucide="log-in" style="width: 16px; height: 16px;"></i>
+          <span>Sign In / Demo Access</span>
         </button>
-
-        <!-- Doctor -->
-        <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 1rem 1.125rem; border-color: var(--border-default); text-align: left;" id="quick-doc">
-          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-indigo-light); color: var(--primary-indigo); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
-            <i data-lucide="stethoscope" style="width: 22px; height: 22px;"></i>
-          </div>
-          <div style="flex: 1;">
-            <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
-              <span>Dr. Ananya Rao</span>
-              <span class="badge" style="background-color: var(--primary-indigo-light); color: var(--primary-indigo); font-size: 0.65rem;" data-i18n="doctor">Doctor</span>
-            </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
-              Medical Officer (MBBS) • PHC Kondapur
-            </div>
-          </div>
-        </button>
-
-        <!-- ASHA Worker -->
-        <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 1rem 1.125rem; border-color: var(--border-default); text-align: left;" id="quick-hw">
-          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-green-light); color: var(--primary-green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
-            <i data-lucide="heart-handshake" style="width: 22px; height: 22px;"></i>
-          </div>
-          <div style="flex: 1;">
-            <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
-              <span>Sunita Bai</span>
-              <span class="badge" style="background-color: var(--primary-green-light); color: var(--primary-green); font-size: 0.65rem;" data-i18n="worker">ASHA Worker</span>
-            </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
-              Community Health Worker • Kondapur Sector 3
-            </div>
-          </div>
+        <button class="auth-tab-btn" id="tab-btn-signup" type="button">
+          <i data-lucide="user-plus" style="width: 16px; height: 16px;"></i>
+          <span>Register New User</span>
         </button>
       </div>
 
-      <div style="text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
-        <a href="index.html" class="btn btn-outline btn-sm" style="font-size: 0.85rem;">
-          <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
-          <span>Return to Overview</span>
-        </a>
+      <!-- TAB 1: SIGN IN / 1-CLICK PERSONAS -->
+      <div id="tab-content-signin" style="padding: 1.75rem;">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em;">
+            Choose a Demo Profile to Access Portals
+          </h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Instant 1-click access pre-configured with full clinical datasets
+          </p>
+        </div>
+
+        <!-- 1-Click Persona Buttons -->
+        <div style="display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 1.5rem;">
+          <!-- Patient -->
+          <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 0.875rem 1rem; border-color: var(--border-default); text-align: left;" id="quick-pat">
+            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
+              <i data-lucide="user" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>Lakshmi Devi</span>
+                <span class="badge badge-info" style="font-size: 0.65rem;" data-i18n="patient">Patient</span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+                ABHA: 91-4820-9182-3841 • Age 52 • Kondapur
+              </div>
+            </div>
+          </button>
+
+          <!-- Doctor -->
+          <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 0.875rem 1rem; border-color: var(--border-default); text-align: left;" id="quick-doc">
+            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-indigo-light); color: var(--primary-indigo); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
+              <i data-lucide="stethoscope" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>Dr. Ananya Rao</span>
+                <span class="badge" style="background-color: var(--primary-indigo-light); color: var(--primary-indigo); font-size: 0.65rem;" data-i18n="doctor">Doctor</span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+                Medical Officer (MBBS) • PHC Kondapur
+              </div>
+            </div>
+          </button>
+
+          <!-- ASHA Worker -->
+          <button class="btn btn-outline btn-block" style="justify-content: flex-start; padding: 0.875rem 1rem; border-color: var(--border-default); text-align: left;" id="quick-hw">
+            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-green-light); color: var(--primary-green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 0.875rem;">
+              <i data-lucide="heart-handshake" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>Sunita Bai</span>
+                <span class="badge" style="background-color: var(--primary-green-light); color: var(--primary-green); font-size: 0.65rem;" data-i18n="worker">ASHA Worker</span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+                Community Health Worker • Sector 3
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div style="text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+          <a href="index.html" class="btn btn-outline btn-sm">
+            <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+            <span>Return to Overview</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- TAB 2: SIGN UP / REGISTRATION -->
+      <div id="tab-content-signup" style="padding: 1.75rem; display: none;">
+        <div style="text-align: center; margin-bottom: 1.25rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em;">
+            Create New Account
+          </h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Register in any healthcare stakeholder category
+          </p>
+        </div>
+
+        <!-- Role Category Selector -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <button type="button" class="role-select-chip active" data-role="patient">
+            <i data-lucide="user" style="width: 20px; height: 20px;"></i>
+            <span>Citizen / Patient</span>
+          </button>
+          <button type="button" class="role-select-chip" data-role="doctor">
+            <i data-lucide="stethoscope" style="width: 20px; height: 20px;"></i>
+            <span>PHC Doctor</span>
+          </button>
+          <button type="button" class="role-select-chip" data-role="worker">
+            <i data-lucide="heart-handshake" style="width: 20px; height: 20px;"></i>
+            <span>ASHA Worker</span>
+          </button>
+        </div>
+
+        <form id="signup-form">
+          <!-- Common Name Field -->
+          <div class="form-group">
+            <label class="form-label">Full Name <span class="required">*</span></label>
+            <input type="text" id="reg-name" class="form-control" placeholder="e.g. Rajesh Kumar" required>
+          </div>
+
+          <!-- Dynamic Patient Fields -->
+          <div id="fields-patient">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Age <span class="required">*</span></label>
+                <input type="number" id="reg-age" class="form-control" placeholder="e.g. 45" value="45">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gender <span class="required">*</span></label>
+                <select id="reg-gender" class="form-control">
+                  <option value="Female">Female</option>
+                  <option value="Male" selected>Male</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Village / Sub-Centre <span class="required">*</span></label>
+                <input type="text" id="reg-village" class="form-control" placeholder="e.g. Kondapur" value="Kondapur, Ranga Reddy">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Blood Group</label>
+                <select id="reg-blood" class="form-control">
+                  <option value="B+">B+</option>
+                  <option value="O+" selected>O+</option>
+                  <option value="A+">A+</option>
+                  <option value="AB+">AB+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Auto-Generated ABHA Number</label>
+              <input type="text" id="reg-abha" class="form-control" style="font-family: var(--font-mono); color: var(--primary-blue); font-weight: 700;" readonly value="91-5820-9182-4491">
+            </div>
+          </div>
+
+          <!-- Dynamic Doctor Fields -->
+          <div id="fields-doctor" style="display: none;">
+            <div class="form-group">
+              <label class="form-label">Medical Council Registration No. <span class="required">*</span></label>
+              <input type="text" id="reg-doc-reg" class="form-control" placeholder="e.g. TSMC-9841" value="TSMC-9841">
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Assigned Facility / PHC <span class="required">*</span></label>
+                <input type="text" id="reg-doc-phc" class="form-control" placeholder="e.g. PHC Kondapur" value="PHC Kondapur">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Clinical Designation</label>
+                <input type="text" id="reg-doc-spec" class="form-control" placeholder="e.g. Medical Officer (MBBS)" value="Medical Officer (MBBS)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Worker Fields -->
+          <div id="fields-worker" style="display: none;">
+            <div class="form-group">
+              <label class="form-label">ASHA Worker Official ID <span class="required">*</span></label>
+              <input type="text" id="reg-hw-id" class="form-control" placeholder="e.g. HW-9042" value="HW-9042">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Assigned Community Sector / Village <span class="required">*</span></label>
+              <input type="text" id="reg-hw-sector" class="form-control" placeholder="e.g. Kondapur Sector 4" value="Kondapur Sector 4">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
+            <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+            <span>Register & Launch Workspace</span>
+          </button>
+        </form>
+
+        <div style="text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; margin-top: 1.25rem;">
+          <button type="button" class="btn btn-outline btn-sm" id="btn-back-to-signin">
+            <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+            <span>Back to 1-Click Demo Profiles</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <script type="module">
-    import { initDatabase } from './js/db/api.js';
+    import { initDatabase, addPatient, logAudit } from './js/db/api.js';
     import { initI18n } from './js/core/i18n.js';
     import { initTheme } from './js/core/theme.js';
-    import { loginAs } from './js/core/auth.js';
+    import { loginAs, setSession } from './js/core/auth.js';
     import { renderIcons } from './js/core/icons.js';
+
+    let selectedRole = 'patient';
 
     document.addEventListener('DOMContentLoaded', async () => {
       await initDatabase();
@@ -110,9 +309,103 @@
       await initTheme();
       renderIcons();
 
+      // Quick 1-Click Logins
       document.getElementById('quick-pat').addEventListener('click', () => loginAs('patient'));
       document.getElementById('quick-doc').addEventListener('click', () => loginAs('doctor'));
       document.getElementById('quick-hw').addEventListener('click', () => loginAs('worker'));
+
+      // Tab Switching
+      const tabSignIn = document.getElementById('tab-btn-signin');
+      const tabSignUp = document.getElementById('tab-btn-signup');
+      const contentSignIn = document.getElementById('tab-content-signin');
+      const contentSignUp = document.getElementById('tab-content-signup');
+
+      function showSignIn() {
+        tabSignIn.classList.add('active');
+        tabSignUp.classList.remove('active');
+        contentSignIn.style.display = 'block';
+        contentSignUp.style.display = 'none';
+        renderIcons();
+      }
+
+      function showSignUp() {
+        tabSignUp.classList.add('active');
+        tabSignIn.classList.remove('active');
+        contentSignUp.style.display = 'block';
+        contentSignIn.style.display = 'none';
+        renderIcons();
+      }
+
+      tabSignIn.addEventListener('click', showSignIn);
+      tabSignUp.addEventListener('click', showSignUp);
+      document.getElementById('btn-back-to-signin')?.addEventListener('click', showSignIn);
+
+      // Role Selection in Signup
+      const roleChips = document.querySelectorAll('.role-select-chip');
+      const fieldsPatient = document.getElementById('fields-patient');
+      const fieldsDoctor = document.getElementById('fields-doctor');
+      const fieldsWorker = document.getElementById('fields-worker');
+
+      roleChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          roleChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          selectedRole = chip.getAttribute('data-role');
+
+          fieldsPatient.style.display = selectedRole === 'patient' ? 'block' : 'none';
+          fieldsDoctor.style.display = selectedRole === 'doctor' ? 'block' : 'none';
+          fieldsWorker.style.display = selectedRole === 'worker' ? 'block' : 'none';
+          renderIcons();
+        });
+      });
+
+      // Handle Registration Form Submit
+      document.getElementById('signup-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('reg-name').value.trim();
+        if (!name) return;
+
+        if (selectedRole === 'patient') {
+          const age = parseInt(document.getElementById('reg-age').value, 10) || 45;
+          const gender = document.getElementById('reg-gender').value;
+          const village = document.getElementById('reg-village').value;
+          const blood = document.getElementById('reg-blood').value;
+          const abha = document.getElementById('reg-abha').value;
+          const newHid = 'LP-' + Math.floor(10000 + Math.random() * 90000);
+
+          const newPat = await addPatient({
+            name: name,
+            healthId: newHid,
+            abhaNumber: abha,
+            age: age,
+            gender: gender,
+            village: village,
+            bloodGroup: blood,
+            riskLevel: 'Routine',
+            chronicConditions: [],
+            allergies: ['None known'],
+            avatarText: name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
+          });
+
+          setSession('patient', newPat.id, newPat.id, newPat.name, newPat.healthId);
+          window.location.href = './patient/dashboard.html';
+        } else if (selectedRole === 'doctor') {
+          const regNo = document.getElementById('reg-doc-reg').value;
+          const phc = document.getElementById('reg-doc-phc').value;
+          const spec = document.getElementById('reg-doc-spec').value;
+
+          await logAudit('System', 'REGISTER_DOCTOR', `New doctor registered: ${name} (${regNo}) at ${phc}`);
+          setSession('doctor', 'usr-doc-' + Date.now(), null, `Dr. ${name.replace(/^Dr\.\s*/i, '')}`, regNo);
+          window.location.href = './doctor/dashboard.html';
+        } else if (selectedRole === 'worker') {
+          const hwId = document.getElementById('reg-hw-id').value;
+          const sector = document.getElementById('reg-hw-sector').value;
+
+          await logAudit('System', 'REGISTER_WORKER', `New ASHA worker registered: ${name} (${hwId}) for ${sector}`);
+          setSession('worker', 'usr-hw-' + Date.now(), null, `${name} (ASHA)`, hwId);
+          window.location.href = './worker/dashboard.html';
+        }
+      });
     });
   </script>
 </body>

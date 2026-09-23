@@ -35,10 +35,9 @@
 
       <!-- Navigation Links -->
       <nav class="landing-nav-links">
-        <a href="#portals" class="landing-nav-link" data-i18n="navPortals">Portals</a>
-        <a href="#pipeline" class="landing-nav-link" data-i18n="navPipeline">Continuity Flow</a>
+        <a href="#pipeline" class="landing-nav-link" data-i18n="navPipeline">Continuity Pipeline</a>
         <a href="#pillars" class="landing-nav-link" data-i18n="navFeatures">Features</a>
-        <a href="#metrics" class="landing-nav-link" data-i18n="navMetrics">Specs & Performance</a>
+        <a href="#metrics" class="landing-nav-link" data-i18n="navMetrics">Specs & Architecture</a>
         <a href="shared/help.html" class="landing-nav-link" data-i18n="navJuryGuide">Jury Guide</a>
       </nav>
 
@@ -54,14 +53,14 @@
           </select>
         </div>
 
-        <!-- Theme Toggle Icon Button (Clean icon only) -->
+        <!-- Theme Toggle Icon Button -->
         <button class="btn btn-outline btn-icon theme-toggle-btn" title="Toggle Theme" style="height: 36px; width: 36px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
           <i data-lucide="moon" style="width: 18px; height: 18px;"></i>
         </button>
 
-        <!-- Sign In Button -->
-        <a href="login.html" class="btn btn-primary btn-sm" style="border-radius: var(--radius-full); padding: 0.5rem 1.1rem; font-size: 0.85rem;" data-i18n="login">
-          Sign In
+        <!-- Access Platform / Sign In CTA -->
+        <a href="login.html" class="btn btn-primary btn-sm" style="border-radius: var(--radius-full); padding: 0.5rem 1.15rem; font-size: 0.85rem;" data-i18n="login">
+          Sign In / Register
         </a>
       </div>
     </header>
@@ -85,9 +84,9 @@
       </p>
 
       <div class="hero-cta-group">
-        <a href="#portals" class="btn-hero-primary">
-          <i data-lucide="play" style="width: 18px; height: 18px;"></i>
-          <span data-i18n="heroCtaLaunch">Launch Live Demo Portals</span>
+        <a href="login.html" class="btn-hero-primary">
+          <i data-lucide="log-in" style="width: 18px; height: 18px;"></i>
+          <span>Access Platform (Sign In / Register)</span>
         </a>
         <a href="#pipeline" class="btn-hero-secondary">
           <i data-lucide="git-merge" style="width: 18px; height: 18px;"></i>
@@ -117,155 +116,12 @@
     </div>
   </section>
 
-  <!-- 3 Primary Portal Showcase Cards -->
-  <section id="portals" class="portal-showcase-section">
-    <div style="text-align: center; margin-bottom: 2.5rem;">
-      <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="portalsHeading">
-        Select an Interactive Workspace
-      </h2>
-      <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.35rem;" data-i18n="portalsSubheading">
-        Explore tailored digital tools engineered for each stakeholder in the public healthcare continuum.
-      </p>
-    </div>
-
-    <div class="grid-3">
-      <!-- Patient Portal Card -->
-      <div class="portal-card patient">
-        <div>
-          <div class="portal-avatar-wrap">
-            <div class="portal-icon-box" style="background: var(--primary-blue-light); color: var(--primary-blue);">
-              <i data-lucide="user" style="width: 28px; height: 28px;"></i>
-            </div>
-            <span class="badge badge-info" data-i18n="patientBadge">Citizen Portal</span>
-          </div>
-
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="patientWorkspaceTitle">
-            Patient Portal
-          </h3>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="patientWorkspaceDesc">
-            Empowering rural citizens with voice-guided health logging, sovereign consent, and emergency assistance.
-          </p>
-
-          <ul class="portal-feature-list">
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px;"></i>
-              <span data-i18n="patientFeature1">Multilingual voice symptom recording (Hindi, Telugu, English)</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px;"></i>
-              <span data-i18n="patientFeature2">Lifetime longitudinal medical timeline & prescriptions</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px;"></i>
-              <span data-i18n="patientFeature3">Digital ABHA Health Card with QR check-in</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px;"></i>
-              <span data-i18n="patientFeature4">108 Emergency SOS with live GPS telemetry</span>
-            </li>
-          </ul>
-        </div>
-
-        <button class="btn btn-primary btn-block btn-lg" id="enter-patient-btn" style="border-radius: var(--radius-md);">
-          <span data-i18n="enterPatientBtn">Enter Patient Workspace</span>
-          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-        </button>
-      </div>
-
-      <!-- Doctor Workspace Card -->
-      <div class="portal-card doctor">
-        <div>
-          <div class="portal-avatar-wrap">
-            <div class="portal-icon-box" style="background: var(--primary-indigo-light); color: var(--primary-indigo);">
-              <i data-lucide="stethoscope" style="width: 28px; height: 28px;"></i>
-            </div>
-            <span class="badge" style="background-color: var(--primary-indigo-light); color: var(--primary-indigo);" data-i18n="doctorBadge">PHC Medical Officer</span>
-          </div>
-
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="doctorWorkspaceTitle">
-            Doctor Workspace
-          </h3>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="doctorWorkspaceDesc">
-            Equipping PHC physicians with human-in-the-loop triage, AI summaries, and digital prescriptions.
-          </p>
-
-          <ul class="portal-feature-list">
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-indigo);"></i>
-              <span data-i18n="doctorFeature1">Automated OPD priority queue with doctor override</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-indigo);"></i>
-              <span data-i18n="doctorFeature2">Grounded Clinical AI SOAP documentation assistant</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-indigo);"></i>
-              <span data-i18n="doctorFeature3">e-Prescriptions with drug-allergy safety validation</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-indigo);"></i>
-              <span data-i18n="doctorFeature4">District hospital cardiology & specialist referral routing</span>
-            </li>
-          </ul>
-        </div>
-
-        <button class="btn btn-indigo btn-block btn-lg" id="enter-doctor-btn" style="border-radius: var(--radius-md);">
-          <span data-i18n="enterDoctorBtn">Enter Doctor Workspace</span>
-          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-        </button>
-      </div>
-
-      <!-- ASHA Health Worker Card -->
-      <div class="portal-card worker">
-        <div>
-          <div class="portal-avatar-wrap">
-            <div class="portal-icon-box" style="background: var(--primary-green-light); color: var(--primary-green);">
-              <i data-lucide="heart-handshake" style="width: 28px; height: 28px;"></i>
-            </div>
-            <span class="badge badge-verified" data-i18n="workerBadge">Frontline Health</span>
-          </div>
-
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="workerWorkspaceTitle">
-            ASHA Health Worker
-          </h3>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="workerWorkspaceDesc">
-            Enabling frontline community health workers with offline field checkups and assisted access.
-          </p>
-
-          <ul class="portal-feature-list">
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-green);"></i>
-              <span data-i18n="workerFeature1">Household field vitals entry (BP, Sugar, SpO2, Pulse)</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-green);"></i>
-              <span data-i18n="workerFeature2">Assisted citizen login with verbal consent audit token</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-green);"></i>
-              <span data-i18n="workerFeature3">Offline queue recording with 1-click background sync</span>
-            </li>
-            <li class="portal-feature-item">
-              <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--primary-green);"></i>
-              <span data-i18n="workerFeature4">High-risk household monitoring & follow-up rosters</span>
-            </li>
-          </ul>
-        </div>
-
-        <button class="btn btn-success btn-block btn-lg" id="enter-worker-btn" style="border-radius: var(--radius-md);">
-          <span data-i18n="enterWorkerBtn">Enter ASHA Workspace</span>
-          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Continuity Pipeline Section -->
+  <!-- Interactive Continuity Pipeline Wireframe Diagram -->
   <section id="pipeline" class="pipeline-section">
-    <div class="pipeline-card">
+    <div class="wireframe-container">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.5rem;">
         <div>
-          <span class="badge badge-info" style="margin-bottom: 0.5rem;">Clinical Architecture</span>
+          <span class="badge badge-info" style="margin-bottom: 0.5rem;">Architecture Blueprint</span>
           <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="pipelineHeading">
             Continuity of Care Pipeline (SIH Architecture)
           </h2>
@@ -275,78 +131,121 @@
           <span data-i18n="pipelineFhirTag">FHIR & ABDM Compliant Data Exchange</span>
         </div>
       </div>
-      <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 800px; line-height: 1.6;" data-i18n="pipelineSubheading">
-        How medical intelligence flows seamlessly from rural doorstep to specialist tertiary hospitals without data fragmentation or loss of patient consent.
+      <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 820px; line-height: 1.6;" data-i18n="pipelineSubheading">
+        Visual flow of continuous medical intelligence from rural household to specialist referral hospital without data loss.
       </p>
 
-      <div class="pipeline-grid">
-        <!-- Node 1 -->
-        <div class="pipeline-node">
-          <span class="pipeline-node-number">01</span>
-          <div style="width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center;">
-            <i data-lucide="home" style="width: 22px; height: 22px;"></i>
+      <!-- Visual Flow Nodes Diagram -->
+      <div class="flow-diagram-wrapper">
+        <!-- Node 1: Citizen / Home -->
+        <div class="flow-node-card node-1">
+          <div class="flow-node-header">
+            <div class="flow-node-icon" style="background: var(--primary-blue-light); color: var(--primary-blue);">
+              <i data-lucide="user" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="flow-node-step">STAGE 01</span>
           </div>
-          <div>
-            <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;" data-i18n="step1Title">1. Patient / Home</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="step1Desc">
-              Voice symptom entry in local dialect, instant 108 SOS trigger, and sovereign consent approvals.
-            </p>
-          </div>
-          <div style="margin-top: auto; font-size: 0.75rem; font-weight: 700; color: var(--primary-blue);" data-i18n="step1Tag">
-            ● Speech-to-Text Input
-          </div>
-        </div>
-
-        <!-- Node 2 -->
-        <div class="pipeline-node">
-          <span class="pipeline-node-number">02</span>
-          <div style="width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--primary-green-light); color: var(--primary-green); display: flex; align-items: center; justify-content: center;">
-            <i data-lucide="clipboard-check" style="width: 22px; height: 22px;"></i>
-          </div>
-          <div>
-            <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;" data-i18n="step2Title">2. ASHA Field Visit</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="step2Desc">
-              Offline vitals check (BP, SpO2, Sugar), paper slip OCR scan, and assisted verbal consent logging.
-            </p>
-          </div>
-          <div style="margin-top: auto; font-size: 0.75rem; font-weight: 700; color: var(--primary-green);" data-i18n="step2Tag">
-            ● Offline IndexedDB Queue
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="step1Title">
+            1. Patient / Home
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;" data-i18n="step1Desc">
+            Voice symptom entry in local dialect, instant 108 SOS trigger, and sovereign consent approvals.
+          </p>
+          <div class="flow-data-packet">
+            <div style="font-weight: 700; color: var(--primary-blue); margin-bottom: 0.15rem;">Live Telemetry Packet:</div>
+            <div>• Voice: "Dizziness & palpitations"</div>
+            <div>• ABHA: 91-4820-9182-3841</div>
+            <div>• Consent Token: Active (1 Yr)</div>
           </div>
         </div>
 
-        <!-- Node 3 -->
-        <div class="pipeline-node">
-          <span class="pipeline-node-number">03</span>
-          <div style="width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--primary-indigo-light); color: var(--primary-indigo); display: flex; align-items: center; justify-content: center;">
-            <i data-lucide="stethoscope" style="width: 22px; height: 22px;"></i>
+        <!-- Connector Arrow 1 -->
+        <div class="flow-connector">
+          <i data-lucide="arrow-right" class="pulse-arrow" style="width: 24px; height: 24px;"></i>
+        </div>
+
+        <!-- Node 2: ASHA Field Visit -->
+        <div class="flow-node-card node-2">
+          <div class="flow-node-header">
+            <div class="flow-node-icon" style="background: var(--primary-green-light); color: var(--primary-green);">
+              <i data-lucide="heart-handshake" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="flow-node-step">STAGE 02</span>
           </div>
-          <div>
-            <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;" data-i18n="step3Title">3. PHC Medical Officer</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="step3Desc">
-              Triage priority ranking, grounded AI SOAP clinical summary, electronic Rx, and e-consultation.
-            </p>
-          </div>
-          <div style="margin-top: auto; font-size: 0.75rem; font-weight: 700; color: var(--primary-indigo);" data-i18n="step3Tag">
-            ● Grounded Clinical AI
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="step2Title">
+            2. ASHA Field Visit
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;" data-i18n="step2Desc">
+            Offline vitals check (BP, SpO2, Sugar), paper slip OCR scan, and assisted verbal consent logging.
+          </p>
+          <div class="flow-data-packet">
+            <div style="font-weight: 700; color: var(--primary-green); margin-bottom: 0.15rem;">Live Telemetry Packet:</div>
+            <div>• BP: 148/92 mmHg (Stage 2)</div>
+            <div>• Sugar: 182 mg/dL • SpO2: 98%</div>
+            <div>• Sync Status: 1-Click Queued</div>
           </div>
         </div>
 
-        <!-- Node 4 -->
-        <div class="pipeline-node">
-          <span class="pipeline-node-number">04</span>
-          <div style="width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--status-emergency-bg); color: var(--status-emergency); display: flex; align-items: center; justify-content: center;">
-            <i data-lucide="ambulance" style="width: 22px; height: 22px;"></i>
+        <!-- Connector Arrow 2 -->
+        <div class="flow-connector">
+          <i data-lucide="arrow-right" class="pulse-arrow" style="width: 24px; height: 24px;"></i>
+        </div>
+
+        <!-- Node 3: PHC Medical Officer -->
+        <div class="flow-node-card node-3">
+          <div class="flow-node-header">
+            <div class="flow-node-icon" style="background: var(--primary-indigo-light); color: var(--primary-indigo);">
+              <i data-lucide="stethoscope" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="flow-node-step">STAGE 03</span>
           </div>
-          <div>
-            <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;" data-i18n="step4Title">4. District Hospital</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;" data-i18n="step4Desc">
-              Instant secondary referral intake with complete longitudinal historical EHR and zero data re-entry.
-            </p>
-          </div>
-          <div style="margin-top: auto; font-size: 0.75rem; font-weight: 700; color: var(--status-emergency);" data-i18n="step4Tag">
-            ● Longitudinal Referral
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="step3Title">
+            3. PHC Medical Officer
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;" data-i18n="step3Desc">
+            Triage priority ranking, grounded AI SOAP clinical summary, electronic Rx, and e-consultation.
+          </p>
+          <div class="flow-data-packet">
+            <div style="font-weight: 700; color: var(--primary-indigo); margin-bottom: 0.15rem;">Live Telemetry Packet:</div>
+            <div>• Queue Token: #1 (Urgent Triage)</div>
+            <div>• AI SOAP: Auto-Summarized</div>
+            <div>• e-Rx: Metformin 500mg, Amlodipine</div>
           </div>
         </div>
+
+        <!-- Connector Arrow 3 -->
+        <div class="flow-connector">
+          <i data-lucide="arrow-right" class="pulse-arrow" style="width: 24px; height: 24px;"></i>
+        </div>
+
+        <!-- Node 4: District Hospital -->
+        <div class="flow-node-card node-4">
+          <div class="flow-node-header">
+            <div class="flow-node-icon" style="background: var(--status-emergency-bg); color: var(--status-emergency);">
+              <i data-lucide="ambulance" style="width: 22px; height: 22px;"></i>
+            </div>
+            <span class="flow-node-step">STAGE 04</span>
+          </div>
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;" data-i18n="step4Title">
+            4. District Hospital
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;" data-i18n="step4Desc">
+            Instant secondary referral intake with complete longitudinal historical EHR and zero data re-entry.
+          </p>
+          <div class="flow-data-packet">
+            <div style="font-weight: 700; color: var(--status-emergency); margin-bottom: 0.15rem;">Live Telemetry Packet:</div>
+            <div>• Target: Chevella Cardiology Dept</div>
+            <div>• Priority: High Priority (48-72h)</div>
+            <div>• Shared History: Full Longitudinal</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="login.html" class="btn btn-primary" style="border-radius: var(--radius-full); padding: 0.75rem 1.75rem;">
+          <i data-lucide="log-in" style="width: 16px; height: 16px;"></i>
+          <span>Experience the Live Interactive Pipeline →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -475,7 +374,7 @@
       </p>
       <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
         <a href="login.html" class="btn btn-primary" style="background: #38BDF8; color: #0F172A; font-weight: 800;" data-i18n="openRoleSwitcher">
-          Open 1-Click Role Switcher
+          Open 1-Click Role Switcher & Registration
         </a>
         <a href="shared/settings.html" class="btn btn-outline" style="background: rgba(255,255,255,0.05); color: #FFF; border-color: rgba(255,255,255,0.2);" data-i18n="inspectDb">
           Inspect / Export IndexedDB
@@ -503,7 +402,7 @@
         <a href="shared/help.html" style="color: var(--text-secondary); text-decoration: none;" data-i18n="help">Help & Docs</a>
         <a href="shared/accessibility.html" style="color: var(--text-secondary); text-decoration: none;" data-i18n="accessibility">Accessibility</a>
         <a href="shared/settings.html" style="color: var(--text-secondary); text-decoration: none;" data-i18n="settings">Settings & Backup</a>
-        <a href="login.html" style="color: var(--primary-blue); text-decoration: none;" data-i18n="signInPersona">Persona Access</a>
+        <a href="login.html" style="color: var(--primary-blue); text-decoration: none;" data-i18n="signInPersona">Sign In / Register</a>
       </div>
     </div>
   </footer>
@@ -512,7 +411,6 @@
     import { initDatabase } from './js/db/api.js';
     import { initI18n, setLanguage, getLanguage } from './js/core/i18n.js';
     import { initTheme, toggleTheme } from './js/core/theme.js';
-    import { loginAs } from './js/core/auth.js';
     import { renderIcons } from './js/core/icons.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -520,11 +418,6 @@
       await initI18n();
       await initTheme();
       renderIcons();
-
-      // Quick Role Direct Buttons
-      document.getElementById('enter-patient-btn').addEventListener('click', () => loginAs('patient'));
-      document.getElementById('enter-doctor-btn').addEventListener('click', () => loginAs('doctor'));
-      document.getElementById('enter-worker-btn').addEventListener('click', () => loginAs('worker'));
 
       // Language Switcher - live instant translation across all elements
       const currentLang = getLanguage();

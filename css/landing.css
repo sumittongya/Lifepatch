@@ -1,13 +1,12 @@
 /* ==========================================================================
-   LIFE PATCH - High-Impact Modern Landing Page Styles
-   Designed by Senior Creative Technologist & Principal Healthcare Architect
+   LIFE PATCH - High-Impact Modern Landing Page Styles & Flow Wireframe
    ========================================================================== */
 
 /* Ambient Hero Background Glow */
 .hero-wrapper {
   position: relative;
   overflow: hidden;
-  padding: 4rem 1.5rem 3rem 1.5rem;
+  padding: 4.5rem 1.5rem 3.5rem 1.5rem;
   text-align: center;
 }
 
@@ -16,8 +15,8 @@
   top: -120px;
   left: 50%;
   transform: translateX(-50%);
-  width: 680px;
-  height: 480px;
+  width: 700px;
+  height: 500px;
   background: radial-gradient(circle, rgba(2, 132, 199, 0.18) 0%, rgba(79, 70, 229, 0.08) 50%, transparent 70%);
   border-radius: 50%;
   filter: blur(60px);
@@ -57,7 +56,7 @@
 }
 
 .landing-nav {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(226, 232, 240, 0.9);
@@ -71,7 +70,7 @@
 }
 
 [data-theme="dark"] .landing-nav {
-  background: rgba(17, 24, 39, 0.85);
+  background: rgba(17, 24, 39, 0.88);
   border-color: rgba(51, 65, 85, 0.8);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
 }
@@ -105,10 +104,6 @@
   cursor: pointer;
   outline: none;
   transition: all 0.15s ease;
-}
-
-.nav-pill-select:focus {
-  border-color: var(--primary-blue);
 }
 
 /* Gradient Headline */
@@ -172,7 +167,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   flex-wrap: wrap;
   margin-bottom: 3.5rem;
   position: relative;
@@ -182,9 +177,9 @@
 .btn-hero-primary {
   background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
   color: #FFFFFF;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 0.875rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 0.95rem 2rem;
   border-radius: var(--radius-full);
   box-shadow: 0 10px 25px -3px rgba(2, 132, 199, 0.4);
   display: inline-flex;
@@ -206,9 +201,9 @@
   background: var(--bg-surface);
   color: var(--text-main);
   border: 1px solid var(--border-default);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  padding: 0.875rem 1.75rem;
+  padding: 0.95rem 1.85rem;
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
   display: inline-flex;
@@ -225,134 +220,115 @@
   transform: translateY(-2px);
 }
 
-/* 3 Portal Showcase Grid */
-.portal-showcase-section {
-  max-width: 1240px;
-  margin: 0 auto 4rem auto;
-  padding: 0 1.25rem;
-}
-
-.portal-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: var(--shadow-md);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.portal-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-}
-
-.portal-card.patient::before { background: var(--primary-blue-gradient); }
-.portal-card.doctor::before { background: var(--primary-indigo-gradient); }
-.portal-card.worker::before { background: var(--primary-green-gradient); }
-
-.portal-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-xl);
-}
-
-.portal-avatar-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-}
-
-.portal-icon-box {
-  width: 58px;
-  height: 58px;
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-}
-
-.portal-feature-list {
-  list-style: none;
-  padding: 0;
-  margin: 1.25rem 0 1.75rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}
-
-.portal-feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  line-height: 1.4;
-}
-
-.portal-feature-item i {
-  color: var(--primary-green);
-  flex-shrink: 0;
-  margin-top: 0.15rem;
-}
-
-/* Architecture Pipeline Section */
+/* ==========================================================================
+   INTERACTIVE WIREFRAME / CONTINUITY FLOW DIAGRAM
+   ========================================================================== */
 .pipeline-section {
   max-width: 1240px;
   margin: 0 auto 4.5rem auto;
   padding: 0 1.25rem;
 }
 
-.pipeline-card {
+.wireframe-container {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  padding: 2.25rem;
-  box-shadow: var(--shadow-md);
-}
-
-.pipeline-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-lg);
   position: relative;
-  margin-top: 1.5rem;
+  overflow: hidden;
 }
 
-.pipeline-node {
+/* Wireframe Visual Flow Connector */
+.flow-diagram-wrapper {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2.25rem 0 1.5rem 0;
+  position: relative;
+}
+
+.flow-node-card {
+  flex: 1;
   background: var(--bg-main);
-  border: 1px solid var(--border-subtle);
+  border: 2px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   position: relative;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-xs);
 }
 
-.pipeline-node:hover {
+.flow-node-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
   border-color: var(--primary-blue);
-  box-shadow: var(--shadow-md);
 }
 
-.pipeline-node-number {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+.flow-node-card.node-1 { border-top: 4px solid var(--primary-blue); }
+.flow-node-card.node-2 { border-top: 4px solid var(--primary-green); }
+.flow-node-card.node-3 { border-top: 4px solid var(--primary-indigo); }
+.flow-node-card.node-4 { border-top: 4px solid var(--status-emergency); }
+
+.flow-node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.flow-node-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.flow-node-step {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   color: var(--text-muted);
+}
+
+.flow-data-packet {
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  margin-top: auto;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Connector Arrow between nodes */
+.flow-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-blue);
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.pulse-arrow {
+  animation: pulse-arrow-anim 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-arrow-anim {
+  0% { transform: translateX(-2px); opacity: 0.5; }
+  50% { transform: translateX(3px); opacity: 1; }
+  100% { transform: translateX(-2px); opacity: 0.5; }
 }
 
 /* Key Metrics Stats Counter Strip */
@@ -450,7 +426,7 @@
   background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
   color: #FFFFFF;
   border-radius: var(--radius-xl);
-  padding: 2.25rem;
+  padding: 2.5rem;
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-xl);
@@ -461,16 +437,20 @@
   position: absolute;
   top: -60px;
   right: -60px;
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
 }
 
 /* Responsive Overrides */
 @media (max-width: 1024px) {
-  .pipeline-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .flow-diagram-wrapper {
+    flex-direction: column;
+  }
+  .flow-connector {
+    transform: rotate(90deg);
+    margin: 0.5rem auto;
   }
   .pillars-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -483,9 +463,6 @@
 @media (max-width: 768px) {
   .landing-nav-links {
     display: none;
-  }
-  .pipeline-grid {
-    grid-template-columns: 1fr;
   }
   .pillars-grid {
     grid-template-columns: 1fr;
