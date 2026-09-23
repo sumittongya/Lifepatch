@@ -41,7 +41,7 @@
         <a href="shared/help.html" class="landing-nav-link" data-i18n="navJuryGuide">Jury Guide</a>
       </nav>
 
-      <!-- Right Controls: Language, Theme, Login -->
+      <!-- Right Controls: Language, Theme, Auth State -->
       <div style="display: flex; align-items: center; gap: 0.65rem;">
         <!-- Language Selector Pill -->
         <div style="display: flex; align-items: center; gap: 0.35rem; background: var(--bg-main); border: 1px solid var(--border-default); border-radius: var(--radius-full); padding: 0.25rem 0.65rem;">
@@ -58,10 +58,12 @@
           <i data-lucide="moon" style="width: 18px; height: 18px;"></i>
         </button>
 
-        <!-- Access Platform / Sign In CTA -->
-        <a href="login.html" class="btn btn-primary btn-sm" style="border-radius: var(--radius-full); padding: 0.5rem 1.15rem; font-size: 0.85rem;" data-i18n="login">
-          Sign In / Register
-        </a>
+        <!-- Dynamic Auth Gateway Button (Logged-in vs Guest) -->
+        <div id="nav-auth-mount">
+          <a href="login.html" class="btn btn-primary btn-sm" style="border-radius: var(--radius-full); padding: 0.5rem 1.15rem; font-size: 0.85rem;" data-i18n="login">
+            Sign In / Register
+          </a>
+        </div>
       </div>
     </header>
   </div>
@@ -83,8 +85,9 @@
         Bridging rural citizens, frontline ASHA workers, Primary Health Centres (PHCs), and specialist referral hospitals into an integrated, voice-enabled, consent-governed digital health ecosystem — with 100% offline-first resilience.
       </p>
 
-      <div class="hero-cta-group">
-        <a href="login.html" class="btn-hero-primary">
+      <!-- Dynamic Hero CTA (Adapts for logged in user) -->
+      <div class="hero-cta-group" id="hero-cta-mount">
+        <a href="login.html" class="btn-hero-primary" id="hero-primary-btn">
           <i data-lucide="log-in" style="width: 18px; height: 18px;"></i>
           <span>Access Platform (Sign In / Register)</span>
         </a>
@@ -116,7 +119,7 @@
     </div>
   </section>
 
-  <!-- 1. Feature Pillars Section (Features First in Menu & Order) -->
+  <!-- 1. Feature Pillars Section -->
   <section id="features" class="pillars-section">
     <div style="text-align: center; margin-bottom: 2rem;">
       <span class="badge badge-info" style="margin-bottom: 0.5rem;">Core Technology Pillars</span>
@@ -328,7 +331,7 @@
     </div>
   </section>
 
-  <!-- 3. Key Metrics Stats Strip (Specs & Performance) -->
+  <!-- 3. Key Metrics Stats Strip -->
   <section id="metrics" class="stats-strip-grid">
     <div class="metric-card">
       <div class="metric-big-num" style="color: var(--primary-blue);" data-i18n="metric1Val">&lt; 35ms</div>
@@ -411,15 +414,65 @@
     import { initDatabase } from './js/db/api.js';
     import { initI18n, setLanguage, getLanguage } from './js/core/i18n.js';
     import { initTheme, toggleTheme } from './js/core/theme.js';
-    import { renderIcons } from './js/core/icons.js';
+    import { getSession, logout, getDashboardUrl } from './js/core/auth.js';
+    import { renderIcons, icon } from './js/core/icons.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
       await initDatabase();
       await initI18n();
       await initTheme();
+
+      // Check Active User Session on Landing Page
+      const session = getSession();
+      const navAuthMount = document.getElementById('nav-auth-mount');
+      const heroCtaMount = document.getElementById('hero-cta-mount');
+
+      if (session && session.name) {
+        // User is currently logged in! Show active user state in navbar
+        const roleIconName = session.role === 'doctor' ? 'stethoscope' : session.role === 'worker' ? 'heart-handshake' : 'user';
+        const roleDashboardUrl = getDashboardUrl(session.role);
+
+        navAuthMount.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <a href="${roleDashboardUrl}" class="btn btn-primary btn-sm" style="border-radius: var(--radius-full); padding: 0.45rem 1rem; font-size: 0.8rem;">
+              <i data-lucide="${roleIconName}" style="width: 14px; height: 14px;"></i>
+              <span>${session.name} (${session.role})</span>
+              <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
+            </a>
+            <button id="nav-signout-btn" class="btn btn-outline btn-sm" style="height: 32px; border-radius: var(--radius-full); font-size: 0.75rem; padding: 0 0.65rem; color: var(--status-emergency);" title="Sign Out">
+              <i data-lucide="log-out" style="width: 12px; height: 12px;"></i>
+            </button>
+          </div>
+        `;
+
+        document.getElementById('nav-signout-btn')?.addEventListener('click', () => {
+          logout();
+        });
+
+        // Hero Section: Personalize for active session
+        heroCtaMount.innerHTML = `
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: var(--radius-lg); padding: 0.85rem 1.5rem; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem;">
+              <i data-lucide="${roleIconName}" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
+              <span>Signed in as <strong>${session.name}</strong> (<strong>${session.role.toUpperCase()}</strong>)</span>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+              <a href="${roleDashboardUrl}" class="btn-hero-primary">
+                <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+                <span>Resume ${session.role.charAt(0).toUpperCase() + session.role.slice(1)} Workspace →</span>
+              </a>
+              <a href="login.html" class="btn-hero-secondary">
+                <i data-lucide="arrow-left-right" style="width: 18px; height: 18px;"></i>
+                <span>Switch Role / Account</span>
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
       renderIcons();
 
-      // Language Switcher - live instant translation across all elements
+      // Language Switcher
       const currentLang = getLanguage();
       document.querySelectorAll('.lang-select').forEach(sel => {
         sel.value = currentLang;
@@ -428,14 +481,14 @@
         });
       });
 
-      // Theme Switcher (icon only, toggles between sun and moon)
+      // Theme Switcher
       document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           await toggleTheme();
         });
       });
 
-      // Service Worker Registration (Auto-update and claim)
+      // Service Worker Registration
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').then(reg => {
           reg.update();

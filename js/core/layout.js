@@ -1,21 +1,26 @@
 /**
  * LIFE PATCH - Shared Layout Component Renderer
  * Dynamically mounts Header, Sidebar, Mobile Nav, Toasts, and Modals
- * Integrated with crisp Lucide vector icons
+ * Integrated with crisp Lucide vector icons & User Profile Controls
  */
 
-import { getSession, logout, getBasePath } from './auth.js';
+import { getSession, setSession, logout, getBasePath } from './auth.js';
 import { t, setLanguage, getLanguage } from './i18n.js';
 import { toggleTheme, getTheme, applyTheme } from './theme.js';
 import { renderIcons, icon } from './icons.js';
 
 export function renderLayout(activePageKey = '') {
-  const session = getSession();
+  let session = getSession();
   const basePath = getBasePath();
   const currentLang = getLanguage();
 
+  if (!session) {
+    session = setSession('patient', 'usr-pat-1', 'pat-1', 'Lakshmi Devi', 'LP-10234');
+  }
+
   // Role icon helper
   const roleIcon = session.role === 'doctor' ? icon('stethoscope') : session.role === 'worker' ? icon('heart-handshake') : icon('user');
+  const roleLabel = session.role === 'doctor' ? 'PHC Medical Officer' : session.role === 'worker' ? 'ASHA Health Worker' : 'Citizen / Patient';
 
   // Render Top Header
   const headerContainer = document.getElementById('header-mount');
@@ -33,32 +38,63 @@ export function renderLayout(activePageKey = '') {
           </a>
         </div>
         <div class="header-right">
-          <!-- Role Indicator -->
-          <div class="role-badge ${session.role}">
-            <span>${roleIcon}</span>
-            <span>${session.name}</span>
+          <!-- Interactive User Profile Menu & Dropdown -->
+          <div style="position: relative;" id="user-profile-menu-container">
+            <button id="user-profile-btn" class="role-badge ${session.role}" style="cursor: pointer; border: 1px solid var(--border-default); background: var(--bg-surface); padding: 0.3rem 0.75rem; border-radius: var(--radius-full); display: inline-flex; align-items: center; gap: 0.5rem;" title="Account & Profile Options">
+              <span>${roleIcon}</span>
+              <span style="font-weight: 700; color: var(--text-main); font-size: 0.85rem;">${session.name}</span>
+              <span style="font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: var(--radius-full); background: rgba(0,0,0,0.06); font-weight: 800; text-transform: uppercase;">${session.role}</span>
+              ${icon('chevron-down', '', 14)}
+            </button>
+
+            <!-- User Menu Dropdown -->
+            <div id="user-profile-dropdown" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 260px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); z-index: 100; overflow: hidden; animation: fadeIn 0.15s ease;">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--border-subtle); background: var(--bg-main);">
+                <div style="font-weight: 800; font-size: 0.95rem; color: var(--text-main);">${session.name}</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">${roleLabel}</div>
+                <div style="font-size: 0.7rem; color: var(--primary-blue); font-family: var(--font-mono); margin-top: 0.25rem;">ID: ${session.identifier || 'LP-10234'}</div>
+              </div>
+              <div style="padding: 0.5rem;">
+                <a href="${basePath}login.html" class="dropdown-item" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.75rem; color: var(--text-main); font-size: 0.85rem; font-weight: 600; text-decoration: none; border-radius: var(--radius-md);">
+                  ${icon('arrow-left-right', '', 16)}
+                  <span>Switch Persona / Role</span>
+                </a>
+                <a href="${basePath}shared/settings.html" class="dropdown-item" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.75rem; color: var(--text-main); font-size: 0.85rem; font-weight: 600; text-decoration: none; border-radius: var(--radius-md);">
+                  ${icon('settings', '', 16)}
+                  <span>Settings & Database</span>
+                </a>
+                <div style="border-top: 1px solid var(--border-subtle); margin: 0.25rem 0;"></div>
+                <button id="menu-signout-btn" style="width: 100%; display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.75rem; color: var(--status-emergency); font-size: 0.85rem; font-weight: 700; background: none; border: none; cursor: pointer; text-align: left; border-radius: var(--radius-md);">
+                  ${icon('log-out', '', 16)}
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Language Selector -->
-          <select class="form-control lang-select" style="width:auto; padding:0.25rem 0.5rem; height:34px; font-size:0.8rem;" aria-label="Select Language">
-            <option value="en" ${currentLang === 'en' ? 'selected' : ''}>English</option>
-            <option value="hi" ${currentLang === 'hi' ? 'selected' : ''}>हिन्दी</option>
-            <option value="te" ${currentLang === 'te' ? 'selected' : ''}>తెలుగు</option>
-          </select>
+          <div style="display: flex; align-items: center; gap: 0.35rem; background: var(--bg-main); border: 1px solid var(--border-default); border-radius: var(--radius-full); padding: 0.2rem 0.65rem;">
+            <i data-lucide="globe" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+            <select class="lang-select" style="border: none; background: transparent; color: var(--text-main); padding: 0.1rem 0.2rem; height: 26px; font-size: 0.8rem; font-weight: 700; cursor: pointer; outline: none;" aria-label="Select Language">
+              <option value="en" ${currentLang === 'en' ? 'selected' : ''}>EN</option>
+              <option value="hi" ${currentLang === 'hi' ? 'selected' : ''}>हिन्दी</option>
+              <option value="te" ${currentLang === 'te' ? 'selected' : ''}>తెలుగు</option>
+            </select>
+          </div>
 
           <!-- Theme Toggle -->
-          <button class="btn btn-outline btn-icon theme-toggle-btn" title="Toggle Theme" style="height:34px; width:34px;">
+          <button class="btn btn-outline btn-icon theme-toggle-btn" title="Toggle Theme" style="height:34px; width:34px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
             ${icon('moon', '', 16)}
           </button>
 
-          <!-- Settings -->
-          <a href="${basePath}shared/settings.html" class="btn btn-outline btn-icon" title="Settings" style="height:34px; width:34px;">
-            ${icon('settings', '', 16)}
+          <!-- Quick Switch Role Button -->
+          <a href="${basePath}login.html" class="btn btn-outline btn-sm" style="height:34px; border-radius: var(--radius-full); font-size:0.8rem; padding: 0 0.85rem;" title="Switch Role / Persona">
+            ${icon('arrow-left-right', '', 14)} <span>Role</span>
           </a>
 
-          <!-- Logout / Switch Role -->
-          <button id="logout-btn" class="btn btn-outline" style="height:34px; padding:0 0.75rem; font-size:0.8rem;" title="Switch Role">
-            ${icon('arrow-left-right', '', 14)} <span>Role</span>
+          <!-- Quick Direct Sign Out Button -->
+          <button id="logout-btn" class="btn btn-outline btn-sm" style="height:34px; border-radius: var(--radius-full); font-size:0.8rem; padding: 0 0.85rem; color: var(--status-emergency); border-color: var(--status-emergency-border);" title="Sign Out & Return to Home">
+            ${icon('log-out', '', 14)} <span>Sign Out</span>
           </button>
         </div>
       </header>
@@ -263,13 +299,37 @@ export function renderLayout(activePageKey = '') {
   document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       await toggleTheme();
-      renderIcons();
     });
   });
 
+  // User Profile Dropdown Toggle
+  const userProfileBtn = document.getElementById('user-profile-btn');
+  const userProfileDropdown = document.getElementById('user-profile-dropdown');
+  if (userProfileBtn && userProfileDropdown) {
+    userProfileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = userProfileDropdown.style.display === 'block';
+      userProfileDropdown.style.display = isVisible ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!userProfileBtn.contains(e.target) && !userProfileDropdown.contains(e.target)) {
+        userProfileDropdown.style.display = 'none';
+      }
+    });
+  }
+
+  // Logout Buttons (Direct header and dropdown)
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
+      logout();
+    });
+  }
+
+  const menuSignoutBtn = document.getElementById('menu-signout-btn');
+  if (menuSignoutBtn) {
+    menuSignoutBtn.addEventListener('click', () => {
       logout();
     });
   }
