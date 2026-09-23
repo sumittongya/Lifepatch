@@ -13,7 +13,7 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script src="js/vendor/lucide.js"></script>
 </head>
-<body style="background-color: var(--bg-main);">
+<body style="background-color: var(--bg-main); min-height: 100vh; overflow-x: hidden;">
   <!-- Ambient Lighting Effects -->
   <div class="hero-glow-1"></div>
   <div class="hero-glow-2"></div>
@@ -33,11 +33,11 @@
         </a>
       </div>
 
-      <!-- Navigation Links -->
+      <!-- Navigation Links: Features -> Continuity Flow -> Specs & Performance -> Jury Guide -->
       <nav class="landing-nav-links">
-        <a href="#pipeline" class="landing-nav-link" data-i18n="navPipeline">Continuity Pipeline</a>
-        <a href="#pillars" class="landing-nav-link" data-i18n="navFeatures">Features</a>
-        <a href="#metrics" class="landing-nav-link" data-i18n="navMetrics">Specs & Architecture</a>
+        <a href="#features" class="landing-nav-link" data-i18n="navFeatures">Features</a>
+        <a href="#pipeline" class="landing-nav-link" data-i18n="navPipeline">Continuity Flow</a>
+        <a href="#metrics" class="landing-nav-link" data-i18n="navMetrics">Specs & Performance</a>
         <a href="shared/help.html" class="landing-nav-link" data-i18n="navJuryGuide">Jury Guide</a>
       </nav>
 
@@ -116,7 +116,85 @@
     </div>
   </section>
 
-  <!-- Interactive Continuity Pipeline Wireframe Diagram -->
+  <!-- 1. Feature Pillars Section (Features First in Menu & Order) -->
+  <section id="features" class="pillars-section">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <span class="badge badge-info" style="margin-bottom: 0.5rem;">Core Technology Pillars</span>
+      <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="pillarsHeading">
+        Engineered for India's Public Healthcare Reality
+      </h2>
+    </div>
+
+    <div class="pillars-grid">
+      <!-- Pillar 1 -->
+      <div class="pillar-card">
+        <div class="pillar-icon-wrap" style="background: var(--primary-blue-light); color: var(--primary-blue);">
+          <i data-lucide="mic" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar1Title">Voice-First Accessibility</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar1Desc">
+          Overcomes rural literacy barriers through native speech recognition in regional Indian languages with automatic speech synthesis read-aloud.
+        </p>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="pillar-card">
+        <div class="pillar-icon-wrap" style="background: var(--primary-green-light); color: var(--primary-green);">
+          <i data-lucide="database" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar2Title">Offline-First IndexedDB</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar2Desc">
+          Functions seamlessly in remote forest and rural tribal belts with zero mobile connectivity. Background synchronization pushes records when network returns.
+        </p>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="pillar-card">
+        <div class="pillar-icon-wrap" style="background: var(--primary-indigo-light); color: var(--primary-indigo);">
+          <i data-lucide="sparkles" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar3Title">Grounded Clinical AI</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar3Desc">
+          Human-in-the-loop medical AI summarizes complex longitudinal vitals and symptoms into structured SOAP notes without replacing licensed clinical judgment.
+        </p>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div class="pillar-card">
+        <div class="pillar-icon-wrap" style="background: var(--primary-blue-light); color: var(--primary-blue);">
+          <i data-lucide="shield" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar4Title">ABDM & ABHA Integration</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar4Desc">
+          Standardized 14-digit ABHA citizen identifier linkage with patient-controlled consent revocation for complete data sovereignty.
+        </p>
+      </div>
+
+      <!-- Pillar 5 -->
+      <div class="pillar-card">
+        <div class="pillar-icon-wrap" style="background: var(--status-emergency-bg); color: var(--status-emergency);">
+          <i data-lucide="alert-octagon" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar5Title">108 Emergency Telemetry</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar5Desc">
+          One-tap SOS broadcasts live GPS coordinates and critical allergy flags directly to emergency response ambulances and PHC dispatchers.
+        </p>
+      </div>
+
+      <!-- Pillar 6 -->
+      <div class="pillar-card">
+        <div class="pillar-icon-wrap" style="background: var(--primary-green-light); color: var(--primary-green);">
+          <i data-lucide="camera" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar6Title">Paper Record OCR Scan</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar6Desc">
+          Transforms physical prescription slips and legacy hospital discharge cards into structured, queryable electronic health records.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Interactive Continuity Pipeline Wireframe Section -->
   <section id="pipeline" class="pipeline-section">
     <div class="wireframe-container">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.5rem;">
@@ -250,7 +328,7 @@
     </div>
   </section>
 
-  <!-- Key Metrics Stats Strip -->
+  <!-- 3. Key Metrics Stats Strip (Specs & Performance) -->
   <section id="metrics" class="stats-strip-grid">
     <div class="metric-card">
       <div class="metric-big-num" style="color: var(--primary-blue);" data-i18n="metric1Val">&lt; 35ms</div>
@@ -274,84 +352,6 @@
       <div class="metric-big-num" style="color: var(--status-emergency);" data-i18n="metric4Val">100%</div>
       <div class="metric-label" data-i18n="metric4Label">Offline Resilience</div>
       <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;" data-i18n="metric4Sub">PWA Service Worker offline caching</p>
-    </div>
-  </section>
-
-  <!-- Feature Pillars Section -->
-  <section id="pillars" class="pillars-section">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <span class="badge badge-info" style="margin-bottom: 0.5rem;">Core Technology Pillars</span>
-      <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="pillarsHeading">
-        Engineered for India's Public Healthcare Reality
-      </h2>
-    </div>
-
-    <div class="pillars-grid">
-      <!-- Pillar 1 -->
-      <div class="pillar-card">
-        <div class="pillar-icon-wrap" style="background: var(--primary-blue-light); color: var(--primary-blue);">
-          <i data-lucide="mic" style="width: 24px; height: 24px;"></i>
-        </div>
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar1Title">Voice-First Accessibility</h3>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar1Desc">
-          Overcomes rural literacy barriers through native speech recognition in regional Indian languages with automatic speech synthesis read-aloud.
-        </p>
-      </div>
-
-      <!-- Pillar 2 -->
-      <div class="pillar-card">
-        <div class="pillar-icon-wrap" style="background: var(--primary-green-light); color: var(--primary-green);">
-          <i data-lucide="database" style="width: 24px; height: 24px;"></i>
-        </div>
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar2Title">Offline-First IndexedDB</h3>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar2Desc">
-          Functions seamlessly in remote forest and rural tribal belts with zero mobile connectivity. Background synchronization pushes records when network returns.
-        </p>
-      </div>
-
-      <!-- Pillar 3 -->
-      <div class="pillar-card">
-        <div class="pillar-icon-wrap" style="background: var(--primary-indigo-light); color: var(--primary-indigo);">
-          <i data-lucide="sparkles" style="width: 24px; height: 24px;"></i>
-        </div>
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar3Title">Grounded Clinical AI</h3>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar3Desc">
-          Human-in-the-loop medical AI summarizes complex longitudinal vitals and symptoms into structured SOAP notes without replacing licensed clinical judgment.
-        </p>
-      </div>
-
-      <!-- Pillar 4 -->
-      <div class="pillar-card">
-        <div class="pillar-icon-wrap" style="background: var(--primary-blue-light); color: var(--primary-blue);">
-          <i data-lucide="shield" style="width: 24px; height: 24px;"></i>
-        </div>
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar4Title">ABDM & ABHA Integration</h3>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar4Desc">
-          Standardized 14-digit ABHA citizen identifier linkage with patient-controlled consent revocation for complete data sovereignty.
-        </p>
-      </div>
-
-      <!-- Pillar 5 -->
-      <div class="pillar-card">
-        <div class="pillar-icon-wrap" style="background: var(--status-emergency-bg); color: var(--status-emergency);">
-          <i data-lucide="alert-octagon" style="width: 24px; height: 24px;"></i>
-        </div>
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar5Title">108 Emergency Telemetry</h3>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar5Desc">
-          One-tap SOS broadcasts live GPS coordinates and critical allergy flags directly to emergency response ambulances and PHC dispatchers.
-        </p>
-      </div>
-
-      <!-- Pillar 6 -->
-      <div class="pillar-card">
-        <div class="pillar-icon-wrap" style="background: var(--primary-green-light); color: var(--primary-green);">
-          <i data-lucide="camera" style="width: 24px; height: 24px;"></i>
-        </div>
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" data-i18n="pillar6Title">Paper Record OCR Scan</h3>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;" data-i18n="pillar6Desc">
-          Transforms physical prescription slips and legacy hospital discharge cards into structured, queryable electronic health records.
-        </p>
-      </div>
     </div>
   </section>
 
