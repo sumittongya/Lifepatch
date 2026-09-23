@@ -23,18 +23,18 @@
             <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="medicalRecords">
               Longitudinal Health Records & Timeline
             </h1>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="recordsDesc">
               Unified lifetime health history across PHCs, private clinics, and district hospitals.
             </p>
           </div>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <button class="btn btn-outline" onclick="window.print()">
               <i data-lucide="printer" style="width: 16px; height: 16px;"></i>
-              <span>Print Timeline</span>
+              <span data-i18n="recordsPrintBtn">Print Timeline</span>
             </button>
             <button class="btn btn-primary" id="open-ocr-btn">
               <i data-lucide="camera" style="width: 16px; height: 16px;"></i>
-              <span>Digitise Paper Record (OCR)</span>
+              <span data-i18n="recordsOcrBtn">Digitise Paper Record (OCR)</span>
             </button>
           </div>
         </div>
@@ -43,14 +43,14 @@
         <div class="card" style="padding: 1.25rem; margin-bottom: 1.75rem;">
           <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="filter-btns">
-              <button class="btn btn-primary btn-sm filter-pill active" data-filter="all">All Records</button>
-              <button class="btn btn-outline btn-sm filter-pill" data-filter="symptom">Symptoms</button>
-              <button class="btn btn-outline btn-sm filter-pill" data-filter="lab">Lab Reports</button>
-              <button class="btn btn-outline btn-sm filter-pill" data-filter="visit">PHC Visits</button>
-              <button class="btn btn-outline btn-sm filter-pill" data-filter="ocr">OCR Digitized</button>
+              <button class="btn btn-primary btn-sm filter-pill active" data-filter="all" data-i18n="recordsFilterAll">All Records</button>
+              <button class="btn btn-outline btn-sm filter-pill" data-filter="symptom" data-i18n="symptoms">Symptoms</button>
+              <button class="btn btn-outline btn-sm filter-pill" data-filter="lab" data-i18n="recordsFilterLab">Lab Reports</button>
+              <button class="btn btn-outline btn-sm filter-pill" data-filter="visit" data-i18n="recordsFilterVisit">PHC Visits</button>
+              <button class="btn btn-outline btn-sm filter-pill" data-filter="ocr" data-i18n="recordsFilterOcr">OCR Digitized</button>
             </div>
             <div style="flex: 1; min-width: 220px; max-width: 320px; position: relative;">
-              <input type="text" id="search-input" class="form-control" placeholder="Search diagnoses, doctors..." style="height: 38px; padding-left: 2.25rem; font-size: 0.85rem;">
+              <input type="text" id="search-input" class="form-control" data-i18n-attr="placeholder" data-i18n="recordsSearchPh" placeholder="Search diagnoses, doctors..." style="height: 38px; padding-left: 2.25rem; font-size: 0.85rem;">
               <i data-lucide="search" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-muted);"></i>
             </div>
           </div>
@@ -74,7 +74,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
         <h3 style="font-weight: 800; font-size: 1.2rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
           <i data-lucide="scan" style="width: 20px; height: 20px; color: var(--primary-blue);"></i>
-          <span>Digitise Paper Prescription (OCR)</span>
+          <span data-i18n="recordsOcrModalTitle">Digitise Paper Prescription (OCR)</span>
         </h3>
         <button class="btn btn-outline btn-icon" id="close-ocr-btn" style="height: 32px; width: 32px;">✕</button>
       </div>
@@ -82,17 +82,17 @@
       <div class="modal-body">
         <div style="background: var(--bg-main); border: 2px dashed var(--border-default); border-radius: var(--radius-md); padding: 1.75rem; text-align: center; margin-bottom: 1.25rem;">
           <i data-lucide="file-up" style="width: 40px; height: 40px; color: var(--primary-blue); margin-bottom: 0.5rem;"></i>
-          <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem;">Upload Paper Slip / Doctor Prescription</div>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Supports JPG, PNG photos or scanned hospital documents</p>
+          <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem;" data-i18n="recordsOcrUploadTitle">Upload Paper Slip / Doctor Prescription</div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;" data-i18n="recordsOcrUploadHint">Supports JPG, PNG photos or scanned hospital documents</p>
           <input type="file" id="ocr-file-input" accept="image/*" style="display: none;">
           <div style="display: flex; justify-content: center; gap: 0.5rem;">
             <button class="btn btn-primary btn-sm" onclick="document.getElementById('ocr-file-input').click()">
               <i data-lucide="upload" style="width: 14px; height: 14px;"></i>
-              <span>Choose Photo</span>
+              <span data-i18n="recordsOcrChooseBtn">Choose Photo</span>
             </button>
             <button class="btn btn-outline btn-sm" id="btn-simulate-ocr-scan">
               <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-              <span>Simulate Sample Slip</span>
+              <span data-i18n="recordsOcrSimulateBtn">Simulate Sample Slip</span>
             </button>
           </div>
         </div>
@@ -101,47 +101,47 @@
           <div style="display: inline-block; animation: spin 1s linear infinite;">
             <i data-lucide="loader-2" style="width: 32px; height: 32px; color: var(--primary-blue);"></i>
           </div>
-          <p style="font-size: 0.9rem; font-weight: 700; margin-top: 0.5rem; color: var(--text-main);">Extracting and parsing clinical entities with OCR...</p>
+          <p style="font-size: 0.9rem; font-weight: 700; margin-top: 0.5rem; color: var(--text-main);" data-i18n="recordsOcrProcessing">Extracting and parsing clinical entities with OCR...</p>
         </div>
 
         <div id="ocr-result-form" style="display: none;">
           <div class="badge badge-unverified" style="margin-bottom: 1rem; width: 100%; justify-content: center; padding: 0.5rem; font-size: 0.75rem;">
-            ⚠️ Unverified OCR Output — Please verify extracted details before saving
+            <span data-i18n="recordsOcrWarning">⚠️ Unverified OCR Output — Please verify extracted details before saving</span>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Record Title / Diagnosis</label>
+            <label class="form-label" data-i18n="recordsOcrTitleLabel">Record Title / Diagnosis</label>
             <input type="text" id="ocr-title" class="form-control" value="Historical Outpatient Card - Acute Gastritis">
           </div>
 
           <div class="grid-2">
             <div class="form-group">
-              <label class="form-label">Facility</label>
+              <label class="form-label" data-i18n="recordsOcrFacilityLabel">Facility</label>
               <input type="text" id="ocr-facility" class="form-control" value="Area Hospital Shankarpally">
             </div>
             <div class="form-group">
-              <label class="form-label">Date</label>
+              <label class="form-label" data-i18n="recordsOcrDateLabel">Date</label>
               <input type="date" id="ocr-date" class="form-control" value="2025-11-14">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Doctor Name</label>
+            <label class="form-label" data-i18n="recordsOcrDoctorLabel">Doctor Name</label>
             <input type="text" id="ocr-doctor" class="form-control" value="Dr. B. Reddy">
           </div>
 
           <div class="form-group">
-            <label class="form-label">Clinical Notes & Prescriptions</label>
+            <label class="form-label" data-i18n="recordsOcrNotesLabel">Clinical Notes & Prescriptions</label>
             <textarea id="ocr-notes" class="form-control" rows="3">Tab Pantoprazole 40mg (OD before breakfast), Sucralfate syrup 10ml TDS. Advised adequate hydration and low-spice diet.</textarea>
           </div>
         </div>
       </div>
 
       <div id="ocr-footer" style="display: none; margin-top: 1.25rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
-        <button class="btn btn-outline" id="cancel-ocr-btn">Cancel</button>
+        <button class="btn btn-outline" id="cancel-ocr-btn" data-i18n="cancel">Cancel</button>
         <button class="btn btn-primary" id="save-ocr-btn">
           <i data-lucide="check" style="width: 16px; height: 16px;"></i>
-          <span>Save to Longitudinal Timeline</span>
+          <span data-i18n="recordsOcrSaveBtn">Save to Longitudinal Timeline</span>
         </button>
       </div>
     </div>

@@ -82,10 +82,10 @@
           <div style="display: flex; align-items: flex-start; gap: 0.875rem;">
             <i data-lucide="alert-triangle" style="width: 24px; height: 24px; color: var(--status-emergency); flex-shrink: 0; margin-top: 0.15rem;"></i>
             <div>
-              <div style="font-weight: 800; color: var(--status-emergency); font-size: 0.95rem;">
+              <div style="font-weight: 800; color: var(--status-emergency); font-size: 0.95rem;" data-i18n="emgBannerTitle">
                 EMERGENCY TRIAGE SIMULATOR (108 Integration)
               </div>
-              <p style="font-size: 0.85rem; color: #7F1D1D; margin-top: 0.25rem; line-height: 1.5;">
+              <p style="font-size: 0.85rem; color: #7F1D1D; margin-top: 0.25rem; line-height: 1.5;" data-i18n="emgBannerText">
                 Simulates real-time automated emergency dispatch, PHC notification, and medical profile broadcasting for critical rural incidents.
               </p>
             </div>
@@ -94,23 +94,23 @@
 
         <!-- SOS Trigger Card -->
         <div class="card" style="text-align: center; padding: 3rem 1.5rem; margin-bottom: 2rem;" id="sos-trigger-box">
-          <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;" data-i18n="emergencyPrompt">
+          <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;" data-i18n="emgTitle">
             Critical Emergency Assistance
           </h2>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 520px; margin: 0 auto 2rem auto;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); max-width: 520px; margin: 0 auto 2rem auto;" data-i18n="emgPrompt">
             Press the SOS button below to transmit your instant GPS coordinates, Health ID, and critical allergy profile to 108 Emergency Ambulance Dispatch.
           </p>
 
           <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
             <button id="sos-btn" class="sos-pulse-btn" aria-label="Trigger SOS emergency dispatch">
               <i data-lucide="alert-octagon" style="width: 44px; height: 44px; margin-bottom: 0.25rem;"></i>
-              <span style="font-weight: 900; font-size: 1rem; letter-spacing: 0.05em;">SOS 108</span>
+              <span style="font-weight: 900; font-size: 1rem; letter-spacing: 0.05em;" data-i18n="emgSosBtn">SOS 108</span>
             </button>
           </div>
 
           <div style="display: flex; justify-content: center; gap: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
-            <span><i data-lucide="map-pin" style="width: 14px; height: 14px; vertical-align: middle;"></i> Kondapur (17.47° N, 78.35° E)</span>
-            <span><i data-lucide="shield-check" style="width: 14px; height: 14px; vertical-align: middle;"></i> ABHA Profile Auto-Attached</span>
+            <span><i data-lucide="map-pin" style="width: 14px; height: 14px; vertical-align: middle;"></i> <span data-i18n="emgLocation">Kondapur (17.47° N, 78.35° E)</span></span>
+            <span><i data-lucide="shield-check" style="width: 14px; height: 14px; vertical-align: middle;"></i> <span data-i18n="emgAbhaAttached">ABHA Profile Auto-Attached</span></span>
           </div>
         </div>
 
@@ -119,23 +119,23 @@
           <div class="card-header" style="background: var(--status-emergency-bg); margin: -1.5rem -1.5rem 1.5rem -1.5rem; padding: 1.25rem 1.5rem; border-top-left-radius: calc(var(--radius-lg) - 2px); border-top-right-radius: calc(var(--radius-lg) - 2px);">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="pulse-dot" style="color: var(--status-emergency);"></span>
-              <span style="font-weight: 800; color: var(--status-emergency); font-size: 1.1rem;">AMBULANCE 108 EN ROUTE</span>
+              <span style="font-weight: 800; color: var(--status-emergency); font-size: 1.1rem;" data-i18n="emgAmbulanceStatus">AMBULANCE 108 EN ROUTE</span>
             </div>
-            <span class="badge badge-emergency">Priority 1 Active</span>
+            <span class="badge badge-emergency" data-i18n="emgPriorityBadge">Priority 1 Active</span>
           </div>
 
           <div class="grid-2" style="margin-bottom: 1.5rem;">
             <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Estimated Arrival</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;" data-i18n="emgEtaLabel">Estimated Arrival</div>
               <div style="font-size: 1.75rem; font-weight: 900; color: var(--status-emergency); margin-top: 0.25rem;" id="eta-timer">8 Mins</div>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Vehicle: TS-07-EM-1082 (PHC Kondapur)</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);" data-i18n="emgVehicle">Vehicle: TS-07-EM-1082 (PHC Kondapur)</div>
             </div>
 
             <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Emergency Contacts Notified</div>
-              <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;">Ravi (Son) • +91 98480 54321</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;" data-i18n="emgContactsLabel">Emergency Contacts Notified</div>
+              <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;" data-i18n="emgContactName">Ravi (Son) • +91 98480 54321</div>
               <div style="font-size: 0.8rem; color: var(--primary-green); font-weight: 600; margin-top: 0.25rem;">
-                <i data-lucide="check" style="width: 12px; height: 12px;"></i> SMS Alert Sent with Live Map Link
+                <i data-lucide="check" style="width: 12px; height: 12px;"></i> <span data-i18n="emgSmsSent">SMS Alert Sent with Live Map Link</span>
               </div>
             </div>
           </div>
@@ -145,23 +145,23 @@
             <div class="map-grid-bg"></div>
             <div class="map-marker" style="top: 50%; left: 65%;">
               <div style="background: var(--primary-blue); color: #fff; padding: 0.25rem 0.6rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md);">
-                <i data-lucide="home" style="width: 14px; height: 14px;"></i> You (Lakshmi Devi)
+                <i data-lucide="home" style="width: 14px; height: 14px;"></i> <span data-i18n="emgMapYou">You (Lakshmi Devi)</span>
               </div>
             </div>
             <div class="ambulance-marker" id="ambulance-icon">
               <div style="background: var(--status-emergency); color: #fff; padding: 0.35rem 0.75rem; border-radius: var(--radius-md); box-shadow: 0 0 15px rgba(220, 38, 38, 0.6); display: flex; align-items: center; gap: 0.35rem;">
-                <i data-lucide="ambulance" style="width: 16px; height: 16px;"></i> 108 Ambulance
+                <i data-lucide="ambulance" style="width: 16px; height: 16px;"></i> <span data-i18n="emgMapAmbulance">108 Ambulance</span>
               </div>
             </div>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-            <button class="btn btn-outline" id="btn-cancel-sos" style="color: var(--text-muted);">
+            <button class="btn btn-outline" id="btn-cancel-sos" style="color: var(--text-muted);" data-i18n="emgCancelBtn">
               Cancel Emergency Request (False Alarm)
             </button>
             <a href="tel:108" class="btn btn-danger">
               <i data-lucide="phone-call" style="width: 16px; height: 16px;"></i>
-              <span>Direct Call 108 Dispatch</span>
+              <span data-i18n="emgCallBtn">Direct Call 108 Dispatch</span>
             </a>
           </div>
         </div>

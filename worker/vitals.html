@@ -23,22 +23,22 @@
             <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="vitals">
               Community Vitals Tracking
             </h1>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="vitalSubtitle">
               Monitor blood pressure, blood glucose, and temperature patterns across village households.
             </p>
           </div>
           <a href="field-visit.html" class="btn btn-success">
             <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
-            <span>Record Field Checkup</span>
+            <span data-i18n="vitalRecordBtn">Record Field Checkup</span>
           </a>
         </div>
 
         <!-- Clinical Threshold Reference Strip -->
         <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem; background: var(--bg-main);">
           <div style="display:flex; flex-wrap:wrap; gap:1.5rem; font-size:0.85rem;">
-            <div><strong>Blood Pressure:</strong> Normal (&lt; 120/80) • Elevated (120-139 / 80-89) • <span style="color:var(--status-emergency); font-weight:700;">Stage 2 / Urgent (≥ 140/90)</span></div>
-            <div><strong>Random Sugar:</strong> Normal (&lt; 140 mg/dL) • <span style="color:var(--status-high); font-weight:700;">High (&gt; 160 mg/dL)</span></div>
-            <div><strong>SpO2:</strong> Normal (≥ 95%) • <span style="color:var(--status-emergency); font-weight:700;">Hypoxia (&lt; 92%)</span></div>
+            <div data-i18n-html="vitalRefBp"><strong>Blood Pressure:</strong> Normal (&lt; 120/80) • Elevated (120-139 / 80-89) • <span style="color:var(--status-emergency); font-weight:700;">Stage 2 / Urgent (≥ 140/90)</span></div>
+            <div data-i18n-html="vitalRefSugar"><strong>Random Sugar:</strong> Normal (&lt; 140 mg/dL) • <span style="color:var(--status-high); font-weight:700;">High (&gt; 160 mg/dL)</span></div>
+            <div data-i18n-html="vitalRefSpo2"><strong>SpO2:</strong> Normal (≥ 95%) • <span style="color:var(--status-emergency); font-weight:700;">Hypoxia (&lt; 92%)</span></div>
           </div>
         </div>
 
@@ -46,21 +46,21 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-              <span>Recent Field Checkups (Lakshmi Devi - LP-10234)</span>
+              <span data-i18n="vitalTableTitle">Recent Field Checkups (Lakshmi Devi - LP-10234)</span>
             </span>
-            <a href="field-visit.html?id=pat-1" class="btn btn-outline btn-sm">+ New Vitals Check</a>
+            <a href="field-visit.html?id=pat-1" class="btn btn-outline btn-sm" data-i18n="vitalNewCheckBtn">+ New Vitals Check</a>
           </div>
           <div class="table-container">
             <table class="table">
               <thead>
                 <tr>
-                  <th>Date & Time</th>
-                  <th>BP (mmHg)</th>
-                  <th>Random Sugar</th>
-                  <th>SpO2</th>
-                  <th>Pulse</th>
-                  <th>Recorded By</th>
-                  <th>Clinical Status Alert</th>
+                  <th data-i18n="vitalColDate">Date & Time</th>
+                  <th data-i18n="vitalColBp">BP (mmHg)</th>
+                  <th data-i18n="vitalColSugar">Random Sugar</th>
+                  <th data-i18n="vitalColSpo2">SpO2</th>
+                  <th data-i18n="vitalColPulse">Pulse</th>
+                  <th data-i18n="vitalColBy">Recorded By</th>
+                  <th data-i18n="vitalColStatus">Clinical Status Alert</th>
                 </tr>
               </thead>
               <tbody id="vitals-table-body">

@@ -8,20 +8,37 @@
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/responsive.css">
   <link rel="stylesheet" href="../css/accessibility.css">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <script src="../js/vendor/lucide.js"></script>
   <style>
-    .dictate-btn.recording {
-      background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%) !important;
-      border-color: #DC2626 !important;
-      color: #fff !important;
-      animation: dictatePulse 1.4s infinite;
+    .mic-button {
+      width: 84px; height: 84px; border-radius: 50%;
+      background: var(--primary-blue-gradient); color: #fff; border: none;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 8px 24px rgba(2,132,199,0.35);
+      transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
     }
-    .dictate-btn.recording i, .dictate-btn.recording svg { color: #fff !important; }
-    @keyframes dictatePulse {
-      0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5); }
-      50% { box-shadow: 0 0 0 8px rgba(220,38,38,0.15); }
-      100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+    .mic-button:hover { transform: scale(1.05); }
+    .mic-button.recording {
+      background: linear-gradient(135deg,#DC2626 0%,#991B1B 100%);
+      animation: pulse-mic 1.4s infinite; box-shadow: 0 0 30px rgba(220,38,38,0.6);
     }
+    @keyframes pulse-mic {
+      0%{transform:scale(1);box-shadow:0 0 20px rgba(220,38,38,0.5);}
+      50%{transform:scale(1.08);box-shadow:0 0 35px rgba(220,38,38,0.8);}
+      100%{transform:scale(1);box-shadow:0 0 20px rgba(220,38,38,0.5);}
+    }
+    .voice-wave-container{display:flex;align-items:center;justify-content:center;gap:6px;height:42px;margin:1rem 0;}
+    .voice-bar{width:6px;height:12px;border-radius:4px;background:var(--primary-blue);animation:wave 1.2s ease-in-out infinite alternate;}
+    .voice-bar:nth-child(2){animation-delay:.2s;height:26px;}
+    .voice-bar:nth-child(3){animation-delay:.4s;height:40px;background:var(--primary-indigo);}
+    .voice-bar:nth-child(4){animation-delay:.6s;height:24px;}
+    .voice-bar:nth-child(5){animation-delay:.8s;height:15px;}
+    @keyframes wave{0%{transform:scaleY(.3);}100%{transform:scaleY(1);}}
+    .sample-prompt-chip{background:var(--bg-main);border:1px solid var(--border-subtle);border-radius:var(--radius-full);padding:.4rem .9rem;font-size:.8rem;font-weight:600;color:var(--text-main);cursor:pointer;transition:all .15s ease;display:inline-flex;align-items:center;gap:.4rem;}
+    .sample-prompt-chip:hover{background:var(--primary-blue-light);border-color:var(--primary-blue);color:var(--primary-blue);}
+    .dictate-btn.recording{background:linear-gradient(135deg,#DC2626 0%,#991B1B 100%)!important;border-color:#DC2626!important;color:#fff!important;animation:pulse-mic 1.4s infinite;}
+    .dictate-btn.recording i,.dictate-btn.recording svg{color:#fff!important;}
   </style>
 </head>
 <body>
@@ -30,91 +47,115 @@
     <div class="main-wrapper">
       <div id="header-mount"></div>
 
-      <main class="main-content" style="max-width: 800px;">
+      <main class="main-content" style="max-width: 820px;">
         <div style="margin-bottom: 1.5rem;">
-          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="symptoms">
-            Report Symptoms
-          </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
-            Log your health symptoms for direct review by your Primary Health Centre doctor and ASHA worker.
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="reportSymptomsTitle">Report Symptoms</h1>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="reportSymptomsDesc">
+            Speak or type your symptoms — they go straight to your PHC doctor and ASHA worker for review.
           </p>
         </div>
 
-        <!-- Voice Quick Option Banner -->
-        <div class="card" style="background: var(--primary-blue-light); border-color: var(--primary-blue-muted); margin-bottom: 1.5rem;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 0.875rem;">
-              <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--primary-blue); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i data-lucide="mic" style="width: 22px; height: 22px;"></i>
-              </div>
-              <div>
-                <div style="font-weight: 800; color: var(--primary-blue); font-size: 1rem;" data-i18n="tellHowYouFeel">Prefer speaking?</div>
-                <div style="font-size: 0.85rem; color: var(--text-secondary);">Tap the mic icons below to dictate directly, or use the full Voice Assistant.</div>
-              </div>
-            </div>
-            <a href="voice.html" class="btn btn-outline" style="flex-shrink: 0;" data-i18n="speak">
-              <i data-lucide="mic" style="width: 14px; height: 14px;"></i>
-              <span>Open Voice Assistant</span>
-            </a>
+        <!-- Voice Capture Card -->
+        <div class="card" style="margin-bottom: 1.5rem; padding: 1.75rem; text-align:center;">
+          <div style="display:flex; align-items:center; justify-content:center; gap:0.6rem; margin-bottom:1.25rem; flex-wrap:wrap;">
+            <i data-lucide="mic" style="width:18px; height:18px; color:var(--primary-blue);"></i>
+            <span style="font-weight:800; color:var(--text-main); font-size:1.05rem;" data-i18n="voiceCaptureTitle">Describe by Voice</span>
           </div>
-          <div id="inline-voice-status" style="display:none; margin-top:0.875rem; padding:0.6rem 0.875rem; background:var(--bg-surface); border:1px solid var(--primary-blue-muted); border-radius:var(--radius-md); font-size:0.85rem; font-weight:700; color:var(--primary-blue); align-items:center; gap:0.5rem;">
-            <i data-lucide="radio" style="width:15px; height:15px;"></i>
-            <span id="inline-voice-status-text">Listening… speak now</span>
+
+          <!-- Speech language selector -->
+          <div style="display:flex; justify-content:center; align-items:center; gap:0.6rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);" data-i18n="selectSpeechLang">Spoken Language:</span>
+            <select id="voice-lang-select" class="form-control" style="width:auto; height:38px; padding:0.2rem 0.8rem; font-weight:700;">
+              <option value="en-IN">English (India)</option>
+              <option value="hi-IN">हिन्दी (Hindi)</option>
+              <option value="te-IN">తెలుగు (Telugu)</option>
+            </select>
+          </div>
+
+          <button id="mic-btn" class="mic-button" aria-label="Toggle speech recording" type="button">
+            <i data-lucide="mic" id="mic-icon" style="width:38px; height:38px;"></i>
+          </button>
+          <div id="recording-status" style="font-size:1.05rem; font-weight:800; margin-top:1rem; color:var(--text-main);" data-i18n="tapMicToSpeak">Tap the microphone to speak</div>
+          <div class="voice-wave-container" id="waveform-container" style="display:none;">
+            <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
+          </div>
+
+          <!-- Live transcript -->
+          <div class="form-group" style="text-align:left; margin-top:0.5rem;">
+            <textarea id="voice-transcript" class="form-control" rows="3" data-i18n-attr="placeholder" data-i18n="voiceTranscriptPh" placeholder="Your spoken words appear here — or type directly..." style="font-size:1rem; line-height:1.6; font-weight:600;"></textarea>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-top:0.5rem;">
+            <button class="sample-prompt-chip" data-sample="I have had persistent dizziness and mild morning palpitations for the past 3 days." type="button">"Dizziness &amp; palpitations" (EN)</button>
+            <button class="sample-prompt-chip" data-sample="मुझे 2 दिनों से तेज़ सिरदर्द, चक्कर और सीने में भारीपन महसूस हो रहा है।" type="button">"तेज़ सिरदर्द और चक्कर" (HI)</button>
+            <button class="sample-prompt-chip" data-sample="నాకు ఉదయం నుండి రక్తపోటు ఎక్కువగా ఉండి తల తిరుగుతుంది." type="button">"తల తిరుగుతుంది" (TE)</button>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.6rem; margin-top:1rem;">
+            <button class="btn btn-outline btn-sm" id="read-aloud-btn" type="button">
+              <i data-lucide="volume-2" style="width:14px; height:14px;"></i> <span data-i18n="readAloud">Read Aloud</span>
+            </button>
+            <button class="btn btn-outline btn-sm" id="clear-voice-btn" type="button">
+              <i data-lucide="rotate-ccw" style="width:14px; height:14px;"></i> <span data-i18n="clearText">Clear</span>
+            </button>
+            <button class="btn btn-primary btn-sm" id="use-transcript-btn" type="button">
+              <i data-lucide="check" style="width:14px; height:14px;"></i> <span data-i18n="useThisText">Use this text</span>
+            </button>
+          </div>
+
+          <div id="unsupported-msg" style="display:none; background:#FEF3C7; color:#92400E; padding:0.875rem; border-radius:var(--radius-md); font-size:0.85rem; margin-top:1.25rem; text-align:left;">
+            <div style="font-weight:700; display:flex; align-items:center; gap:0.35rem; margin-bottom:0.25rem;">
+              <i data-lucide="alert-triangle" style="width:16px; height:16px;"></i> <span data-i18n="micNoticeTitle">Microphone Access Notice</span>
+            </div>
+            <span id="unsupported-msg-text" data-i18n="micNoticeText">Allow microphone access, use a sample phrase, or type your symptom below.</span>
           </div>
         </div>
 
-        <!-- Symptom Form -->
+        <!-- Structured Symptom Form -->
         <div class="card" style="padding: 1.75rem;">
+          <div class="card-header" style="margin-top:-0.5rem;">
+            <span class="card-title"><i data-lucide="clipboard-list" style="width:18px; height:18px; color:var(--primary-green);"></i> <span data-i18n="symptomDetailsTitle">Symptom Details</span></span>
+          </div>
           <form id="symptom-form">
             <div class="form-group">
-              <label class="form-label" for="symptom-name">
-                What are you experiencing? <span class="required">*</span>
-              </label>
+              <label class="form-label" for="symptom-name"><span data-i18n="symptomNameLabel">What are you experiencing?</span> <span class="required">*</span></label>
               <div style="display:flex; gap:0.5rem; align-items:center;">
-                <input type="text" id="symptom-name" class="form-control" placeholder="e.g. Dizziness, palpitations, headache, shortness of breath" required style="flex:1;">
-                <button type="button" class="btn btn-outline btn-icon dictate-btn" data-target="symptom-name" title="Dictate symptom" aria-label="Dictate symptom" style="height:44px; width:44px; flex-shrink:0; border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center;">
-                  <i data-lucide="mic" style="width:18px; height:18px;"></i>
+                <input type="text" id="symptom-name" class="form-control" data-i18n-attr="placeholder" data-i18n="symptomNamePh" placeholder="e.g. Dizziness, headache, shortness of breath" required style="flex:1;">
+                <button type="button" class="btn btn-outline btn-icon dictate-btn" data-target="symptom-name" title="Dictate" aria-label="Dictate symptom" style="height:44px;width:44px;flex-shrink:0;border-radius:var(--radius-md);display:inline-flex;align-items:center;justify-content:center;">
+                  <i data-lucide="mic" style="width:18px;height:18px;"></i>
                 </button>
               </div>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label" for="symptom-date">
-                  When did it start? <span class="required">*</span>
-                </label>
+                <label class="form-label" for="symptom-date"><span data-i18n="whenStartLabel">When did it start?</span> <span class="required">*</span></label>
                 <input type="date" id="symptom-date" class="form-control" required>
               </div>
-
               <div class="form-group">
-                <label class="form-label">
-                  How severe is it? <span class="required">*</span>
-                </label>
+                <label class="form-label" for="symptom-severity"><span data-i18n="severityLabel">How severe is it?</span> <span class="required">*</span></label>
                 <select id="symptom-severity" class="form-control" required>
-                  <option value="Mild">Mild (Noticeable but daily routine continues)</option>
-                  <option value="Moderate" selected>Moderate (Disrupts normal activity)</option>
-                  <option value="Severe">Severe (Unbearable / urgent discomfort)</option>
+                  <option value="Mild" data-i18n="sevMild">Mild (noticeable, routine continues)</option>
+                  <option value="Moderate" selected data-i18n="sevModerate">Moderate (disrupts normal activity)</option>
+                  <option value="Severe" data-i18n="sevSevere">Severe (urgent / unbearable)</option>
                 </select>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="symptom-notes">
-                Additional Details & Observations (Optional)
-              </label>
+              <label class="form-label" for="symptom-notes"><span data-i18n="addDetailsLabel">Additional details (optional)</span></label>
               <div style="display:flex; gap:0.5rem; align-items:flex-start;">
-                <textarea id="symptom-notes" class="form-control" rows="3" placeholder="e.g. Occurs mostly in the morning, accompanied by mild blurred vision..." style="flex:1;"></textarea>
-                <button type="button" class="btn btn-outline btn-icon dictate-btn" data-target="symptom-notes" title="Dictate details" aria-label="Dictate details" style="height:44px; width:44px; flex-shrink:0; border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center;">
-                  <i data-lucide="mic" style="width:18px; height:18px;"></i>
+                <textarea id="symptom-notes" class="form-control" rows="3" data-i18n-attr="placeholder" data-i18n="addDetailsPh" placeholder="e.g. Occurs mostly in the morning, with mild blurred vision..." style="flex:1;"></textarea>
+                <button type="button" class="btn btn-outline btn-icon dictate-btn" data-target="symptom-notes" title="Dictate details" aria-label="Dictate details" style="height:44px;width:44px;flex-shrink:0;border-radius:var(--radius-md);display:inline-flex;align-items:center;justify-content:center;">
+                  <i data-lucide="mic" style="width:18px;height:18px;"></i>
                 </button>
               </div>
             </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+            <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
               <a href="dashboard.html" class="btn btn-outline" data-i18n="cancel">Cancel</a>
-              <button type="submit" class="btn btn-primary btn-lg" data-i18n="save">
-                <i data-lucide="save" style="width: 16px; height: 16px;"></i>
-                <span>Save Symptom Report</span>
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i data-lucide="save" style="width:16px; height:16px;"></i> <span data-i18n="saveSymptomBtn">Save Symptom Report</span>
               </button>
             </div>
           </form>
@@ -127,7 +168,7 @@
 
   <script type="module">
     import { initDatabase, addSymptom } from '../js/db/api.js';
-    import { initI18n } from '../js/core/i18n.js';
+    import { initI18n, getLanguage, t } from '../js/core/i18n.js';
     import { initTheme } from '../js/core/theme.js';
     import { renderLayout, showToast } from '../js/core/layout.js';
     import { getSession } from '../js/core/auth.js';
@@ -142,84 +183,102 @@
 
       const session = getSession();
       const patientId = session.patientId || 'pat-1';
-
       document.getElementById('symptom-date').value = new Date().toISOString().split('T')[0];
 
-      // Inline voice dictation — dictates directly into the focused form field
-      const voiceStatus = document.getElementById('inline-voice-status');
-      const voiceStatusText = document.getElementById('inline-voice-status-text');
-      let activeTarget = null;
+      const micBtn = document.getElementById('mic-btn');
+      const statusText = document.getElementById('recording-status');
+      const waveform = document.getElementById('waveform-container');
+      const transcriptEl = document.getElementById('voice-transcript');
+      const langSelect = document.getElementById('voice-lang-select');
+      const unsupportedMsg = document.getElementById('unsupported-msg');
+      const msgText = document.getElementById('unsupported-msg-text');
 
+      const appLang = getLanguage();
+      langSelect.value = appLang === 'hi' ? 'hi-IN' : appLang === 'te' ? 'te-IN' : 'en-IN';
+
+      // One VoiceSystem drives the big mic (→ transcript) and the per-field dictate buttons.
+      let fieldTarget = null;
       const voice = new VoiceSystem({
+        lang: langSelect.value,
         onResult: (text) => {
-          if (activeTarget && text.trim()) {
-            activeTarget.value = text;
-          }
+          if (fieldTarget) { if (text.trim()) fieldTarget.value = text; return; }
+          transcriptEl.value = text;
         },
         onStatusChange: (status) => {
-          if (status === 'listening') {
-            voiceStatus.style.display = 'flex';
-            voiceStatusText.textContent = 'Listening… speak now';
-            document.querySelectorAll('.dictate-btn').forEach(b => b.classList.add('recording'));
-          } else {
-            voiceStatus.style.display = 'none';
-            document.querySelectorAll('.dictate-btn').forEach(b => b.classList.remove('recording'));
-          }
+          const listening = status === 'listening';
+          micBtn.classList.toggle('recording', listening);
+          waveform.style.display = listening ? 'flex' : 'none';
+          statusText.textContent = listening ? t('listeningNow') : t('tapMicToSpeak');
+          statusText.style.color = listening ? 'var(--status-emergency)' : 'var(--text-main)';
+          document.querySelectorAll('.dictate-btn').forEach(b => b.classList.toggle('recording', listening && !!fieldTarget));
         },
         onError: (err) => {
-          voiceStatus.style.display = 'flex';
-          voiceStatusText.textContent = err === 'not-allowed'
-            ? 'Microphone blocked — please allow mic access in browser settings.'
-            : err === 'speech-not-supported'
-              ? 'Voice input not supported in this browser — please type instead.'
-              : `Voice notice (${err}) — you can still type in the fields.`;
-          voiceStatus.style.color = 'var(--status-emergency)';
-          voiceStatus.style.borderColor = 'var(--status-emergency-border)';
-          setTimeout(() => {
-            voiceStatus.style.display = 'none';
-            voiceStatus.style.color = 'var(--primary-blue)';
-            voiceStatus.style.borderColor = 'var(--primary-blue-muted)';
-          }, 4000);
+          unsupportedMsg.style.display = 'block';
+          const key = err === 'not-allowed' || err === 'service-not-allowed' ? 'micErrBlocked'
+            : err === 'speech-not-supported' || err === 'language-not-supported' ? 'micErrUnsupported'
+            : err === 'network' ? 'micErrNetwork'
+            : 'micErrGeneric';
+          msgText.textContent = t(key);
         }
+      });
+
+      langSelect.addEventListener('change', (e) => voice.setLanguage(e.target.value));
+
+      micBtn.addEventListener('click', () => {
+        fieldTarget = null;
+        if (voice.isListening) { voice.stop(); showToast('Recording stopped — review text below.', 'info'); return; }
+        unsupportedMsg.style.display = 'none';
+        if (voice.start(langSelect.value)) showToast('Listening…', 'info');
       });
 
       document.querySelectorAll('.dictate-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          if (voice.isListening) {
-            voice.stop();
-            showToast('Dictation stopped', 'info');
-            return;
-          }
-          activeTarget = document.getElementById(btn.getAttribute('data-target'));
-          if (activeTarget) {
-            activeTarget.focus();
-            const started = voice.start();
-            if (started) showToast('Listening — speak your symptom', 'info');
-          }
+          if (voice.isListening) { voice.stop(); fieldTarget = null; showToast('Dictation stopped', 'info'); return; }
+          fieldTarget = document.getElementById(btn.getAttribute('data-target'));
+          fieldTarget.focus();
+          if (voice.start(langSelect.value)) showToast('Dictating into field…', 'info');
         });
+      });
+
+      document.querySelectorAll('.sample-prompt-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          transcriptEl.value = chip.getAttribute('data-sample');
+          unsupportedMsg.style.display = 'none';
+          showToast('Sample inserted — click "Use this text" or edit it.', 'success');
+        });
+      });
+
+      document.getElementById('read-aloud-btn').addEventListener('click', () => {
+        const text = transcriptEl.value.trim();
+        if (text) voice.speak(text, langSelect.value); else showToast('Nothing to read aloud', 'info');
+      });
+      document.getElementById('clear-voice-btn').addEventListener('click', () => {
+        transcriptEl.value = ''; voice.stop(); showToast('Cleared.', 'info');
+      });
+      document.getElementById('use-transcript-btn').addEventListener('click', () => {
+        const text = transcriptEl.value.trim();
+        if (!text) { showToast('Speak or type something first', 'error'); return; }
+        const nameField = document.getElementById('symptom-name');
+        const notesField = document.getElementById('symptom-notes');
+        if (!nameField.value.trim()) nameField.value = text.split(/[.!?]/)[0].slice(0, 80);
+        notesField.value = notesField.value.trim() ? notesField.value + ' ' + text : text;
+        showToast('Text moved into the form below', 'success');
+        nameField.focus();
       });
 
       document.getElementById('symptom-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const name = document.getElementById('symptom-name').value;
-        const date = document.getElementById('symptom-date').value;
-        const severity = document.getElementById('symptom-severity').value;
-        const notes = document.getElementById('symptom-notes').value;
-
         await addSymptom({
           patientId: patientId,
-          symptomName: name,
-          startedAt: date,
-          severity: severity,
-          notes: notes,
+          symptomName: document.getElementById('symptom-name').value,
+          startedAt: document.getElementById('symptom-date').value,
+          severity: document.getElementById('symptom-severity').value,
+          notes: document.getElementById('symptom-notes').value,
           source: 'Patient Self-Entry',
           status: 'Pending Doctor Review'
         });
-
         showToast('Symptom reported and queued for doctor review', 'success');
-        setTimeout(() => {
-          window.location.href = 'records.html';
-        }, 1200);
+        setTimeout(() => { window.location.href = 'records.html'; }, 1200);
       });
 
       renderIcons();

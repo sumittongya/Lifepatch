@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="fieldVisit">
             ASHA Household Field Visit Form
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="visitSubtitle">
             Record physical vitals, blood glucose, and symptom observations directly at the patient's home.
           </p>
         </div>
@@ -29,7 +29,7 @@
         <div class="card" style="padding: 2rem;">
           <form id="visit-form">
             <div class="form-group">
-              <label class="form-label">Select Citizen / Household Patient <span class="required">*</span></label>
+              <label class="form-label" data-i18n-html="visitPatientLabel">Select Citizen / Household Patient <span class="required">*</span></label>
               <select id="v-patient" class="form-control" required>
                 <!-- Populated from DB -->
               </select>
@@ -38,38 +38,38 @@
             <!-- Vitals Grid -->
             <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1rem; margin: 1.5rem 0 0.75rem 0; color: var(--primary-green);">
               <i data-lucide="activity" style="width: 18px; height: 18px;"></i>
-              <span>Vital Sign Measurements</span>
+              <span data-i18n="visitVitalsTitle">Vital Sign Measurements</span>
             </div>
 
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">Blood Pressure (Systolic / Diastolic mmHg)</label>
+                <label class="form-label" data-i18n="visitBpLabel">Blood Pressure (Systolic / Diastolic mmHg)</label>
                 <div style="display:flex; gap:0.5rem; align-items:center;">
-                  <input type="number" id="v-sys" class="form-control" placeholder="Systolic (e.g. 140)" value="142" required>
+                  <input type="number" id="v-sys" class="form-control" placeholder="Systolic (e.g. 140)" data-i18n-attr="placeholder" data-i18n="visitSysPh" value="142" required>
                   <span style="font-weight: 700; color: var(--text-muted);">/</span>
-                  <input type="number" id="v-dia" class="form-control" placeholder="Diastolic (e.g. 90)" value="88" required>
+                  <input type="number" id="v-dia" class="form-control" placeholder="Diastolic (e.g. 90)" data-i18n-attr="placeholder" data-i18n="visitDiaPh" value="88" required>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Random Blood Glucose (mg/dL)</label>
-                <input type="number" id="v-sugar" class="form-control" placeholder="e.g. 165" value="170">
+                <label class="form-label" data-i18n="visitSugarLabel">Random Blood Glucose (mg/dL)</label>
+                <input type="number" id="v-sugar" class="form-control" placeholder="e.g. 165" data-i18n-attr="placeholder" data-i18n="visitSugarPh" value="170">
               </div>
             </div>
 
             <div class="grid-3">
               <div class="form-group">
-                <label class="form-label">Heart Rate (bpm)</label>
+                <label class="form-label" data-i18n="visitHrLabel">Heart Rate (bpm)</label>
                 <input type="number" id="v-hr" class="form-control" value="82" required>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Oxygen SpO2 (%)</label>
+                <label class="form-label" data-i18n="visitSpo2Label">Oxygen SpO2 (%)</label>
                 <input type="number" id="v-spo2" class="form-control" value="98" required>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Temperature (°F)</label>
+                <label class="form-label" data-i18n="visitTempLabel">Temperature (°F)</label>
                 <input type="number" step="0.1" id="v-temp" class="form-control" value="98.4" required>
               </div>
             </div>
@@ -77,19 +77,19 @@
             <!-- Symptom & Observation Notes -->
             <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1rem; margin: 1.5rem 0 0.75rem 0; color: var(--primary-indigo);">
               <i data-lucide="clipboard" style="width: 18px; height: 18px;"></i>
-              <span>Symptom & Household Observations</span>
+              <span data-i18n="visitObsTitle">Symptom & Household Observations</span>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Chief Complaint & Citizen Description</label>
-              <textarea id="v-notes" class="form-control" rows="3" placeholder="e.g. Patient mentioned feeling lightheaded when getting out of bed. Medication compliance is good.">Patient reported mild morning dizziness. Confirmed regular intake of Metformin. Advised to reduce salt and visit PHC OPD for doctor review.</textarea>
+              <label class="form-label" data-i18n="visitNotesLabel">Chief Complaint & Citizen Description</label>
+              <textarea id="v-notes" class="form-control" rows="3" placeholder="e.g. Patient mentioned feeling lightheaded when getting out of bed. Medication compliance is good." data-i18n-attr="placeholder" data-i18n="visitNotesPh">Patient reported mild morning dizziness. Confirmed regular intake of Metformin. Advised to reduce salt and visit PHC OPD for doctor review.</textarea>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
-              <a href="dashboard.html" class="btn btn-outline">Cancel</a>
+              <a href="dashboard.html" class="btn btn-outline" data-i18n="cancel">Cancel</a>
               <button type="submit" class="btn btn-success btn-lg">
                 <i data-lucide="save" style="width: 16px; height: 16px;"></i>
-                <span>Save & Sync Visit Record</span>
+                <span data-i18n="visitSaveBtn">Save & Sync Visit Record</span>
               </button>
             </div>
           </form>

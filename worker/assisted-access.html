@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="assistedAccess">
             Assisted Citizen Access Portal
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="assistSubtitle">
             Assisting rural, non-literate, or elderly citizens to navigate their health records with explicit verbal consent.
           </p>
         </div>
@@ -31,17 +31,17 @@
             <div style="width: 60px; height: 60px; border-radius: var(--radius-md); background: var(--primary-green-light); color: var(--primary-green); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem;">
               <i data-lucide="heart-handshake" style="width: 32px; height: 32px;"></i>
             </div>
-            <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--text-main);">
+            <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--text-main);" data-i18n="assistSessionTitle">
               Initiate Assisted Field Session
             </h2>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;" data-i18n-html="assistWorkerMeta">
               ASHA Community Worker: <strong>Sunita Bai (HW-9021)</strong>
             </p>
           </div>
 
           <form id="assisted-form">
             <div class="form-group">
-              <label class="form-label">Select Citizen / Patient <span class="required">*</span></label>
+              <label class="form-label" data-i18n-html="assistCitizenLabel">Select Citizen / Patient <span class="required">*</span></label>
               <select id="assisted-patient" class="form-control" required>
                 <!-- Populated from DB -->
               </select>
@@ -51,18 +51,18 @@
             <div style="background: var(--bg-main); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 1.25rem; margin: 1.5rem 0;">
               <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--primary-green);">
                 <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
-                <span>Citizen Verbal Consent & Audit Protocol</span>
+                <span data-i18n="assistConsentTitle">Citizen Verbal Consent & Audit Protocol</span>
               </div>
               <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.85rem; line-height: 1.6; color: var(--text-main); cursor: pointer;">
                 <input type="checkbox" id="consent-check" required style="margin-top: 0.25rem; width: 18px; height: 18px; accent-color: var(--primary-green);">
-                <span>
+                <span data-i18n="assistConsentText">
                   I confirm that I have explained the purpose in the citizen's local language (Hindi/Telugu), and they have granted explicit verbal consent to view and update their longitudinal records during this household visit.
                 </span>
               </label>
             </div>
 
             <button type="submit" class="btn btn-success btn-block btn-lg">
-              <span>Launch Assisted Patient Workspace</span>
+              <span data-i18n="assistLaunchBtn">Launch Assisted Patient Workspace</span>
               <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
             </button>
           </form>

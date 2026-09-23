@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="followups">
             Patient Follow-up & Care Continuity
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="fuSubtitle">
             Schedule chronic disease recalls, post-hospitalization checkups, and ASHA field visit tasks.
           </p>
         </div>
@@ -31,40 +31,40 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="calendar-plus" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Schedule Clinical Follow-up</span>
+              <span data-i18n="fuFormTitle">Schedule Clinical Follow-up</span>
             </span>
-            <span class="badge badge-info">Care Protocol</span>
+            <span class="badge badge-info" data-i18n="fuBadgeProtocol">Care Protocol</span>
           </div>
           <form id="followup-form">
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">Registered Patient <span class="required">*</span></label>
+                <label class="form-label" data-i18n-html="fuPatientLabel">Registered Patient <span class="required">*</span></label>
                 <select id="fu-patient" class="form-control" required>
                   <!-- Populated from DB -->
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Scheduled Date <span class="required">*</span></label>
+                <label class="form-label" data-i18n-html="fuDateLabel">Scheduled Date <span class="required">*</span></label>
                 <input type="date" id="fu-date" class="form-control" required>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Clinical Follow-up Objective & Vitals Target</label>
-              <input type="text" id="fu-reason" class="form-control" placeholder="e.g. 2-week BP check & fasting glucose review after starting Metformin" value="2-week BP & fasting glucose check after medication adjustment" required>
+              <label class="form-label" data-i18n="fuReasonLabel">Clinical Follow-up Objective & Vitals Target</label>
+              <input type="text" id="fu-reason" class="form-control" placeholder="e.g. 2-week BP check & fasting glucose review after starting Metformin" data-i18n-attr="placeholder" data-i18n="fuReasonPh" value="2-week BP & fasting glucose check after medication adjustment" required>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Assign Field ASHA Worker for Home Visit</label>
+              <label class="form-label" data-i18n="fuAshaLabel">Assign Field ASHA Worker for Home Visit</label>
               <select id="fu-asha" class="form-control">
-                <option value="Sunita Bai (ASHA Sector 3)" selected>Sunita Bai (ASHA Sector 3 - Kondapur)</option>
-                <option value="Rekha Devi (ASHA Sector 2)">Rekha Devi (ASHA Sector 2 - Shankarpally)</option>
+                <option value="Sunita Bai (ASHA Sector 3)" selected data-i18n="fuAsha1">Sunita Bai (ASHA Sector 3 - Kondapur)</option>
+                <option value="Rekha Devi (ASHA Sector 2)" data-i18n="fuAsha2">Rekha Devi (ASHA Sector 2 - Shankarpally)</option>
               </select>
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg">
               <i data-lucide="check" style="width: 16px; height: 16px;"></i>
-              <span>Schedule & Dispatch Notification to ASHA</span>
+              <span data-i18n="fuSubmitBtn">Schedule & Dispatch Notification to ASHA</span>
             </button>
           </form>
         </div>
@@ -74,7 +74,7 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="clock" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-              <span>Active Care Follow-ups</span>
+              <span data-i18n="fuListTitle">Active Care Follow-ups</span>
             </span>
             <span class="badge badge-verified" id="fu-count-badge">Active</span>
           </div>
@@ -125,9 +125,9 @@
         mount.innerHTML = apts.map(a => `
           <div style="display:flex; justify-content:space-between; align-items:center; padding:1rem; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
             <div>
-              <div style="font-weight:700; font-size:0.95rem; color:var(--text-main);">${a.title || 'Follow-up Consultation'}</div>
-              <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.15rem;">Date: <strong>${a.date}</strong> at ${a.time || '10:00 AM'} • Facility: ${a.facility}</div>
-              <div style="font-size:0.75rem; color:var(--primary-blue); margin-top:0.15rem;">Doctor: ${a.doctor} • Assigned ASHA: Sunita Bai</div>
+              <div style="font-weight:700; font-size:0.95rem; color:var(--text-main);">${a.title || a.type || 'Follow-up Consultation'}</div>
+              <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.15rem;">Date: <strong>${a.date}</strong> at ${a.timeSlot || a.time || '10:00 AM'} • Facility: ${a.facility}</div>
+              <div style="font-size:0.75rem; color:var(--primary-blue); margin-top:0.15rem;">Doctor: ${a.doctor || 'Dr. Ananya Rao'} • Assigned ASHA: Sunita Bai</div>
             </div>
             <div>
               <span class="badge badge-routine">${a.status || 'Scheduled'}</span>

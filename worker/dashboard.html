@@ -23,18 +23,18 @@
             <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">
               <span data-i18n="timeGreeting">Good morning</span>, Sunita Bai (ASHA)
             </h1>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="workDashSubtitle">
               Kondapur Sub-Centre Sector 3 • Offline Field Health & Assisted Citizen Care
             </p>
           </div>
           <div style="display:flex; gap:0.625rem; flex-wrap: wrap;">
             <a href="field-visit.html" class="btn btn-success">
               <i data-lucide="clipboard-check" style="width: 16px; height: 16px;"></i>
-              <span>Record Field Visit</span>
+              <span data-i18n="workDashRecordVisit">Record Field Visit</span>
             </a>
             <a href="sync.html" class="btn btn-outline">
               <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i>
-              <span>Sync Queue (<span id="btn-sync-count">0</span>)</span>
+              <span><span data-i18n="workDashSyncQueue">Sync Queue</span> (<span id="btn-sync-count">0</span>)</span>
             </a>
           </div>
         </div>
@@ -47,7 +47,7 @@
             </div>
             <div>
               <div class="stat-value">42</div>
-              <div class="stat-label">Assigned Households</div>
+              <div class="stat-label" data-i18n="workDashStatHouseholds">Assigned Households</div>
             </div>
           </div>
 
@@ -57,7 +57,7 @@
             </div>
             <div>
               <div class="stat-value" id="stat-worker-patients">4</div>
-              <div class="stat-label">Registered Citizens</div>
+              <div class="stat-label" data-i18n="workDashStatCitizens">Registered Citizens</div>
             </div>
           </div>
 
@@ -67,7 +67,7 @@
             </div>
             <div>
               <div class="stat-value">2</div>
-              <div class="stat-label">High-Risk Follow-ups</div>
+              <div class="stat-label" data-i18n="workDashStatHighRisk">High-Risk Follow-ups</div>
             </div>
           </div>
 
@@ -77,7 +77,7 @@
             </div>
             <div>
               <div class="stat-value" id="stat-offline-pending">0</div>
-              <div class="stat-label">Offline Queued Records</div>
+              <div class="stat-label" data-i18n="workDashStatOffline">Offline Queued Records</div>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
             </div>
             <div class="action-card-content">
               <h3 data-i18n="assistedAccess">Assisted Citizen Access</h3>
-              <p>Help elderly or illiterate citizens view records with verbal consent</p>
+              <p data-i18n="workDashAssistDesc">Help elderly or illiterate citizens view records with verbal consent</p>
             </div>
           </a>
 
@@ -100,7 +100,7 @@
             </div>
             <div class="action-card-content">
               <h3 data-i18n="fieldVisit">Record Field Vitals</h3>
-              <p>Capture BP, Blood Sugar, SpO2 & symptoms at patient household</p>
+              <p data-i18n="workDashVitalsDesc">Capture BP, Blood Sugar, SpO2 & symptoms at patient household</p>
             </div>
           </a>
 
@@ -110,7 +110,7 @@
             </div>
             <div class="action-card-content">
               <h3 data-i18n="voiceEntry">ASHA Voice Note</h3>
-              <p>Record quick audio visit observations in Hindi or Telugu</p>
+              <p data-i18n="workDashVoiceDesc">Record quick audio visit observations in Hindi or Telugu</p>
             </div>
           </a>
         </div>
@@ -120,20 +120,20 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="list-checks" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-              <span>Priority Village Households for Today</span>
+              <span data-i18n="workDashRosterTitle">Priority Village Households for Today</span>
             </span>
-            <span class="badge badge-info">Sector 3 Roster</span>
+            <span class="badge badge-info" data-i18n="workDashRosterBadge">Sector 3 Roster</span>
           </div>
           <div class="table-container">
             <table class="table">
               <thead>
                 <tr>
-                  <th>Citizen Name</th>
-                  <th>Health ID & ABHA</th>
-                  <th>Village / Sector</th>
-                  <th>Risk Category</th>
-                  <th>Last Vital Check</th>
-                  <th>Field Actions</th>
+                  <th data-i18n="workDashColCitizen">Citizen Name</th>
+                  <th data-i18n="workDashColHealthId">Health ID & ABHA</th>
+                  <th data-i18n="workDashColVillage">Village / Sector</th>
+                  <th data-i18n="workDashColRisk">Risk Category</th>
+                  <th data-i18n="workDashColLastVital">Last Vital Check</th>
+                  <th data-i18n="workDashColActions">Field Actions</th>
                 </tr>
               </thead>
               <tbody id="worker-pat-tbody">

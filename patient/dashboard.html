@@ -33,15 +33,15 @@
           </div>
           <div class="patient-vital-pills">
             <div class="vital-pill">
-              <span class="vital-pill-label">Blood Pressure</span>
+              <span class="vital-pill-label" data-i18n="patDashBpLabel">Blood Pressure</span>
               <span class="vital-pill-value" id="pill-bp" style="color: var(--status-high);">148/92 mmHg</span>
             </div>
             <div class="vital-pill">
-              <span class="vital-pill-label">Random Sugar</span>
+              <span class="vital-pill-label" data-i18n="patDashSugarLabel">Random Sugar</span>
               <span class="vital-pill-value" id="pill-sugar" style="color: var(--status-high);">182 mg/dL</span>
             </div>
             <div class="vital-pill">
-              <span class="vital-pill-label">Blood Group</span>
+              <span class="vital-pill-label" data-i18n="patDashBgLabel">Blood Group</span>
               <span class="vital-pill-value" id="pill-bg">B+</span>
             </div>
           </div>
@@ -68,18 +68,18 @@
             <div style="font-size: 1.25rem; font-weight: 800; margin: 0.35rem 0; color: var(--text-main);" id="stat-active-meds">
               2 Medicines
             </div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Metformin (BD), Amlodipine (OD)</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="patDashMedsList">Metformin (BD), Amlodipine (OD)</div>
           </div>
 
           <div class="card" style="border-left: 4px solid var(--status-high);">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-              <div class="card-subtitle">Hospital Referrals</div>
+              <div class="card-subtitle" data-i18n="patDashReferrals">Hospital Referrals</div>
               <i data-lucide="git-pull-request" style="width: 18px; height: 18px; color: var(--status-high);"></i>
             </div>
             <div style="font-size: 1.25rem; font-weight: 800; margin: 0.35rem 0; color: var(--text-main);" id="stat-referrals">
               1 Active
             </div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">District Hospital (Cardiology)</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="patDashReferralSub">District Hospital (Cardiology)</div>
           </div>
         </div>
 
@@ -90,21 +90,21 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.875rem;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <i data-lucide="shield-check" style="width: 20px; height: 20px; color: #38BDF8;"></i>
-                <strong style="font-size: 0.95rem; letter-spacing: 0.05em; color: #FFFFFF;">AYUSHMAN BHARAT DIGITAL MISSION</strong>
+                <strong style="font-size: 0.95rem; letter-spacing: 0.05em; color: #FFFFFF;" data-i18n="patDashAbdmTitle">AYUSHMAN BHARAT DIGITAL MISSION</strong>
               </div>
-              <span class="badge badge-verified" style="background: rgba(16, 185, 129, 0.25); color: #34D399; border-color: rgba(52, 211, 153, 0.4); font-size: 0.7rem;">ABHA LINKED</span>
+              <span class="badge badge-verified" style="background: rgba(16, 185, 129, 0.25); color: #34D399; border-color: rgba(52, 211, 153, 0.4); font-size: 0.7rem;" data-i18n="patDashAbhaLinked">ABHA LINKED</span>
             </div>
             <div class="abha-card-chip"></div>
-            <div style="font-size: 0.75rem; color: #CBD5E1; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">ABHA Number</div>
+            <div style="font-size: 0.75rem; color: #CBD5E1; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="patDashAbhaNumber">ABHA Number</div>
             <div class="abha-card-number" id="abha-display-number">91-4820-9182-3841</div>
             <div class="abha-card-footer">
               <div>
                 <div style="font-weight: 800; color: #FFFFFF; font-size: 1.05rem;">LAKSHMI DEVI</div>
-                <div style="font-size: 0.8rem; color: #E2E8F0; margin-top: 0.15rem;">DOB: 1974 • Female • Health ID: LP-10234</div>
+                <div style="font-size: 0.8rem; color: #E2E8F0; margin-top: 0.15rem;" data-i18n="patDashAbhaMeta">DOB: 1974 • Female • Health ID: LP-10234</div>
               </div>
               <button class="btn btn-outline btn-sm" id="btn-copy-abha" style="background: rgba(255,255,255,0.15); color: #FFFFFF; border-color: rgba(255,255,255,0.3); font-size: 0.75rem;">
                 <i data-lucide="copy" style="width: 12px; height: 12px;"></i>
-                <span>Copy</span>
+                <span data-i18n="patDashCopyBtn">Copy</span>
               </button>
             </div>
           </div>
@@ -114,9 +114,9 @@
             <div class="card-header">
               <span class="card-title">
                 <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-                <span>My Vitals History</span>
+                <span data-i18n="patDashVitalsTitle">My Vitals History</span>
               </span>
-              <span class="badge badge-info">ASHA Sync</span>
+              <span class="badge badge-info" data-i18n="patDashAshaSync">ASHA Sync</span>
             </div>
             <div style="height: 180px; position: relative;">
               <canvas id="patientVitalsChart"></canvas>
@@ -125,17 +125,17 @@
         </div>
 
         <!-- 4 Big Action Cards (Rural/Accessibility First) -->
-        <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
+        <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);" data-i18n="patDashQuickServices">
           Quick Healthcare Services
         </h3>
         <div class="grid-2" style="margin-bottom: 2rem;">
-          <a href="voice.html" class="action-card">
+          <a href="symptoms.html" class="action-card">
             <div class="action-card-icon">
               <i data-lucide="mic" style="width: 24px; height: 24px;"></i>
             </div>
             <div class="action-card-content">
               <h3 data-i18n="tellHowYouFeel">Voice Symptom Assistant</h3>
-              <p>Speak in Hindi, Telugu, or English to record your health symptoms</p>
+              <p data-i18n="patDashVoiceDesc">Speak in Hindi, Telugu, or English to record your health symptoms</p>
             </div>
           </a>
 
@@ -145,7 +145,7 @@
             </div>
             <div class="action-card-content">
               <h3 data-i18n="medicalRecords">My Medical Records & Rx</h3>
-              <p>View your complete health timeline, prescription slips & doctor notes</p>
+              <p data-i18n="patDashRecordsDesc">View your complete health timeline, prescription slips & doctor notes</p>
             </div>
           </a>
 
@@ -155,7 +155,7 @@
             </div>
             <div class="action-card-content">
               <h3 data-i18n="bookVisit">Book PHC Doctor Visit</h3>
-              <p>Schedule a clinic visit and reserve your instant OPD token</p>
+              <p data-i18n="patDashAptDesc">Schedule a clinic visit and reserve your instant OPD token</p>
             </div>
           </a>
 
@@ -165,7 +165,7 @@
             </div>
             <div class="action-card-content">
               <h3 style="color: var(--status-emergency);" data-i18n="emergencySOS">Emergency 108 SOS</h3>
-              <p>One-tap emergency ambulance dispatch with live GPS location share</p>
+              <p data-i18n="patDashSosDesc">One-tap emergency ambulance dispatch with live GPS location share</p>
             </div>
           </a>
         </div>
@@ -175,10 +175,10 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="clock" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Recent Health Events</span>
+              <span data-i18n="patDashRecentEvents">Recent Health Events</span>
             </span>
             <a href="records.html" class="btn btn-outline btn-sm">
-              <span>View All Records</span>
+              <span data-i18n="patDashViewAll">View All Records</span>
               <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
             </a>
           </div>
@@ -231,8 +231,8 @@
         // Appointments
         const apts = await getAppointments('pat-1');
         if (apts.length > 0) {
-          document.getElementById('stat-next-apt').textContent = `${apts[0].date} (${apts[0].time || '10:00 AM'})`;
-          document.getElementById('stat-next-apt-facility').textContent = `${apts[0].facility} • ${apts[0].doctor}`;
+          document.getElementById('stat-next-apt').textContent = `${apts[0].date} (${apts[0].timeSlot || apts[0].time || '10:00 AM'})`;
+          document.getElementById('stat-next-apt-facility').textContent = `${apts[0].facility} • ${apts[0].doctor || apts[0].department || apts[0].type || 'OPD'}`;
         } else {
           document.getElementById('stat-next-apt').textContent = 'No upcoming visits';
         }

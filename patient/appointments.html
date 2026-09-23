@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="appointments">
             PHC & Hospital Appointments
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="aptsDesc">
             Schedule outpatient visits, reserve queue slots, and receive instant digital OPD tokens.
           </p>
         </div>
@@ -32,37 +32,37 @@
             <div class="card-header">
               <span class="card-title">
                 <i data-lucide="calendar-plus" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-                <span>Book a New Visit</span>
+                <span data-i18n="aptsBookTitle">Book a New Visit</span>
               </span>
-              <span class="badge badge-info">Instant Token</span>
+              <span class="badge badge-info" data-i18n="aptsInstantBadge">Instant Token</span>
             </div>
             <form id="apt-form">
               <div class="form-group">
-                <label class="form-label">Healthcare Facility</label>
+                <label class="form-label" data-i18n="aptsFacilityLabel">Healthcare Facility</label>
                 <select id="apt-facility" class="form-control" required>
-                  <option value="PHC Kondapur" selected>Primary Health Centre (PHC) Kondapur (1.4 km)</option>
-                  <option value="Area Hospital Shankarpally">Area Hospital Shankarpally (8.2 km)</option>
-                  <option value="District Referral Hospital Chevella">District Referral Hospital Chevella (16 km)</option>
+                  <option value="PHC Kondapur" selected data-i18n="aptsFacPhc">Primary Health Centre (PHC) Kondapur (1.4 km)</option>
+                  <option value="Area Hospital Shankarpally" data-i18n="aptsFacArea">Area Hospital Shankarpally (8.2 km)</option>
+                  <option value="District Referral Hospital Chevella" data-i18n="aptsFacDist">District Referral Hospital Chevella (16 km)</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Clinical Department</label>
+                <label class="form-label" data-i18n="aptsDeptLabel">Clinical Department</label>
                 <select id="apt-dept" class="form-control" required>
-                  <option value="General Outpatient (OPD)">General Outpatient (OPD)</option>
-                  <option value="NCD & Chronic Care (Diabetes/BP)" selected>NCD & Chronic Care (Diabetes/BP)</option>
-                  <option value="Maternal & Child Health (MCH)">Maternal & Child Health (MCH)</option>
-                  <option value="Physiotherapy & Ortho">Physiotherapy & Ortho</option>
+                  <option value="General Outpatient (OPD)" data-i18n="aptsDeptOpd">General Outpatient (OPD)</option>
+                  <option value="NCD & Chronic Care (Diabetes/BP)" selected data-i18n="aptsDeptNcd">NCD & Chronic Care (Diabetes/BP)</option>
+                  <option value="Maternal & Child Health (MCH)" data-i18n="aptsDeptMch">Maternal & Child Health (MCH)</option>
+                  <option value="Physiotherapy & Ortho" data-i18n="aptsDeptOrtho">Physiotherapy & Ortho</option>
                 </select>
               </div>
 
               <div class="grid-2">
                 <div class="form-group">
-                  <label class="form-label">Date</label>
+                  <label class="form-label" data-i18n="aptsDateLabel">Date</label>
                   <input type="date" id="apt-date" class="form-control" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Preferred Time Slot</label>
+                  <label class="form-label" data-i18n="aptsTimeLabel">Preferred Time Slot</label>
                   <select id="apt-time" class="form-control" required>
                     <option value="09:30 AM">09:30 AM</option>
                     <option value="10:30 AM" selected>10:30 AM</option>
@@ -72,9 +72,9 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 0.5rem;" data-i18n="bookVisit">
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 0.5rem;">
                 <i data-lucide="check" style="width: 18px; height: 18px;"></i>
-                <span>Confirm & Generate Token</span>
+                <span data-i18n="aptsConfirmBtn">Confirm & Generate Token</span>
               </button>
             </form>
           </div>
@@ -85,7 +85,7 @@
               <div class="card-header">
                 <span class="card-title">
                   <i data-lucide="ticket" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-                  <span>Your Active Tokens</span>
+                  <span data-i18n="aptsTokensTitle">Your Active Tokens</span>
                 </span>
                 <span class="badge badge-verified" id="token-count-badge">Active</span>
               </div>
@@ -140,8 +140,8 @@
               <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">${a.date}</span>
             </div>
             <div style="font-weight:700; font-size:1rem; color:var(--text-main);">${a.facility}</div>
-            <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.25rem;">Doctor: ${a.doctor} • Time: <strong>${a.time || '10:00 AM'}</strong></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Dept: ${a.title || 'Outpatient Consultation'}</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.25rem;">Doctor: ${a.doctor || 'PHC Medical Officer'} • Time: <strong>${a.timeSlot || a.time || '10:00 AM'}</strong></div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Dept: ${a.department || a.title || 'Outpatient Consultation'}</div>
             <div style="margin-top:0.75rem; padding-top:0.5rem; border-top:1px dashed var(--border-default); display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size:0.75rem; color:var(--primary-green); font-weight:700;">✓ Queue Token #7 Reserved</span>
               <button class="btn btn-outline btn-sm" onclick="window.print()" style="height:28px; font-size:0.75rem;">Print Pass</button>

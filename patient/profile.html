@@ -23,13 +23,13 @@
             <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="profile">
               Personal Health Profile
             </h1>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="profileDesc">
               Your citizen health identity, Ayushman Bharat Digital Mission (ABDM) card, and clinical flags.
             </p>
           </div>
           <button class="btn btn-outline btn-sm" onclick="window.print()">
             <i data-lucide="printer" style="width: 14px; height: 14px;"></i>
-            <span>Print ABHA Card</span>
+            <span data-i18n="profilePrintBtn">Print ABHA Card</span>
           </button>
         </div>
 
@@ -37,12 +37,12 @@
         <div class="abha-card" style="margin-bottom: 2rem;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 1.25rem;">
             <div>
-              <div style="font-size: 0.75rem; letter-spacing: 0.12em; color: #38BDF8; font-weight: 800; text-transform: uppercase;">Ayushman Bharat Digital Mission</div>
-              <div style="font-size: 1.4rem; font-weight: 900; margin-top: 0.2rem; color: #FFFFFF; letter-spacing: -0.01em;">GOVERNMENT OF INDIA</div>
+              <div style="font-size: 0.75rem; letter-spacing: 0.12em; color: #38BDF8; font-weight: 800; text-transform: uppercase;" data-i18n="profileAbdmTitle">Ayushman Bharat Digital Mission</div>
+              <div style="font-size: 1.4rem; font-weight: 900; margin-top: 0.2rem; color: #FFFFFF; letter-spacing: -0.01em;" data-i18n="profileGovt">GOVERNMENT OF INDIA</div>
             </div>
             <div class="badge badge-verified" style="background: rgba(16, 185, 129, 0.25); color: #34D399; border-color: rgba(52, 211, 153, 0.4); font-size: 0.7rem;">
               <i data-lucide="check-circle" style="width: 13px; height: 13px;"></i>
-              <span>VERIFIED CITIZEN</span>
+              <span data-i18n="profileVerifiedBadge">VERIFIED CITIZEN</span>
             </div>
           </div>
 
@@ -60,15 +60,15 @@
 
           <div class="grid-3" style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1.25rem; font-size: 0.85rem;">
             <div>
-              <div style="color: #CBD5E1; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">ABHA NUMBER</div>
+              <div style="color: #CBD5E1; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;" data-i18n="profileAbhaLabel">ABHA NUMBER</div>
               <div style="font-weight: 800; font-family: var(--font-mono); color: #38BDF8; font-size: 1.15rem; margin-top: 0.25rem; text-shadow: 0 1px 2px rgba(0,0,0,0.4);" id="prof-abha">91-4820-9182-3841</div>
             </div>
             <div>
-              <div style="color: #CBD5E1; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">HEALTH ID</div>
+              <div style="color: #CBD5E1; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;" data-i18n="profileHealthIdLabel">HEALTH ID</div>
               <div style="font-weight: 800; font-family: var(--font-mono); color: #FFFFFF; font-size: 1.15rem; margin-top: 0.25rem;" id="prof-hid">LP-10234</div>
             </div>
             <div>
-              <div style="color: #CBD5E1; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">BLOOD GROUP</div>
+              <div style="color: #CBD5E1; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;" data-i18n="profileBloodGroupLabel">BLOOD GROUP</div>
               <div style="font-weight: 800; color: #FFFFFF; font-size: 1.15rem; margin-top: 0.25rem;" id="prof-bg">B+</div>
             </div>
           </div>
@@ -79,41 +79,41 @@
           <div class="card-header" style="margin-top: -0.5rem;">
             <span class="card-title">
               <i data-lucide="clipboard-list" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Clinical Profile & Emergency Contacts</span>
+              <span data-i18n="profileClinicalTitle">Clinical Profile & Emergency Contacts</span>
             </span>
-            <span class="badge badge-info">PHC Catchment: Kondapur</span>
+            <span class="badge badge-info" data-i18n="profileCatchmentBadge">PHC Catchment: Kondapur</span>
           </div>
 
           <div class="grid-2" style="margin-bottom: 1.25rem;">
             <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div class="vital-pill-label">Registered Phone Number</div>
+              <div class="vital-pill-label" data-i18n="profilePhoneLabel">Registered Phone Number</div>
               <div style="font-weight: 700; font-size: 1rem; color: var(--text-main); margin-top: 0.25rem;" id="prof-phone">+91 98480 12345</div>
             </div>
             <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div class="vital-pill-label">Emergency Nominee & Contact</div>
+              <div class="vital-pill-label" data-i18n="profileEmergencyLabel">Emergency Nominee & Contact</div>
               <div style="font-weight: 700; font-size: 1rem; color: var(--text-main); margin-top: 0.25rem;" id="prof-emergency">Ravi (Son) - 98480 54321</div>
             </div>
           </div>
 
           <div class="grid-2" style="margin-bottom: 1.25rem;">
             <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div class="vital-pill-label">Chronic Conditions Diagnosed</div>
+              <div class="vital-pill-label" data-i18n="profileChronicLabel">Chronic Conditions Diagnosed</div>
               <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main); margin-top: 0.25rem;" id="prof-chronic">Type 2 Diabetes, Hypertension</div>
             </div>
             <div style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div class="vital-pill-label">Known Allergies & Drug Adverse Flags</div>
+              <div class="vital-pill-label" data-i18n="profileAllergiesLabel">Known Allergies & Drug Adverse Flags</div>
               <div style="font-weight: 800; font-size: 0.95rem; color: var(--status-emergency); margin-top: 0.25rem;" id="prof-allergies">Penicillin (Severe)</div>
             </div>
           </div>
 
           <div style="background: var(--primary-blue-light); border: 1px solid var(--primary-blue-muted); padding: 1rem; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary-blue); text-transform: uppercase;">Assigned Community ASHA Health Worker</div>
-              <div style="font-weight: 800; color: var(--text-main); font-size: 0.95rem; margin-top: 0.15rem;">Sunita Bai (HW-9021) • Kondapur Sector 3</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary-blue); text-transform: uppercase;" data-i18n="profileAshaLabel">Assigned Community ASHA Health Worker</div>
+              <div style="font-weight: 800; color: var(--text-main); font-size: 0.95rem; margin-top: 0.15rem;" data-i18n="profileAshaName">Sunita Bai (HW-9021) • Kondapur Sector 3</div>
             </div>
             <a href="tel:9848099887" class="btn btn-outline btn-sm">
               <i data-lucide="phone" style="width: 12px; height: 12px;"></i>
-              <span>Call ASHA</span>
+              <span data-i18n="profileCallAshaBtn">Call ASHA</span>
             </a>
           </div>
         </div>

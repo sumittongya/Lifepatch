@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="settings">
             Application Settings & Data Engine
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="setSubtitle">
             Configure system language, appearance themes, and backup or restore your client-side IndexedDB database.
           </p>
         </div>
@@ -31,25 +31,25 @@
           <div class="card-header" style="margin-top: -0.5rem;">
             <span class="card-title">
               <i data-lucide="sliders" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>User & Language Preferences</span>
+              <span data-i18n="setPrefsTitle">User & Language Preferences</span>
             </span>
           </div>
 
           <div class="grid-2">
             <div class="form-group">
-              <label class="form-label">Display & Speech Language</label>
+              <label class="form-label" data-i18n="setLangLabel">Display & Speech Language</label>
               <select id="pref-lang" class="form-control">
-                <option value="en">English (Official Clinical Default)</option>
-                <option value="hi">हिन्दी (Hindi)</option>
-                <option value="te">తెలుగు (Telugu)</option>
+                <option value="en" data-i18n="setLangEn">English (Official Clinical Default)</option>
+                <option value="hi" data-i18n="setLangHi">हिन्दी (Hindi)</option>
+                <option value="te" data-i18n="setLangTe">తెలుగు (Telugu)</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Theme Mode</label>
+              <label class="form-label" data-i18n="setThemeLabel">Theme Mode</label>
               <select id="pref-theme" class="form-control">
-                <option value="light">Light Mode (Medical Standard)</option>
-                <option value="dark">Dark Mode (Deep Clinical Navy)</option>
+                <option value="light" data-i18n="setThemeLight">Light Mode (Medical Standard)</option>
+                <option value="dark" data-i18n="setThemeDark">Dark Mode (Deep Clinical Navy)</option>
               </select>
             </div>
           </div>
@@ -60,11 +60,11 @@
           <div class="card-header" style="margin-top: -0.5rem;">
             <span class="card-title">
               <i data-lucide="database" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-              <span>Local IndexedDB Database Backup & Portability</span>
+              <span data-i18n="setDbTitle">Local IndexedDB Database Backup & Portability</span>
             </span>
-            <span class="badge badge-verified">17 Stores Active</span>
+            <span class="badge badge-verified" data-i18n="setDbBadge">17 Stores Active</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;" data-i18n="setDbDesc">
             Because LIFE PATCH operates as a 100% zero-server offline-capable system, all clinical transactions (patients, vitals, prescriptions, triage queue, AI summaries) reside in your browser's local IndexedDB. You can export complete snapshots to JSON or restore existing records.
           </p>
 
@@ -85,16 +85,16 @@
           <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; margin-top: 1.25rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
               <div>
-                <div style="font-weight: 800; color: var(--status-emergency); font-size: 0.95rem;">
+                <div style="font-weight: 800; color: var(--status-emergency); font-size: 0.95rem;" data-i18n="setResetTitle">
                   Re-seed Demo Database
                 </div>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;" data-i18n="setResetDesc">
                   Resets all IndexedDB stores to the original SIH synthetic demonstration dataset.
                 </div>
               </div>
               <button class="btn btn-outline" id="btn-reset-data" style="color: var(--status-emergency); border-color: var(--status-emergency-border);">
                 <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
-                <span>Reset to Clean Seed</span>
+                <span data-i18n="setResetBtn">Reset to Clean Seed</span>
               </button>
             </div>
           </div>

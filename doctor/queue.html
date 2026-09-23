@@ -22,18 +22,18 @@
             <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="priorityQueue">
               OPD Clinical Priority Queue
             </h1>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="queueSubtitle">
               Human-led triage protocol. Doctor controls patient prioritization and examination sequence.
             </p>
           </div>
           <div style="display:flex; gap:0.5rem; flex-wrap: wrap;" id="queue-filter-buttons">
-            <button class="btn btn-primary btn-sm q-filter-btn active" data-filter="All">All Patients</button>
-            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="Emergency">🚨 Emergency</button>
-            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="High">⚠️ High Priority</button>
-            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="Routine">✓ Routine</button>
+            <button class="btn btn-primary btn-sm q-filter-btn active" data-filter="All" data-i18n="queueFilterAll">All Patients</button>
+            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="Emergency" data-i18n="queueFilterEmergency">🚨 Emergency</button>
+            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="High" data-i18n="queueFilterHigh">⚠️ High Priority</button>
+            <button class="btn btn-outline btn-sm q-filter-btn" data-filter="Routine" data-i18n="queueFilterRoutine">✓ Routine</button>
             <button class="btn btn-secondary btn-sm" id="btn-add-to-queue">
               <i data-lucide="user-plus" style="width: 14px; height: 14px;"></i>
-              <span>Add Token</span>
+              <span data-i18n="queueAddToken">Add Token</span>
             </button>
           </div>
         </div>
@@ -43,14 +43,14 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Token #</th>
-                  <th>Patient Name & ABHA</th>
-                  <th>Demographics</th>
-                  <th>Chief Complaint & Triage Signs</th>
-                  <th>Priority Level (Doctor Override)</th>
-                  <th>Arrival Time</th>
-                  <th>Est. Wait</th>
-                  <th>Action</th>
+                  <th data-i18n="queueThToken">Token #</th>
+                  <th data-i18n="queueThPatient">Patient Name & ABHA</th>
+                  <th data-i18n="queueThDemo">Demographics</th>
+                  <th data-i18n="queueThComplaint">Chief Complaint & Triage Signs</th>
+                  <th data-i18n="queueThPriority">Priority Level (Doctor Override)</th>
+                  <th data-i18n="queueThArrival">Arrival Time</th>
+                  <th data-i18n="queueThWait">Est. Wait</th>
+                  <th data-i18n="queueThAction">Action</th>
                 </tr>
               </thead>
               <tbody id="full-queue-tbody">
@@ -115,7 +115,7 @@
                 <option value="Routine" ${q.priority === 'Routine' ? 'selected' : ''}>✓ Routine</option>
               </select>
             </td>
-            <td>${q.arrivalTime || '09:15 AM'}</td>
+            <td>${q.arrivalTime || q.arrivedAt || '09:15 AM'}</td>
             <td>
               <span style="display:inline-flex; align-items:center; gap:0.25rem;">
                 <i data-lucide="clock" style="width:12px; height:12px; color:var(--text-muted);"></i>

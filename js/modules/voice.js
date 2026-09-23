@@ -18,6 +18,7 @@ export class VoiceSystem {
     this.onError = options.onError || (() => {});
     this.isSupported = !!SpeechRecognition;
     this.currentLang = options.lang || this.getLangCode();
+    this._netRetries = 0;
 
     if (this.isSupported) {
       this.initRecognition();
@@ -52,6 +53,7 @@ export class VoiceSystem {
 
         const combined = (fullFinal + interim).trim();
         this.finalTranscript = fullFinal.trim();
+        this._netRetries = 0; // a successful result clears the retry counter
         this.onResult(combined, fullFinal.length > 0);
       };
 
@@ -59,6 +61,22 @@ export class VoiceSystem {
         console.warn('SpeechRecognition error:', event.error);
         if (event.error === 'no-speech') {
           // Keep listening or ignore minor silence
+          return;
+        }
+        // 'network' = the cloud recognition service failed for this locale.
+        // It is frequently transient — retry twice; on the second retry
+        // drop the region tag (hi-IN -> hi) which resolves to a different model.
+        if (event.error === 'network' && this._netRetries < 2) {
+          this._netRetries++;
+          if (this._netRetries === 2 && this.currentLang.includes('-')) {
+            const base = this.currentLang.split('-')[0];
+            this.currentLang = base;
+            try { this.recognition.lang = base; } catch (e) { /* pass */ }
+          }
+          // isListening stays true so onend auto-restarts; timeout is a safety net
+          setTimeout(() => {
+            if (this.isListening) { try { this.recognition.start(); } catch (e) { /* already started */ } }
+          }, 450);
           return;
         }
         this.isListening = false;
@@ -113,6 +131,7 @@ export class VoiceSystem {
 
     try {
       this.finalTranscript = '';
+      this._netRetries = 0;
       this.recognition.start();
       this.isListening = true;
       return true;

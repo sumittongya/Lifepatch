@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="referrals">
             Secondary & Tertiary Hospital Referrals
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="refSubtitle">
             Transfer clinical responsibility and request specialized diagnostics with encrypted longitudinal EHR sharing.
           </p>
         </div>
@@ -32,50 +32,50 @@
             <div class="card-header">
               <span class="card-title">
                 <i data-lucide="git-pull-request" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-                <span>Initiate Clinical Referral</span>
+                <span data-i18n="refFormTitle">Initiate Clinical Referral</span>
               </span>
-              <span class="badge badge-info">PHC Kondapur</span>
+              <span class="badge badge-info" data-i18n="refFacilityBadge">PHC Kondapur</span>
             </div>
             <form id="ref-form">
               <div class="form-group">
-                <label class="form-label">Select Registered Patient <span class="required">*</span></label>
+                <label class="form-label" data-i18n-html="refPatientLabel">Select Registered Patient <span class="required">*</span></label>
                 <select id="ref-patient" class="form-control" required>
                   <!-- Populated from DB -->
                 </select>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Destination Facility & Department</label>
+                <label class="form-label" data-i18n="refDestLabel">Destination Facility & Department</label>
                 <select id="ref-facility" class="form-control" required>
-                  <option value="District Hospital Chevella (Cardiology)">District Hospital Chevella (Cardiology Dept)</option>
-                  <option value="Osmania General Hospital, Hyderabad">Osmania General Hospital (Tertiary Nephrology / Endocrinology)</option>
-                  <option value="Area Hospital Shankarpally">Area Hospital Shankarpally (General Surgery / Orthopaedics)</option>
+                  <option value="District Hospital Chevella (Cardiology)" data-i18n="refDest1">District Hospital Chevella (Cardiology Dept)</option>
+                  <option value="Osmania General Hospital, Hyderabad" data-i18n="refDest2">Osmania General Hospital (Tertiary Nephrology / Endocrinology)</option>
+                  <option value="Area Hospital Shankarpally" data-i18n="refDest3">Area Hospital Shankarpally (General Surgery / Orthopaedics)</option>
                 </select>
               </div>
 
               <div class="grid-2">
                 <div class="form-group">
-                  <label class="form-label">Clinical Specialty</label>
+                  <label class="form-label" data-i18n="refSpecLabel">Clinical Specialty</label>
                   <input type="text" id="ref-specialty" class="form-control" value="Cardiology" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Priority Level</label>
+                  <label class="form-label" data-i18n="refPriorityLabel">Priority Level</label>
                   <select id="ref-priority" class="form-control">
-                    <option value="High" selected>⚠️ High Priority (48-72 hrs)</option>
-                    <option value="Routine">✓ Routine Elective</option>
-                    <option value="Emergency">🚨 Emergency Transfer</option>
+                    <option value="High" selected data-i18n="refPriHigh">⚠️ High Priority (48-72 hrs)</option>
+                    <option value="Routine" data-i18n="refPriRoutine">✓ Routine Elective</option>
+                    <option value="Emergency" data-i18n="refPriEmergency">🚨 Emergency Transfer</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Clinical Reason & Case Summary for Specialist</label>
-                <textarea id="ref-reason" class="form-control" rows="3" placeholder="e.g. Episodic dizziness, palpitations, and persistent borderline hypertension in diabetic patient." required>Episodic dizziness, palpitations, and persistent borderline hypertension (148/92 mmHg) in diabetic patient. Recommend 2D-Echocardiogram and Holter monitor.</textarea>
+                <label class="form-label" data-i18n="refReasonLabel">Clinical Reason & Case Summary for Specialist</label>
+                <textarea id="ref-reason" class="form-control" rows="3" placeholder="e.g. Episodic dizziness, palpitations, and persistent borderline hypertension in diabetic patient." data-i18n-attr="placeholder" data-i18n="refReasonPh" required>Episodic dizziness, palpitations, and persistent borderline hypertension (148/92 mmHg) in diabetic patient. Recommend 2D-Echocardiogram and Holter monitor.</textarea>
               </div>
 
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1rem;">
                 <i data-lucide="send" style="width: 18px; height: 18px;"></i>
-                <span>Transmit Digital Referral Record</span>
+                <span data-i18n="refSubmitBtn">Transmit Digital Referral Record</span>
               </button>
             </form>
           </div>
@@ -86,7 +86,7 @@
               <div class="card-header">
                 <span class="card-title">
                   <i data-lucide="layers" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-                  <span>Active Outgoing Referrals</span>
+                  <span data-i18n="refListTitle">Active Outgoing Referrals</span>
                 </span>
                 <span class="badge badge-verified" id="ref-count-badge">Active</span>
               </div>

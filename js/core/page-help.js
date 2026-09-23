@@ -24,11 +24,11 @@ const PAGE_HELP = {
     }
   },
   'patient-symptoms': {
-    title: { en: 'Report Symptoms', hi: 'लक्षण दर्ज करें', te: 'లక్షణాలు నమోదు చేయండి' },
+    title: { en: 'Report Symptoms (Voice + Text)', hi: 'लक्षण दर्ज करें (आवाज़ + टेक्स्ट)', te: 'లక్షణాలు నమోదు (వాయిస్ + టెక్స్ట్)' },
     points: {
-      en: ['Type your symptom, or tap the mic icon inside the form to dictate it in Hindi, Telugu, or English.', 'Set when it started and how severe it is so the doctor can triage correctly.', 'Saved reports go straight into your record and appear in the doctor\'s review queue.'],
-      hi: ['लक्षण टाइप करें, या फॉर्म में माइक आइकन दबाकर हिंदी, तेलुगु या अंग्रेजी में बोलें।', 'लक्षण कब शुरू हुआ और कितना गंभीर है, यह चुनें ताकि डॉक्टर सही प्राथमिकता दे सकें।', 'सहेजी गई रिपोर्ट सीधे आपके रिकॉर्ड और डॉक्टर की समीक्षा कतार में जाती है।'],
-      te: ['మీ లక్షణాన్ని టైప్ చేయండి లేదా ఫారమ్‌లోని మైక్ ఐకాన్ నొక్కి తెలుగు, హిందీ లేదా ఇంగ్లీష్‌లో చెప్పండి.', 'అది ఎప్పుడు మొదలైంది మరియు ఎంత తీవ్రంగా ఉందో ఎంచుకోండి — డాక్టర్ సరైన ప్రాధాన్యత ఇవ్వడానికి.', 'సేవ్ చేసిన రిపోర్ట్ మీ రికార్డులో మరియు డాక్టర్ రివ్యూ క్యూలో చేరుతుంది.']
+      en: ['Pick your spoken language, tap the big microphone, and describe your symptoms — words stream into the box live.', 'Use a sample phrase for a quick demo, or the small mic icons to dictate into a specific field.', 'Set severity and start date, then save — the report goes straight to your doctor\'s review queue.'],
+      hi: ['अपनी बोलने की भाषा चुनें, बड़ा माइक दबाएं और लक्षण बताएं — शब्द लाइव बॉक्स में आते हैं।', 'त्वरित डेमो के लिए सैंपल वाक्य चुनें, या छोटे माइक आइकन से किसी फ़ील्ड में बोलें।', 'गंभीरता और शुरुआत की तारीख चुनें, फिर सहेजें — रिपोर्ट डॉक्टर की समीक्षा कतार में जाती है।'],
+      te: ['మాట్లాడే భాషను ఎంచుకుని, పెద్ద మైక్ నొక్కి లక్షణాలు చెప్పండి — మాటలు బాక్స్‌లో ప్రత్యక్షంగా వస్తాయి.', 'త్వరిత డెమో కోసం నమూనా వాక్యం వాడండి, లేదా చిన్న మైక్ ఐకాన్‌లతో నిర్దిష్ట ఫీల్డ్‌లో చెప్పండి.', 'తీవ్రత మరియు ప్రారంభ తేదీ ఎంచుకుని సేవ్ చేయండి — నివేదిక డాక్టర్ రివ్యూ క్యూకు వెళ్తుంది.']
     }
   },
   'patient-voice': {

@@ -32,9 +32,10 @@ export function renderLayout(activePageKey = '') {
           <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
             ${icon('menu')}
           </button>
+          ${['patient-home', 'doctor-dashboard', 'worker-dashboard'].includes(activePageKey) ? '' : `
           <a href="${getDashboardUrl(session.role)}" class="btn btn-outline btn-icon" id="back-to-dashboard-btn" title="${t('backToDashboard')}" aria-label="${t('backToDashboard')}" style="height:34px; width:34px; border-radius: 50%; padding: 0; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
             ${icon('arrow-left', '', 16)}
-          </a>
+          </a>`}
           <a href="${basePath}index.html" class="header-brand">
             <span style="color:var(--primary-blue); display:flex; align-items:center;">${icon('activity', '', 22)}</span>
             <span>LIFE PATCH</span>
@@ -125,10 +126,7 @@ export function renderLayout(activePageKey = '') {
           <span class="nav-icon">${icon('file-text')}</span> <span data-i18n="medicalRecords">${t('medicalRecords')}</span>
         </a>
         <a href="${basePath}patient/symptoms.html" class="nav-item ${activePageKey === 'patient-symptoms' ? 'active' : ''}">
-          <span class="nav-icon">${icon('thermometer')}</span> <span data-i18n="symptoms">${t('symptoms')}</span>
-        </a>
-        <a href="${basePath}patient/voice.html" class="nav-item ${activePageKey === 'patient-voice' ? 'active' : ''}">
-          <span class="nav-icon">${icon('mic')}</span> <span data-i18n="voiceAssistant">${t('voiceAssistant')}</span>
+          <span class="nav-icon">${icon('mic')}</span> <span data-i18n="symptoms">${t('symptoms')}</span>
         </a>
         <a href="${basePath}patient/appointments.html" class="nav-item ${activePageKey === 'patient-appointments' ? 'active' : ''}">
           <span class="nav-icon">${icon('calendar')}</span> <span data-i18n="appointments">${t('appointments')}</span>
@@ -234,13 +232,9 @@ export function renderLayout(activePageKey = '') {
             <span class="mobile-nav-icon">${icon('home')}</span>
             <span data-i18n="home">${t('home')}</span>
           </a>
-          <a href="${basePath}patient/records.html" class="mobile-nav-item ${activePageKey === 'patient-records' ? 'active' : ''}">
-            <span class="mobile-nav-icon">${icon('file-text')}</span>
-            <span data-i18n="medicalRecords">${t('medicalRecords')}</span>
-          </a>
-          <a href="${basePath}patient/voice.html" class="mobile-nav-item ${activePageKey === 'patient-voice' ? 'active' : ''}">
+          <a href="${basePath}patient/symptoms.html" class="mobile-nav-item ${activePageKey === 'patient-symptoms' ? 'active' : ''}">
             <span class="mobile-nav-icon" style="color:var(--primary-blue)">${icon('mic', '', 22)}</span>
-            <span data-i18n="voiceAssistant">${t('voiceAssistant')}</span>
+            <span data-i18n="symptoms">${t('symptoms')}</span>
           </a>
           <a href="${basePath}patient/appointments.html" class="mobile-nav-item ${activePageKey === 'patient-appointments' ? 'active' : ''}">
             <span class="mobile-nav-icon">${icon('calendar')}</span>

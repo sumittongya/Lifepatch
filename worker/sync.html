@@ -22,14 +22,14 @@
             <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="sync">
               Offline Data Synchronization
             </h1>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="syncSubtitle">
               Manage records collected in zero-connectivity rural zones and sync them seamlessly to the central PHC server.
             </p>
           </div>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <button class="btn btn-outline" id="btn-add-dummy-offline">
               <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
-              <span>Queue Sample Visit</span>
+              <span data-i18n="syncQueueSampleBtn">Queue Sample Visit</span>
             </button>
             <button class="btn btn-primary" id="btn-sync-all">
               <i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i>
@@ -43,22 +43,22 @@
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 1rem;">
             <div>
               <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
-                <span id="queue-count-badge" style="color: var(--primary-blue);">0</span> Records Waiting to Sync
+                <span id="queue-count-badge" style="color: var(--primary-blue);">0</span> <span data-i18n="syncRecordsWaiting">Records Waiting to Sync</span>
               </div>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;" data-i18n="syncOfflineNotice">
                 All offline data is preserved safely in your device’s client-side IndexedDB engine.
               </p>
             </div>
             <span class="badge badge-verified" id="network-badge" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
               <span class="pulse-dot" style="color: var(--primary-green);"></span>
-              <span>Online (PHC Gateway Reachable)</span>
+              <span data-i18n="syncOnlineBadge">Online (PHC Gateway Reachable)</span>
             </span>
           </div>
 
           <!-- Animated Progress Bar (Hidden during idle) -->
           <div id="sync-progress-box" style="display: none; margin-top: 1.25rem;">
             <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.35rem;">
-              <span>Encrypting & Transmitting Payload...</span>
+              <span data-i18n="syncProgressLabel">Encrypting & Transmitting Payload...</span>
               <span id="sync-progress-pct">0%</span>
             </div>
             <div style="background: var(--bg-main); height: 8px; border-radius: 4px; overflow: hidden;">
@@ -72,7 +72,7 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="layers" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Pending Local Field Records</span>
+              <span data-i18n="syncPendingTitle">Pending Local Field Records</span>
             </span>
             <span class="badge badge-info" id="pending-items-badge">0 Queued</span>
           </div>

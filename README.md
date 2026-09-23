@@ -69,10 +69,14 @@ The application includes rich synthetic Indian clinical seed data. You can insta
 
 ### Flow 1: Patient Voice Symptom Logging & Longitudinal Timeline
 1. Open the **Patient Portal** (`/patient/dashboard.html`).
-2. Click **"Report Symptoms"** (`/patient/symptoms.html`):
-   - **Option A — Inline Dictation**: Tap the mic icon beside the *"What are you experiencing?"* or *"Additional Details"* field to dictate directly into the form (Hindi, Telugu, or English auto-detected from your app language).
-   - **Option B — Full Voice Assistant**: Click **"Open Voice Assistant"** (`/patient/voice.html`) for the dedicated voice-first experience with live transcription, sample phrases, and read-aloud playback.
-3. Choose severity and duration, then click **"Save Symptom Report"** (or **"Save to Longitudinal EHR"** from the voice page).
+2. Click **"Report Symptoms"** (`/patient/symptoms.html`) — a single unified voice + text capture page:
+   - **Voice capture**: Pick the spoken language (English / हिन्दी / తెలుగు), tap the large microphone, and watch the live transcript stream in — or tap a **sample phrase** for a quick demo.
+   - **Read aloud / Clear / Use this text**: Playback the transcript in the chosen dialect, or push it into the structured form below with one tap.
+   - **Inline dictation**: Small mic icons beside the *"What are you experiencing?"* and *"Additional Details"* fields let you dictate straight into a specific field.
+   - *(The old standalone `voice.html` URL redirects here automatically.)*
+
+> **Browser note for voice:** speech recognition uses each browser's own speech service. For **Hindi/Telugu**, use **Safari** (Apple's on-device recognition works reliably) or **Microsoft Edge** (Azure speech). Chrome may return a `network` error for Indic languages on some networks — the page will show a translated notice and the text/sample-phrase fallbacks always work.
+3. Choose severity and start date, then click **"Save Symptom Report"** to file it into the longitudinal EHR.
 4. Navigate to **"Medical Records"** (`/patient/records.html`) to see the symptom recorded with real-time timestamps in the longitudinal timeline.
 5. Click **"Digitise Paper Record (OCR)"** to scan an old hospital slip and convert it into a structured electronic card.
 

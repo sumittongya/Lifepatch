@@ -32,12 +32,13 @@ Follow this sequential walkthrough during the presentation to showcase the cross
   2. Click **"Lakshmi Devi (Patient)"** to log in as a citizen.
   3. **Highlight the ABHA Card**: Point out the official **Ayushman Bharat 14-digit ABHA Card** (`91-4820-9182-3841`), golden chip, and 1-click copy button.
   4. **Show the built-in guidance**: Tap the **"?"** help button in the top bar — a translated card explains exactly what the screen does in the patient's own language. Then tap **"←"** to return to the dashboard.
-  5. Click **"Voice Symptom Assistant"** (`/patient/voice.html`):
-     - Select **"हिन्दी (Hindi)"** or **"తెలుగు (Telugu)"**.
-     - Tap the microphone button (or click the sample prompt: *"मुझे 2 दिनों से तेज़ सिरदर्द और चक्कर आ रहे हैं।"*).
-     - **Show the Jury**: The Web Speech AI streams text directly into the record in real-time.
-     - Select severity (*"Moderate"*) and duration (*"2-3 days"*), then click **"Save to Longitudinal EHR"**.
-  6. *(Optional)* Open **"Report Symptoms"** (`/patient/symptoms.html`) and tap the **inline mic icon** beside a field to show that dictation also works inside normal forms.
+  5. Click **"Report Symptoms"** (`/patient/symptoms.html`) — the unified voice + text capture page:
+     - Select the spoken language: **"हिन्दी (Hindi)"** or **"తెలుగు (Telugu)"**.
+     - Tap the large microphone button (or click a sample prompt: *"मुझे 2 दिनों से तेज़ सिरदर्द और चक्कर आ रहे हैं।"*).
+     - **Show the Jury**: The Web Speech AI streams text into the transcript live — then click **"Use this text"** to push it into the structured form.
+     - *(Bonus)* Tap the **inline mic icon** beside the symptom field to show dictation works directly inside form fields too.
+     - Select severity (*"Moderate"*), then click **"Save Symptom Report"**.
+  6. *(Optional)* Switch the header language selector to **हिन्दी** — every label on the page, including *"What are you experiencing?"*, instantly renders in Hindi.
   7. Go to **"Medical Records"** (`/patient/records.html`):
      - Show the newly created record at the top of the timeline marked as **`UNREVIEWED (PATIENT REPORTED)`**.
      - Click **"Digitise Paper Record (OCR)"** → click **"Simulate Sample Slip"** → **"Save as Historical Record"** to show legacy paper conversion.

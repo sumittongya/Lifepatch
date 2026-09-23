@@ -25,7 +25,7 @@
             <div class="patient-name-block">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);"><span id="chart-name">Lakshmi Devi</span></h2>
-                <span class="badge badge-verified" id="chart-risk-badge">High Risk</span>
+                <span class="badge badge-verified" id="chart-risk-badge" data-i18n="patRecRiskBadge">High Risk</span>
               </div>
               <div class="patient-meta-tags">
                 <span style="font-family: var(--font-mono); font-weight: 700; color: var(--primary-blue);" id="chart-hid">LP-10234</span> • 
@@ -38,19 +38,19 @@
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
             <a href="prescriptions.html" class="btn btn-primary btn-sm">
               <i data-lucide="pill" style="width: 14px; height: 14px;"></i>
-              <span>Prescribe</span>
+              <span data-i18n="patRecPrescribeBtn">Prescribe</span>
             </a>
             <a href="referrals.html" class="btn btn-outline btn-sm">
               <i data-lucide="git-pull-request" style="width: 14px; height: 14px;"></i>
-              <span>Referral</span>
+              <span data-i18n="patRecReferralBtn">Referral</span>
             </a>
             <a href="consultation.html" class="btn btn-indigo btn-sm">
               <i data-lucide="stethoscope" style="width: 14px; height: 14px;"></i>
-              <span>Consult</span>
+              <span data-i18n="patRecConsultBtn">Consult</span>
             </a>
             <button class="btn btn-outline btn-sm" id="btn-print-chart">
               <i data-lucide="printer" style="width: 14px; height: 14px;"></i>
-              <span>Print Chart</span>
+              <span data-i18n="patRecPrintBtn">Print Chart</span>
             </button>
           </div>
         </div>
@@ -60,11 +60,11 @@
           <div class="ai-summary-header">
             <div style="display:flex; align-items:center; gap:0.5rem;">
               <i data-lucide="sparkles" style="width: 18px; height: 18px; color: var(--primary-indigo);"></i>
-              <strong style="color: var(--text-main); font-size: 1rem;">
+              <strong style="color: var(--text-main); font-size: 1rem;" data-i18n="patRecAiTitle">
                 Clinical AI Assistant — Longitudinal Health Summary
               </strong>
             </div>
-            <span class="ai-badge">Human-in-the-Loop</span>
+            <span class="ai-badge" data-i18n="patRecAiBadge">Human-in-the-Loop</span>
           </div>
 
           <div style="font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin-bottom: 0.75rem;" id="ai-overview">
@@ -72,13 +72,13 @@
           </div>
 
           <div style="margin-top: 0.5rem; font-size: 0.85rem;">
-            <strong style="color: var(--text-main);">Suggested Clinical Review Focus Areas:</strong>
+            <strong style="color: var(--text-main);" data-i18n="patRecAiFocus">Suggested Clinical Review Focus Areas:</strong>
             <ul id="ai-review-points" style="margin-left: 1.25rem; margin-top: 0.35rem; color: var(--text-secondary); line-height: 1.6;">
               <!-- Generated from DB -->
             </ul>
           </div>
 
-          <div style="margin-top: 0.875rem; font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(2, 132, 199, 0.15); padding-top: 0.5rem;">
+          <div style="margin-top: 0.875rem; font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(2, 132, 199, 0.15); padding-top: 0.5rem;" data-i18n-html="patRecAiDisclaimer">
             ⚠️ <strong>AI-assisted documentation</strong>: Grounded in recorded vitals, symptoms, and lab reports. Final clinical diagnoses and prescriptions remain solely the legal responsibility of the consulting physician.
           </div>
         </div>
@@ -90,25 +90,25 @@
             <div class="card-header">
               <span class="card-title">
                 <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-                <span>Recorded Vitals</span>
+                <span data-i18n="patRecVitalsTitle">Recorded Vitals</span>
               </span>
               <span class="card-subtitle" id="vitals-date-subtitle">Latest Field Check</span>
             </div>
             <div class="patient-vital-pills" style="margin-bottom: 1rem;">
               <div class="vital-pill">
-                <span class="vital-pill-label">Blood Pressure</span>
+                <span class="vital-pill-label" data-i18n="patRecVitalBp">Blood Pressure</span>
                 <span class="vital-pill-value" id="val-bp">148/92 mmHg</span>
               </div>
               <div class="vital-pill">
-                <span class="vital-pill-label">Random Glucose</span>
+                <span class="vital-pill-label" data-i18n="patRecVitalGlucose">Random Glucose</span>
                 <span class="vital-pill-value" id="val-sugar">182 mg/dL</span>
               </div>
               <div class="vital-pill">
-                <span class="vital-pill-label">SpO2</span>
+                <span class="vital-pill-label" data-i18n="patRecVitalSpo2">SpO2</span>
                 <span class="vital-pill-value" id="val-spo2">98%</span>
               </div>
               <div class="vital-pill">
-                <span class="vital-pill-label">Heart Rate</span>
+                <span class="vital-pill-label" data-i18n="patRecVitalHr">Heart Rate</span>
                 <span class="vital-pill-value" id="val-hr">84 bpm</span>
               </div>
             </div>
@@ -124,19 +124,19 @@
             <div class="card-header">
               <span class="card-title">
                 <i data-lucide="clipboard-list" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-                <span>Clinical Profile & Flags</span>
+                <span data-i18n="patRecProfileTitle">Clinical Profile & Flags</span>
               </span>
-              <span class="badge badge-info">EHR Synced</span>
+              <span class="badge badge-info" data-i18n="patRecBadgeSync">EHR Synced</span>
             </div>
             <div style="font-size: 0.9rem; line-height: 1.8;">
-              <div><strong>Chronic Conditions:</strong> <span id="val-chronic" style="color: var(--text-main);">Type 2 Diabetes, Hypertension</span></div>
-              <div><strong>Known Allergies:</strong> <span id="val-allergies" style="color: var(--status-emergency); font-weight: 700;">Penicillin</span></div>
-              <div><strong>Blood Group:</strong> <span id="val-blood" style="font-weight: 700;">B+</span></div>
-              <div><strong>Emergency Contact:</strong> <span id="val-emergency">Ravi (Son) - 98480 54321</span></div>
+              <div><strong data-i18n="patRecChronicLabel">Chronic Conditions:</strong> <span id="val-chronic" style="color: var(--text-main);">Type 2 Diabetes, Hypertension</span></div>
+              <div><strong data-i18n="patRecAllergiesLabel">Known Allergies:</strong> <span id="val-allergies" style="color: var(--status-emergency); font-weight: 700;">Penicillin</span></div>
+              <div><strong data-i18n="patRecBloodLabel">Blood Group:</strong> <span id="val-blood" style="font-weight: 700;">B+</span></div>
+              <div><strong data-i18n="patRecEmergencyLabel">Emergency Contact:</strong> <span id="val-emergency">Ravi (Son) - 98480 54321</span></div>
             </div>
             <div style="margin-top: 1.25rem; padding: 0.75rem; background: var(--bg-main); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Assigned ASHA Worker</div>
-              <div style="font-weight: 700; color: var(--primary-green); font-size: 0.9rem; margin-top: 0.15rem;">Sunita Bai (ASHA Kondapur Sector 3)</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;" data-i18n="patRecAshaLabel">Assigned ASHA Worker</div>
+              <div style="font-weight: 700; color: var(--primary-green); font-size: 0.9rem; margin-top: 0.15rem;" data-i18n="patRecAshaName">Sunita Bai (ASHA Kondapur Sector 3)</div>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="thermometer" style="width: 18px; height: 18px; color: var(--status-high);"></i>
-              <span>Patient-Reported Symptoms</span>
+              <span data-i18n="patRecSymptomsTitle">Patient-Reported Symptoms</span>
             </span>
           </div>
           <div id="patient-symptoms-mount">
@@ -159,18 +159,18 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="file-edit" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Add Doctor Clinical Note & Assessment</span>
+              <span data-i18n="patRecNoteTitle">Add Doctor Clinical Note & Assessment</span>
             </span>
           </div>
           <form id="doc-note-form">
             <div class="form-group">
-              <label class="form-label">Clinical Impression & Assessment</label>
-              <textarea id="note-text" class="form-control" rows="3" placeholder="e.g. Patient presents with dizziness and elevated BP. Initiating dietary sodium restriction and scheduled cardiology review..." required></textarea>
+              <label class="form-label" data-i18n="patRecNoteLabel">Clinical Impression & Assessment</label>
+              <textarea id="note-text" class="form-control" rows="3" placeholder="e.g. Patient presents with dizziness and elevated BP. Initiating dietary sodium restriction and scheduled cardiology review..." data-i18n-attr="placeholder" data-i18n="patRecNotePh" required></textarea>
             </div>
             <div style="display:flex; justify-content:flex-end;">
               <button type="submit" class="btn btn-primary">
                 <i data-lucide="save" style="width: 16px; height: 16px;"></i>
-                <span>Save Note to Longitudinal Record</span>
+                <span data-i18n="patRecNoteSave">Save Note to Longitudinal Record</span>
               </button>
             </div>
           </form>
@@ -181,7 +181,7 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="clock" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Lifetime Longitudinal Medical Timeline</span>
+              <span data-i18n="patRecTimelineTitle">Lifetime Longitudinal Medical Timeline</span>
             </span>
           </div>
           <div class="timeline-container" id="doc-timeline-mount">

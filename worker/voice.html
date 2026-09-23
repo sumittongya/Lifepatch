@@ -76,25 +76,25 @@
           <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="voiceEntry">
             ASHA Field Voice Observation
           </h1>
-          <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 500px; margin: 0.5rem auto 0 auto;">
+          <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 500px; margin: 0.5rem auto 0 auto;" data-i18n="workVoiceSubtitle">
             Speak in Telugu, Hindi, or English during household visits to record rapid clinical observations.
           </p>
         </div>
 
         <div class="voice-recorder-box" style="border-top: 4px solid var(--primary-green);">
           <div class="form-group" style="text-align: left; max-width: 400px; margin: 0 auto 1.5rem auto;">
-            <label class="form-label">Citizen / Household Patient</label>
+            <label class="form-label" data-i18n="workVoicePatLabel">Citizen / Household Patient</label>
             <select id="voice-pat-select" class="form-control">
               <!-- Populated from DB -->
             </select>
           </div>
 
           <div style="margin-bottom: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 0.6rem;">
-            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Voice Language:</span>
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);" data-i18n="workVoiceLangLabel">Voice Language:</span>
             <select id="asha-voice-lang" class="form-control" style="width: auto; height: 38px; padding: 0.2rem 0.75rem; font-weight: 600;">
-              <option value="te-IN" selected>తెలుగు (Telugu)</option>
-              <option value="hi-IN">हिन्दी (Hindi)</option>
-              <option value="en-IN">English (India)</option>
+              <option value="te-IN" selected data-i18n="workVoiceLangTe">తెలుగు (Telugu)</option>
+              <option value="hi-IN" data-i18n="workVoiceLangHi">हिन्दी (Hindi)</option>
+              <option value="en-IN" data-i18n="workVoiceLangEn">English (India)</option>
             </select>
           </div>
 
@@ -116,18 +116,18 @@
 
           <!-- Sample Prompts -->
           <div style="margin-top: 1.75rem; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
-            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.6rem;">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.6rem;" data-i18n="workVoiceSamplesTitle">
               Or click a sample field observation:
             </div>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;">
               <button class="sample-prompt-chip" data-sample="రోగికి రక్తపోటు కొద్దిగా ఎక్కువగా ఉంది, మాత్రలు రోజూ వేసుకుంటున్నారు.">
-                <span>"రక్తపోటు ఎక్కువగా ఉంది" (Telugu)</span>
+                <span data-i18n="workVoiceSample1">"రక్తపోటు ఎక్కువగా ఉంది" (Telugu)</span>
               </button>
               <button class="sample-prompt-chip" data-sample="मरीज को 2 दिन से चक्कर आ रहा है, दवा नियमित रूप से ले रहे हैं।">
-                <span>"दवा नियमित रूप से ले रहे हैं" (Hindi)</span>
+                <span data-i18n="workVoiceSample2">"दवा नियमित रूप से ले रहे हैं" (Hindi)</span>
               </button>
               <button class="sample-prompt-chip" data-sample="Patient compliant with diabetes medication. Blood pressure slightly elevated, advised PHC doctor visit.">
-                <span>"Patient compliant, BP slightly elevated"</span>
+                <span data-i18n="workVoiceSample3">"Patient compliant, BP slightly elevated"</span>
               </button>
             </div>
           </div>
@@ -138,15 +138,15 @@
           <div class="card-header">
             <span class="card-title" style="font-size: 1.05rem;">
               <i data-lucide="check-circle" style="width: 18px; height: 18px; color: var(--primary-green);"></i>
-              <span>Transcribed ASHA Field Note</span>
+              <span data-i18n="workVoiceTranscriptTitle">Transcribed ASHA Field Note</span>
             </span>
           </div>
           <textarea id="asha-transcript-text" class="form-control" rows="4"></textarea>
           <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.25rem;">
-            <button class="btn btn-outline" id="asha-try-again">Try Again</button>
+            <button class="btn btn-outline" id="asha-try-again" data-i18n="workVoiceTryAgain">Try Again</button>
             <button class="btn btn-success btn-lg" id="asha-save-note">
               <i data-lucide="save" style="width: 16px; height: 16px;"></i>
-              <span>Save to Patient Record</span>
+              <span data-i18n="workVoiceSaveBtn">Save to Patient Record</span>
             </button>
           </div>
         </div>
@@ -158,7 +158,7 @@
 
   <script type="module">
     import { initDatabase, getPatients, addSymptom, addMedicalRecord } from '../js/db/api.js';
-    import { initI18n } from '../js/core/i18n.js';
+    import { initI18n, t } from '../js/core/i18n.js';
     import { initTheme } from '../js/core/theme.js';
     import { renderLayout, showToast } from '../js/core/layout.js';
     import { renderIcons } from '../js/core/icons.js';
@@ -190,14 +190,21 @@
           if (status === 'listening') {
             micBtn.classList.add('recording');
             waveform.style.display = 'flex';
-            statusText.textContent = 'Listening to Field Note...';
+            statusText.textContent = t('workVoiceListening');
             statusText.style.color = 'var(--status-emergency)';
           } else {
             micBtn.classList.remove('recording');
             waveform.style.display = 'none';
-            statusText.textContent = 'Tap to Record Voice Note';
+            statusText.textContent = t('workVoiceTapToRecord');
             statusText.style.color = 'var(--text-main)';
           }
+        },
+        onError: (err) => {
+          const key = err === 'not-allowed' || err === 'service-not-allowed' ? 'micErrBlocked'
+            : err === 'speech-not-supported' || err === 'language-not-supported' ? 'micErrUnsupported'
+            : err === 'network' ? 'micErrNetwork'
+            : 'micErrGeneric';
+          showToast(t(key), 'error');
         }
       });
 

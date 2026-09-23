@@ -21,7 +21,7 @@
           <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;" data-i18n="consentPrivacy">
             Consent & Record Privacy Manager
           </h1>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.15rem;" data-i18n="consentDesc">
             ABDM-aligned patient data sovereign control. You decide which doctors, ASHA workers, and hospitals can view your health records.
           </p>
         </div>
@@ -31,10 +31,10 @@
           <div style="display:flex; align-items:flex-start; gap:0.875rem;">
             <i data-lucide="shield-check" style="width: 24px; height: 24px; color: var(--primary-green); flex-shrink: 0; margin-top: 0.15rem;"></i>
             <div>
-              <div style="font-weight: 800; color: var(--primary-green); font-size: 0.95rem;">
+              <div style="font-weight: 800; color: var(--primary-green); font-size: 0.95rem;" data-i18n="consentBannerTitle">
                 Encrypted & Sovereign Patient Record Storage
               </div>
-              <p style="font-size: 0.85rem; color: #134E4A; margin-top: 0.25rem; line-height: 1.5;">
+              <p style="font-size: 0.85rem; color: #134E4A; margin-top: 0.25rem; line-height: 1.5;" data-i18n="consentBannerText">
                 In this demonstration POC, all records are encrypted and stored locally in your browser’s IndexedDB. No medical records can be shared with external providers without explicit cryptographic or verbal consent tokens.
               </p>
             </div>
@@ -46,7 +46,7 @@
           <div class="card-header">
             <span class="card-title">
               <i data-lucide="lock" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Active Provider Access Permissions</span>
+              <span data-i18n="consentActiveTitle">Active Provider Access Permissions</span>
             </span>
             <span class="badge badge-verified" id="consent-count-badge">Active</span>
           </div>
@@ -60,30 +60,30 @@
           <div class="card-header" style="margin-top: -0.5rem;">
             <span class="card-title">
               <i data-lucide="user-check" style="width: 18px; height: 18px; color: var(--primary-indigo);"></i>
-              <span>Grant Access to a New Healthcare Provider</span>
+              <span data-i18n="consentGrantTitle">Grant Access to a New Healthcare Provider</span>
             </span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;" data-i18n="consentGrantDesc">
             Authorize another doctor, specialist clinic, or referral hospital to view your longitudinal history for a specified time window.
           </p>
           <form id="new-consent-form">
             <div class="grid-2">
               <div class="form-group">
-                <label class="form-label">Doctor / Healthcare Facility <span class="required">*</span></label>
-                <input type="text" id="con-doctor" class="form-control" placeholder="e.g. Dr. K. Sharma (District Hospital Chevella)" required>
+                <label class="form-label"><span data-i18n="consentDoctorLabel">Doctor / Healthcare Facility</span> <span class="required">*</span></label>
+                <input type="text" id="con-doctor" class="form-control" data-i18n-attr="placeholder" data-i18n="consentDoctorPh" placeholder="e.g. Dr. K. Sharma (District Hospital Chevella)" required>
               </div>
               <div class="form-group">
-                <label class="form-label">Access Duration</label>
+                <label class="form-label" data-i18n="consentDurationLabel">Access Duration</label>
                 <select id="con-duration" class="form-control">
-                  <option value="1 Month">1 Month (Consultation window)</option>
-                  <option value="6 Months">6 Months (Temporary Follow-up)</option>
-                  <option value="1 Year" selected>1 Year (Continuous Chronic Care)</option>
+                  <option value="1 Month" data-i18n="consentDur1m">1 Month (Consultation window)</option>
+                  <option value="6 Months" data-i18n="consentDur6m">6 Months (Temporary Follow-up)</option>
+                  <option value="1 Year" selected data-i18n="consentDur1y">1 Year (Continuous Chronic Care)</option>
                 </select>
               </div>
             </div>
             <button type="submit" class="btn btn-primary btn-lg">
               <i data-lucide="shield" style="width: 16px; height: 16px;"></i>
-              <span>Authorize Provider Access</span>
+              <span data-i18n="consentAuthorizeBtn">Authorize Provider Access</span>
             </button>
           </form>
         </div>

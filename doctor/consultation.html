@@ -77,14 +77,14 @@
           <div style="display: flex; align-items: center; gap: 0.75rem;">
             <div class="badge badge-verified" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
               <span class="pulse-online"></span>
-              <span>Encrypted WebRTC Teleconsultation Live</span>
+              <span data-i18n="consultLiveBadge">Encrypted WebRTC Teleconsultation Live</span>
             </div>
-            <span class="badge badge-info">Session ID: TC-8492</span>
+            <span class="badge badge-info" data-i18n="consultSessionId">Session ID: TC-8492</span>
           </div>
           <div style="display: flex; gap: 0.5rem;">
             <a href="patient-record.html?id=pat-1" class="btn btn-outline btn-sm" target="_blank">
               <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
-              <span>Open EHR History</span>
+              <span data-i18n="consultEhrBtn">Open EHR History</span>
             </a>
           </div>
         </div>
@@ -98,21 +98,21 @@
                 <div style="width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); display: inline-flex; align-items: center; justify-content: center; font-size: 2.25rem; margin-bottom: 0.875rem; box-shadow: 0 4px 20px rgba(2, 132, 199, 0.4); border: 3px solid rgba(255, 255, 255, 0.2);">
                   <i data-lucide="user" style="width: 48px; height: 48px; color: #FFF;"></i>
                 </div>
-                <div style="font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em;">Lakshmi Devi</div>
-                <div style="font-size: 0.85rem; color: #94A3B8; margin-top: 0.2rem;">
+                <div style="font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em;" data-i18n="consultPatientName">Lakshmi Devi</div>
+                <div style="font-size: 0.85rem; color: #94A3B8; margin-top: 0.2rem;" data-i18n="consultConnectedFrom">
                   Connected from Kondapur Sub-Centre (ASHA Assisted: Sunita Bai)
                 </div>
                 <div class="badge badge-routine" style="margin-top: 0.75rem; background: rgba(16, 185, 129, 0.2); color: #34D399; border-color: rgba(52, 211, 153, 0.3);">
                   <i data-lucide="wifi" style="width: 12px; height: 12px;"></i>
-                  <span>Latency: 38ms • Audio/Video High-Def</span>
+                  <span data-i18n="consultLatency">Latency: 38ms • Audio/Video High-Def</span>
                 </div>
               </div>
 
               <!-- Picture-in-picture Doctor Feed -->
               <div class="video-pip">
                 <i data-lucide="stethoscope" style="width: 24px; height: 24px; color: #38BDF8; margin-bottom: 0.25rem;"></i>
-                <span style="font-weight: 700; color: #F1F5F9;">Dr. Ananya Rao</span>
-                <span style="font-size: 0.65rem; color: #94A3B8;">PHC Medical Officer</span>
+                <span style="font-weight: 700; color: #F1F5F9;" data-i18n="consultDoctorName">Dr. Ananya Rao</span>
+                <span style="font-size: 0.65rem; color: #94A3B8;" data-i18n="consultDoctorRole">PHC Medical Officer</span>
               </div>
 
               <!-- Call Controls -->
@@ -134,25 +134,25 @@
               <div class="card-header">
                 <span class="card-title" style="font-size: 1rem;">
                   <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-                  <span>Live Field Vitals (Lakshmi Devi)</span>
+                  <span data-i18n="consultVitalsTitle">Live Field Vitals (Lakshmi Devi)</span>
                 </span>
-                <span class="badge badge-info">Captured by ASHA Today</span>
+                <span class="badge badge-info" data-i18n="consultVitalsBadge">Captured by ASHA Today</span>
               </div>
               <div class="patient-vital-pills">
                 <div class="vital-pill">
-                  <span class="vital-pill-label">Blood Pressure</span>
+                  <span class="vital-pill-label" data-i18n="consultVitalBp">Blood Pressure</span>
                   <span class="vital-pill-value" style="color: var(--status-high);">148/92 mmHg</span>
                 </div>
                 <div class="vital-pill">
-                  <span class="vital-pill-label">Random Sugar</span>
+                  <span class="vital-pill-label" data-i18n="consultVitalSugar">Random Sugar</span>
                   <span class="vital-pill-value" style="color: var(--status-high);">182 mg/dL</span>
                 </div>
                 <div class="vital-pill">
-                  <span class="vital-pill-label">Pulse & SpO2</span>
+                  <span class="vital-pill-label" data-i18n="consultVitalPulse">Pulse & SpO2</span>
                   <span class="vital-pill-value">78 bpm • 98%</span>
                 </div>
                 <div class="vital-pill">
-                  <span class="vital-pill-label">Allergies</span>
+                  <span class="vital-pill-label" data-i18n="consultVitalAllergies">Allergies</span>
                   <span class="vital-pill-value" style="color: var(--status-emergency);">Penicillin</span>
                 </div>
               </div>
@@ -164,44 +164,44 @@
             <div class="card-header">
               <span class="card-title">
                 <i data-lucide="clipboard" style="width: 18px; height: 18px; color: var(--primary-indigo);"></i>
-                <span>Clinical Notes & SOAP Documentation</span>
+                <span data-i18n="consultNotesTitle">Clinical Notes & SOAP Documentation</span>
               </span>
               <button type="button" id="btn-generate-soap" class="btn btn-secondary btn-sm" title="Generate Grounded SOAP notes from vitals & symptoms">
                 <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-                <span>Auto SOAP</span>
+                <span data-i18n="consultAutoSoap">Auto SOAP</span>
               </button>
             </div>
 
             <form id="consult-notes-form">
               <div class="form-group">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <label class="form-label" style="margin-bottom: 0;">Clinical Notes / SOAP Findings</label>
+                  <label class="form-label" style="margin-bottom: 0;" data-i18n="consultNotesLabel">Clinical Notes / SOAP Findings</label>
                   <button type="button" id="btn-dictate-notes" class="btn btn-outline btn-sm" style="height: 28px; padding: 0 0.5rem; font-size: 0.75rem;">
                     <i data-lucide="mic" style="width: 12px; height: 12px;"></i>
-                    <span id="dictate-btn-text">Voice Dictate</span>
+                    <span id="dictate-btn-text" data-i18n="consultDictateBtn">Voice Dictate</span>
                   </button>
                 </div>
-                <textarea id="consult-notes" class="form-control" rows="8" placeholder="Document patient verbal answers, symptom duration, and clinical advice..." required>S (Subjective): Patient reports episodic lightheadedness and mild palpitations on morning awakening. Denies chest pain or syncope.
+                <textarea id="consult-notes" class="form-control" rows="8" placeholder="Document patient verbal answers, symptom duration, and clinical advice..." data-i18n-attr="placeholder" data-i18n="consultNotesPh" required>S (Subjective): Patient reports episodic lightheadedness and mild palpitations on morning awakening. Denies chest pain or syncope.
 O (Objective): BP elevated at 148/92 mmHg, RBS 182 mg/dL. Pulse regular.
 A (Assessment): Uncontrolled Essential Hypertension with secondary glycemic elevation.
 P (Plan): Continue Metformin 500mg BD. Add Amlodipine 5mg OD. Advised strict low-sodium diet. District referral initiated for cardiology checkup.</textarea>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Follow-up & Patient Recommendation</label>
+                <label class="form-label" data-i18n="consultFollowupLabel">Follow-up & Patient Recommendation</label>
                 <input type="text" id="consult-fu" class="form-control" value="Repeat BP check at Sub-Centre with ASHA worker in 7 days">
               </div>
 
               <div class="form-group">
-                <label class="form-label">Quick Actions</label>
+                <label class="form-label" data-i18n="consultQuickActions">Quick Actions</label>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                   <a href="prescriptions.html?patientId=pat-1" class="btn btn-outline btn-sm" target="_blank">
                     <i data-lucide="pill" style="width: 14px; height: 14px;"></i>
-                    <span>Issue Rx</span>
+                    <span data-i18n="consultIssueRx">Issue Rx</span>
                   </a>
                   <a href="referrals.html?patientId=pat-1" class="btn btn-outline btn-sm" target="_blank">
                     <i data-lucide="git-pull-request" style="width: 14px; height: 14px;"></i>
-                    <span>Create Referral</span>
+                    <span data-i18n="consultCreateRef">Create Referral</span>
                   </a>
                 </div>
               </div>
@@ -209,7 +209,7 @@ P (Plan): Continue Metformin 500mg BD. Add Amlodipine 5mg OD. Advised strict low
               <div style="margin-top: 1.5rem;">
                 <button type="submit" class="btn btn-primary btn-block btn-lg">
                   <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
-                  <span>Save Consultation & Complete Session</span>
+                  <span data-i18n="consultSaveBtn">Save Consultation & Complete Session</span>
                 </button>
               </div>
             </form>
