@@ -450,11 +450,13 @@
         });
 
         // Hero Section: Personalize for active session
+        const roleLabel = session.role === 'doctor' ? 'PHC Medical Officer' : session.role === 'worker' ? 'ASHA Health Worker' : 'Citizen / Patient';
         heroCtaMount.innerHTML = `
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
-            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: var(--radius-lg); padding: 0.85rem 1.5rem; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem;">
+            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: var(--radius-lg); padding: 0.85rem 1.5rem; display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; flex-wrap: wrap; justify-content: center;">
               <i data-lucide="${roleIconName}" style="width: 18px; height: 18px; color: var(--primary-blue);"></i>
-              <span>Signed in as <strong>${session.name}</strong> (<strong>${session.role.toUpperCase()}</strong>)</span>
+              <span>Signed in as <strong>${session.name}</strong> • ${roleLabel}</span>
+              ${session.identifier ? `<span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--primary-blue); background: rgba(2,132,199,0.12); padding: 0.15rem 0.55rem; border-radius: var(--radius-full); font-weight: 700;">ID: ${session.identifier}</span>` : ''}
             </div>
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
               <a href="${roleDashboardUrl}" class="btn-hero-primary">

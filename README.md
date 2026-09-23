@@ -69,11 +69,12 @@ The application includes rich synthetic Indian clinical seed data. You can insta
 
 ### Flow 1: Patient Voice Symptom Logging & Longitudinal Timeline
 1. Open the **Patient Portal** (`/patient/dashboard.html`).
-2. Click **"Voice Symptom Assistant"** (`/patient/voice.html`).
-3. Select your preferred dialect (**Hindi**, **Telugu**, or **English**) and tap the microphone icon (or select a quick sample prompt).
-4. Review the auto-transcribed text, choose severity and duration, and click **"Save to Longitudinal EHR"**.
-5. Navigate to **"Medical Records"** (`/patient/records.html`) to see the symptom recorded with real-time timestamps in the longitudinal timeline.
-6. Click **"Digitise Paper Record (OCR)"** to scan an old hospital slip and convert it into a structured electronic card.
+2. Click **"Report Symptoms"** (`/patient/symptoms.html`):
+   - **Option A — Inline Dictation**: Tap the mic icon beside the *"What are you experiencing?"* or *"Additional Details"* field to dictate directly into the form (Hindi, Telugu, or English auto-detected from your app language).
+   - **Option B — Full Voice Assistant**: Click **"Open Voice Assistant"** (`/patient/voice.html`) for the dedicated voice-first experience with live transcription, sample phrases, and read-aloud playback.
+3. Choose severity and duration, then click **"Save Symptom Report"** (or **"Save to Longitudinal EHR"** from the voice page).
+4. Navigate to **"Medical Records"** (`/patient/records.html`) to see the symptom recorded with real-time timestamps in the longitudinal timeline.
+5. Click **"Digitise Paper Record (OCR)"** to scan an old hospital slip and convert it into a structured electronic card.
 
 ---
 
@@ -114,6 +115,24 @@ The application includes rich synthetic Indian clinical seed data. You can insta
 
 ---
 
+## 🧭 In-App Navigation, Session & Help System
+
+Every portal page shares a unified top header designed for low-literacy and jury-demo use:
+
+| Control | Location | What it does |
+| :--- | :--- | :--- |
+| **← Back** | Top-left | Returns to your role's dashboard (Patient / Doctor / ASHA home). |
+| **LIFE PATCH logo** | Top-left | Returns to the public landing page — your session stays signed in and the landing page greets you with a *"Resume Workspace"* button. |
+| **👤 Profile pill** | Top-right | Click your name to open the account dropdown: Switch Role, Settings & Database, or Sign Out. |
+| **? Help** | Top-right | Opens a **page-specific help card** explaining exactly what you can do on that screen — fully translated into English, हिन्दी, or తెలుగు to match your selected language. |
+| **🌐 Language** | Top-right | Switch UI + voice language instantly. All 24 pages and the help modal translate in real-time. |
+| **◐ Theme** | Top-right | Toggle Light / Dark clinical theme (icon-only, persisted). |
+| **Sign Out** | Top-right / dropdown | Clears the session and returns to the landing page. |
+
+> **Session-aware landing page**: If you click the LIFE PATCH logo while logged in, `index.html` detects your active session and shows *"Signed in as {name} ({role})"* with a **Resume Workspace** CTA instead of the generic sign-in prompt.
+
+---
+
 ## 🏗 System Architecture & Technology Stack
 
 ```
@@ -137,6 +156,7 @@ lifepatch-healthcare/
 │   │   ├── i18n.js             # Multilingual translations (EN, HI, TE)
 │   │   ├── theme.js            # Light/Dark mode state management
 │   │   ├── icons.js            # Lucide icon renderer helper
+│   │   ├── page-help.js        # Per-page contextual help content (EN/HI/TE)
 │   │   └── layout.js           # Shared header, sidebar, mobile nav, toasts
 │   ├── db/
 │   │   ├── database.js         # IndexedDB 17-store native client engine

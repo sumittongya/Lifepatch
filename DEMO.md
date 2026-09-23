@@ -31,17 +31,19 @@ Follow this sequential walkthrough during the presentation to showcase the cross
   1. Open **[http://localhost:4173](http://localhost:4173)** and click **"Access Platform (Sign In / Register)"**.
   2. Click **"Lakshmi Devi (Patient)"** to log in as a citizen.
   3. **Highlight the ABHA Card**: Point out the official **Ayushman Bharat 14-digit ABHA Card** (`91-4820-9182-3841`), golden chip, and 1-click copy button.
-  4. Click **"Voice Symptom Assistant"** (`/patient/voice.html`):
+  4. **Show the built-in guidance**: Tap the **"?"** help button in the top bar — a translated card explains exactly what the screen does in the patient's own language. Then tap **"←"** to return to the dashboard.
+  5. Click **"Voice Symptom Assistant"** (`/patient/voice.html`):
      - Select **"हिन्दी (Hindi)"** or **"తెలుగు (Telugu)"**.
      - Tap the microphone button (or click the sample prompt: *"मुझे 2 दिनों से तेज़ सिरदर्द और चक्कर आ रहे हैं।"*).
      - **Show the Jury**: The Web Speech AI streams text directly into the record in real-time.
      - Select severity (*"Moderate"*) and duration (*"2-3 days"*), then click **"Save to Longitudinal EHR"**.
-  5. Go to **"Medical Records"** (`/patient/records.html`):
+  6. *(Optional)* Open **"Report Symptoms"** (`/patient/symptoms.html`) and tap the **inline mic icon** beside a field to show that dictation also works inside normal forms.
+  7. Go to **"Medical Records"** (`/patient/records.html`):
      - Show the newly created record at the top of the timeline marked as **`UNREVIEWED (PATIENT REPORTED)`**.
      - Click **"Digitise Paper Record (OCR)"** → click **"Simulate Sample Slip"** → **"Save as Historical Record"** to show legacy paper conversion.
 
 **🎤 What to say to the Jury**:
-> *"Notice how the patient didn't need to type in complex medical English. The system captured her symptoms in her native dialect and instantly structured it into her lifetime EHR timeline."*
+> *"Notice how the patient didn't need to type in complex medical English. The system captured her symptoms in her native dialect and instantly structured it into her lifetime EHR timeline — and every screen carries a built-in help card in her own language."*
 
 ---
 
@@ -156,6 +158,9 @@ Follow this sequential walkthrough during the presentation to showcase the cross
 - [x] **Local Server Running**: `http://localhost:4173`
 - [x] **Light/Dark Mode Checked**: Dynamic icon-only switcher in top-right
 - [x] **Multilingual Translation Checked**: Instant reactive switching between EN, HI, and TE
+- [x] **Per-Page Help Checked**: "?" button in top bar opens a translated guide for every screen
+- [x] **Navigation Checked**: "←" back button + LIFE PATCH logo session-resume on landing page
+- [x] **Profile & Sign Out Checked**: Click user name → dropdown with Switch Role / Settings / Sign Out
 - [x] **Time Greeting Checked**: Dynamically matches morning, afternoon, or evening
 - [x] **1-Click Persona Logins**: Lakshmi Devi (Patient), Dr. Ananya Rao (Doctor), Sunita Bai (ASHA)
 - [x] **Clean Git Repository**: Pushed to `https://github.com/sumittongya/Lifepatch`
